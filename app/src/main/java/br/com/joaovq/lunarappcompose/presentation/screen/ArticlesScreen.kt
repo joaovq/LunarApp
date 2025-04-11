@@ -33,11 +33,11 @@ fun ArticlesScreen(
     Scaffold(modifier = modifier.fillMaxSize()) { innerPadding ->
         PullToRefreshBox(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize().padding(innerPadding),
             isRefreshing = false,
             onRefresh = onRefresh,
         ) {
-            LazyColumn(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(articles) { article ->
                     Card(modifier = Modifier.padding(16.dp)) {
                         Row(
