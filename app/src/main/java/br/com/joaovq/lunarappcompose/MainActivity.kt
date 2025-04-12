@@ -6,9 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.joaovq.lunarappcompose.presentation.screen.ArticlesScreen
 import br.com.joaovq.lunarappcompose.presentation.viewmodel.ArticlesViewModel
 import br.com.joaovq.lunarappcompose.ui.theme.LunarAppComposeTheme
@@ -23,11 +22,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LunarAppComposeTheme {
-                val articles by articlesViewModel.articles.collectAsStateWithLifecycle()
+                val articles = articlesViewModel.articles.collectAsLazyPagingItems()
                 ArticlesScreen(
                     modifier = Modifier.fillMaxSize(),
-                    articles = articles?.results.orEmpty(),
-                    onRefresh = articlesViewModel::getArticles
+                    articles = articles
                 )
             }
         }

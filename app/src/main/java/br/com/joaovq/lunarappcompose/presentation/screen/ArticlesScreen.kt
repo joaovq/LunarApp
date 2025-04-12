@@ -1,71 +1,62 @@
 package br.com.joaovq.lunarappcompose.presentation.screen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import br.com.joaovq.lunarappcompose.data.network.dto.ArticleDto
+import br.com.joaovq.lunarappcompose.presentation.component.ArticleCard
+import kotlinx.coroutines.flow.flowOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticlesScreen(
     modifier: Modifier = Modifier,
-    articles: List<ArticleDto> = emptyList(),
-    onRefresh: () -> Unit = {}
+    articles: LazyPagingItems<ArticleDto>,
 ) {
     Scaffold(modifier = modifier.fillMaxSize()) { innerPadding ->
         PullToRefreshBox(
             modifier = Modifier
-                .fillMaxSize().padding(innerPadding),
+                .fillMaxSize()
+                .padding(innerPadding),
             isRefreshing = false,
-            onRefresh = onRefresh,
+            onRefresh = { articles.refresh() },
         ) {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(articles) { article ->
-                    Card(modifier = Modifier.padding(16.dp)) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp)
-                        ) {
-                            Column(
-                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                items(articles.itemCount, key = articles.itemKey()) { i ->
+                    val article = articles[i] ?: return@items
+                    ArticleCard(article = article)
+                }
+                item {
+                    when {
+                        articles.loadState.append.endOfPaginationReached -> {
+                            Text(text = "No more articles to load")
+                        }
+
+                        articles.loadState.append is LoadState.Loading -> {
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = Alignment.Center
                             ) {
-                                Text(
-                                    text = article.title,
-                                    style = MaterialTheme.typography.titleLarge.copy(
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                )
-                                Text(
-                                    text = article.authors.joinToString { it.name },
-                                    maxLines = 4,
-                                    style = MaterialTheme.typography.bodyMedium.copy(color = Color.Gray)
-                                )
-                                Text(
-                                    text = article.summary,
-                                    maxLines = 4,
-                                    overflow = TextOverflow.Ellipsis
-                                )
+                                CircularProgressIndicator()
                             }
                         }
+                        articles.loadState.hasError -> Text(text = "Error to load articles")
                     }
                 }
             }
@@ -76,5 +67,5 @@ fun ArticlesScreen(
 @Preview
 @Composable
 private fun PreviewArticlesScreen() {
-    ArticlesScreen()
+    ArticlesScreen(articles = flowOf(PagingData.from(listOf<ArticleDto>())).collectAsLazyPagingItems())
 }

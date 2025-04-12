@@ -1,8 +1,8 @@
 package br.com.joaovq.lunarappcompose.di
 
 import android.content.Context
-import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightApiRemoteDataSource
-import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightApiRemoteDataSourceImpl
+import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSource
+import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSourceImpl
 import br.com.joaovq.lunarappcompose.data.network.service.SpaceFlightNewsApi
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
@@ -13,6 +13,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -25,8 +27,8 @@ import javax.inject.Singleton
 abstract class AppModule {
     @Binds
     abstract fun bindsRemoteDatasource(
-        spaceFlightApiRemoteDataSourceImpl: SpaceFlightApiRemoteDataSourceImpl
-    ): SpaceFlightApiRemoteDataSource
+        spaceFlightApiRemoteDataSourceImpl: SpaceFlightRemoteDataSourceImpl
+    ): SpaceFlightRemoteDataSource
 
     companion object {
         @Provides
@@ -61,6 +63,12 @@ abstract class AppModule {
         @Singleton
         fun providesSpaceNewsApi(retrofit: Retrofit): SpaceFlightNewsApi {
             return retrofit.create(SpaceFlightNewsApi::class.java)
+        }
+
+        @Provides
+        @Singleton
+        fun providesCoroutineDispatcher(): CoroutineDispatcher {
+            return Dispatchers.IO
         }
     }
 }
