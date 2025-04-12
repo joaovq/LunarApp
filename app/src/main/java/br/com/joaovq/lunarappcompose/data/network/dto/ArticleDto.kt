@@ -9,7 +9,7 @@ data class ArticleDto(
     val id: Int,
     @SerializedName("image_url")
     val imageUrl: String,
-    val launches: List<Launche>,
+    val launches: List<Launch>,
     @SerializedName("news_site")
     val newsSite: String,
     @SerializedName("published_at")
