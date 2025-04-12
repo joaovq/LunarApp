@@ -1,6 +1,7 @@
 package br.com.joaovq.lunarappcompose.di
 
 import android.content.Context
+import br.com.joaovq.lunarappcompose.BuildConfig
 import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSource
 import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSourceImpl
 import br.com.joaovq.lunarappcompose.data.network.service.SpaceFlightNewsApi
@@ -35,7 +36,7 @@ abstract class AppModule {
         @Singleton
         fun providesRetrofit(@ApplicationContext context: Context): Retrofit {
             return Retrofit.Builder()
-                .baseUrl("https://api.spaceflightnewsapi.net/v4/")
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(
                     GsonConverterFactory.create(
                         Gson().newBuilder()

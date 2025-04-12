@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.joaovq.lunarappcompose.presentation.screen.ArticlesScreen
 import br.com.joaovq.lunarappcompose.presentation.viewmodel.ArticlesViewModel
-import br.com.joaovq.lunarappcompose.ui.theme.LunarAppComposeTheme
+import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            LunarAppComposeTheme {
+            LunarTheme(dynamicColor = false) {
                 val articles = articlesViewModel.articles.collectAsLazyPagingItems()
                 ArticlesScreen(
                     modifier = Modifier.fillMaxSize(),
