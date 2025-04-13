@@ -1,6 +1,6 @@
 package br.com.joaovq.lunarappcompose.presentation.screen
 
-import android.widget.RatingBar
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -39,6 +39,7 @@ import androidx.paging.compose.itemKey
 import br.com.joaovq.lunarappcompose.R
 import br.com.joaovq.lunarappcompose.data.network.dto.ArticleDto
 import br.com.joaovq.lunarappcompose.presentation.component.ArticleCard
+import br.com.joaovq.lunarappcompose.ui.theme.LunarColors
 import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
 import kotlinx.coroutines.flow.flowOf
 
@@ -76,7 +77,13 @@ fun ArticlesScreen(
             )
         },
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                containerColor = if (isSystemInDarkTheme()) {
+                    LunarColors.bottomNavigationBackgroundDark
+                } else {
+                    LunarColors.bottomNavigationBackgroundLight
+                }
+            ) {
                 NavigationBarItem(
                     true,
                     onClick = {},

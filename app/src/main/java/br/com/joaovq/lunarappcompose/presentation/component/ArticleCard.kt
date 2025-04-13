@@ -1,6 +1,7 @@
 package br.com.joaovq.lunarappcompose.presentation.component
 
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +30,7 @@ import br.com.joaovq.lunarappcompose.data.network.dto.ArticleDto
 import br.com.joaovq.lunarappcompose.data.network.dto.Author
 import br.com.joaovq.lunarappcompose.data.network.dto.Socials
 import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
+import br.com.joaovq.lunarappcompose.ui.theme.Obsidian
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
@@ -40,7 +42,8 @@ fun ArticleCard(
     Card(
         modifier = modifier.padding(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = if (isSystemInDarkTheme()) Obsidian else Color.White,
+            contentColor = if (isSystemInDarkTheme()) Color.White else Color.Black
         )
     ) {
         Row(
