@@ -24,11 +24,20 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            isMinifyEnabled = false
+            isDebuggable = true
+            applicationIdSuffix = ".debug"
+
+            resValue("string", "app_name", "Lunar App - DEBUG")
         }
     }
     compileOptions {
@@ -63,8 +72,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation (libs.retrofit)
-    implementation (libs.retrofit.gson)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
 
     // mockk
     testImplementation(libs.mockk)
