@@ -5,7 +5,11 @@ import br.com.joaovq.lunarappcompose.BuildConfig
 import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSource
 import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSourceImpl
 import br.com.joaovq.lunarappcompose.data.network.service.SpaceFlightNewsApi
+import br.com.joaovq.lunarappcompose.data.network.utils.ClientConstants
+import br.com.joaovq.lunarappcompose.di.annotations.IODispatcher
+import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.chuckerteam.chucker.api.RetentionManager
 import com.google.gson.Gson
 import com.google.gson.Strictness
 import dagger.Binds
@@ -34,7 +38,7 @@ abstract class AppModule {
     companion object {
         @Provides
         @Singleton
-        fun providesRetrofit(@ApplicationContext context: Context): Retrofit {
+        fun providesRetrofit(client: OkHttpClient): Retrofit {
             return Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(
@@ -46,17 +50,33 @@ abstract class AppModule {
                             .create()
                     )
                 )
-                .client(
-                    OkHttpClient.Builder()
-                        .cache(Cache(context.cacheDir, (5 * 1024 * 1024).toLong()))
-                        .callTimeout(60, TimeUnit.SECONDS)
-                        .readTimeout(60, TimeUnit.SECONDS)
-                        .writeTimeout(60, TimeUnit.SECONDS)
-                        .connectTimeout(60, TimeUnit.SECONDS)
-                        .addInterceptor(ChuckerInterceptor.Builder(context).build())
-                        .pingInterval(10, TimeUnit.SECONDS)
+                .client(client)
+                .build()
+        }
+
+        @Provides
+        @Singleton
+        fun providesOkHttpClient(@ApplicationContext context: Context): OkHttpClient {
+            return OkHttpClient.Builder()
+                .cache(Cache(context.cacheDir, (5 * 1024 * 1024).toLong()))
+                .callTimeout(ClientConstants.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(ClientConstants.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(ClientConstants.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(ClientConstants.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .addInterceptor(
+                    ChuckerInterceptor.Builder(context)
+                        .maxContentLength(250_000L)
+                        .alwaysReadResponseBody(true)
+                        .createShortcut(true)
+                        .collector(
+                            ChuckerCollector(
+                                context = context,
+                                retentionPeriod = RetentionManager.Period.ONE_WEEK
+                            )
+                        )
                         .build()
                 )
+                .pingInterval(10, TimeUnit.SECONDS)
                 .build()
         }
 
@@ -68,8 +88,7 @@ abstract class AppModule {
 
         @Provides
         @Singleton
-        fun providesCoroutineDispatcher(): CoroutineDispatcher {
-            return Dispatchers.IO
-        }
+        @IODispatcher
+        fun providesCoroutineDispatcher(): CoroutineDispatcher = Dispatchers.IO
     }
 }
