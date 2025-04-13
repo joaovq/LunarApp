@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 interface SpaceFlightRemoteDataSource {
     fun getArticles(
-        limit: Int = 10,
+        limit: Int = 50,
         offset: Int = 0,
         query: String? = null
     ): Flow<PagingData<ArticleDto>>
