@@ -1,8 +1,8 @@
-package br.com.joaovq.lunarappcompose.data.network.paging
+package br.com.joaovq.lunarappcompose.data.articles.network.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import br.com.joaovq.lunarappcompose.data.network.dto.ArticleDto
+import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticleDto
 import br.com.joaovq.lunarappcompose.data.network.service.SpaceFlightNewsApi
 import timber.log.Timber
 

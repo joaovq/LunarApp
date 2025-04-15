@@ -11,9 +11,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
-import br.com.joaovq.lunarappcompose.presentation.nav.Articles
-import br.com.joaovq.lunarappcompose.presentation.screen.ArticlesScreen
-import br.com.joaovq.lunarappcompose.presentation.viewmodel.ArticlesViewModel
+import br.com.joaovq.lunarappcompose.presentation.articles.nav.Articles
+import br.com.joaovq.lunarappcompose.presentation.articles.screen.ArticlesScreen
+import br.com.joaovq.lunarappcompose.presentation.articles.viewmodel.ArticlesViewModel
 import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,10 +27,7 @@ class MainActivity : ComponentActivity() {
             LunarTheme(dynamicColor = false) {
                 val navController = rememberNavController()
                 Surface {
-                    NavHost(
-                        navController = navController,
-                        startDestination = Articles
-                    ) {
+                    NavHost(navController = navController, startDestination = Articles) {
                         composable<Articles> {
                             val articlesViewModel: ArticlesViewModel = hiltViewModel()
                             val articles = articlesViewModel.articles.collectAsLazyPagingItems()

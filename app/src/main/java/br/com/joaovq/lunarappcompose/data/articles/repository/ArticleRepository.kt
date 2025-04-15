@@ -1,7 +1,7 @@
-package br.com.joaovq.lunarappcompose.data.repository
+package br.com.joaovq.lunarappcompose.data.articles.repository
 
 import androidx.paging.PagingData
-import br.com.joaovq.lunarappcompose.domain.model.Article
+import br.com.joaovq.lunarappcompose.domain.articles.model.Article
 import kotlinx.coroutines.flow.Flow
 
 interface ArticleRepository {

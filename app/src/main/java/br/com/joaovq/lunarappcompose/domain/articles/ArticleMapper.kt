@@ -1,7 +1,7 @@
-package br.com.joaovq.lunarappcompose.domain.mapper
+package br.com.joaovq.lunarappcompose.domain.articles
 
-import br.com.joaovq.lunarappcompose.data.network.dto.ArticleDto
-import br.com.joaovq.lunarappcompose.domain.model.Article
+import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticleDto
+import br.com.joaovq.lunarappcompose.domain.articles.model.Article
 
 fun ArticleDto.toArticle(): Article {
     return Article(

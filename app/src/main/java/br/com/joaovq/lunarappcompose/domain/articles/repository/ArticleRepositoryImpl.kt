@@ -1,12 +1,12 @@
-package br.com.joaovq.lunarappcompose.domain.repository
+package br.com.joaovq.lunarappcompose.domain.articles.repository
 
 import androidx.paging.PagingData
 import androidx.paging.map
 import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSource
-import br.com.joaovq.lunarappcompose.data.network.dto.ArticleDto
-import br.com.joaovq.lunarappcompose.data.repository.ArticleRepository
-import br.com.joaovq.lunarappcompose.domain.mapper.toArticle
-import br.com.joaovq.lunarappcompose.domain.model.Article
+import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticleDto
+import br.com.joaovq.lunarappcompose.data.articles.repository.ArticleRepository
+import br.com.joaovq.lunarappcompose.domain.articles.toArticle
+import br.com.joaovq.lunarappcompose.domain.articles.model.Article
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

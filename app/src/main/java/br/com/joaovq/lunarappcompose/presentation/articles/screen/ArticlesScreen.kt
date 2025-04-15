@@ -1,13 +1,11 @@
-package br.com.joaovq.lunarappcompose.presentation.screen
+package br.com.joaovq.lunarappcompose.presentation.articles.screen
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -37,8 +35,9 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import br.com.joaovq.lunarappcompose.R
-import br.com.joaovq.lunarappcompose.domain.model.Article
-import br.com.joaovq.lunarappcompose.presentation.component.ArticleCard
+import br.com.joaovq.lunarappcompose.domain.articles.model.Article
+import br.com.joaovq.lunarappcompose.presentation.articles.component.ArticleCard
+import br.com.joaovq.lunarappcompose.presentation.articles.component.ArticleCardShimmerItem
 import br.com.joaovq.lunarappcompose.ui.theme.LunarColors
 import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
 import kotlinx.coroutines.flow.flowOf
@@ -63,11 +62,6 @@ fun ArticlesScreen(
                 },
                 title = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_moon),
-                            contentDescription = "Icon app"
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
                         Text(
                             text = stringResource(R.string.app_name),
                             style = MaterialTheme.typography.titleLarge
@@ -167,27 +161,52 @@ fun ArticlesScreen(
             isRefreshing = articles.loadState.refresh is LoadState.Loading,
             onRefresh = { articles.refresh() },
         ) {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(articles.itemCount, key = articles.itemKey()) { i ->
-                    val article = articles[i] ?: return@items
-                    ArticleCard(article = article)
-                }
-                item {
-                    when {
-                        articles.loadState.append.endOfPaginationReached -> {
-                            Text(text = "No more articles to load")
+            when (articles.loadState.refresh) {
+                is LoadState.Loading -> {
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        items(5) {
+                            ArticleCardShimmerItem(
+                                modifier = Modifier.padding(
+                                    horizontal = 16.dp,
+                                    vertical = 8.dp
+                                )
+                            )
                         }
+                    }
+                }
 
-                        articles.loadState.append is LoadState.Loading -> {
-                            Box(
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator()
+                else -> {
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        items(articles.itemCount, key = articles.itemKey()) { i ->
+                            val article = articles[i] ?: return@items
+                            ArticleCard(
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                                article = article
+                            )
+                        }
+                        item {
+                            when {
+                                articles.loadState.append.endOfPaginationReached -> {
+                                    Box(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(text = "No more articles to load")
+                                    }
+                                }
+
+                                articles.loadState.append is LoadState.Loading -> {
+                                    Box(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        CircularProgressIndicator()
+                                    }
+                                }
+
+                                articles.loadState.hasError -> Text(text = "Error to load articles")
                             }
                         }
-
-                        articles.loadState.hasError -> Text(text = "Error to load articles")
                     }
                 }
             }

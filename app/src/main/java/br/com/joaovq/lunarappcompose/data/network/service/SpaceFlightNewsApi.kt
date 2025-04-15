@@ -1,7 +1,7 @@
 package br.com.joaovq.lunarappcompose.data.network.service
 
-import br.com.joaovq.lunarappcompose.data.network.dto.ArticleDto
-import br.com.joaovq.lunarappcompose.data.network.dto.ArticlesDtoResponse
+import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticleDto
+import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticlesDtoResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

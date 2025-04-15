@@ -2,9 +2,10 @@ package br.com.joaovq.lunarappcompose.presentation.viewmodel
 
 import androidx.paging.PagingData
 import androidx.paging.testing.asSnapshot
-import br.com.joaovq.lunarappcompose.data.network.dto.ArticleDto
-import br.com.joaovq.lunarappcompose.data.repository.ArticleRepository
-import br.com.joaovq.lunarappcompose.domain.mapper.toArticle
+import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticleDto
+import br.com.joaovq.lunarappcompose.data.articles.repository.ArticleRepository
+import br.com.joaovq.lunarappcompose.domain.articles.toArticle
+import br.com.joaovq.lunarappcompose.presentation.articles.viewmodel.ArticlesViewModel
 import br.com.joaovq.lunarappcompose.utils.Faker
 import io.mockk.MockKAnnotations
 import io.mockk.every

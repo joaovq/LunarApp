@@ -3,8 +3,8 @@ package br.com.joaovq.lunarappcompose.data.network.datasource
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import br.com.joaovq.lunarappcompose.data.network.dto.ArticleDto
-import br.com.joaovq.lunarappcompose.data.network.paging.ArticlesPagingSource
+import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticleDto
+import br.com.joaovq.lunarappcompose.data.articles.network.paging.ArticlesPagingSource
 import br.com.joaovq.lunarappcompose.data.network.service.SpaceFlightNewsApi
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

@@ -1,9 +1,9 @@
-package br.com.joaovq.lunarappcompose.presentation.viewmodel
+package br.com.joaovq.lunarappcompose.presentation.articles.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import br.com.joaovq.lunarappcompose.data.repository.ArticleRepository
+import br.com.joaovq.lunarappcompose.data.articles.repository.ArticleRepository
 import br.com.joaovq.lunarappcompose.di.annotations.IODispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher

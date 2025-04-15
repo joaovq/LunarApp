@@ -1,4 +1,4 @@
-package br.com.joaovq.lunarappcompose.data.network.dto
+package br.com.joaovq.lunarappcompose.data.articles.network.dto
 
 import com.google.gson.annotations.SerializedName
 

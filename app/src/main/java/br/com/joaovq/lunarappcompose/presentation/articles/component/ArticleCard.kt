@@ -1,4 +1,4 @@
-package br.com.joaovq.lunarappcompose.presentation.component
+package br.com.joaovq.lunarappcompose.presentation.articles.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,9 +35,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import br.com.joaovq.lunarappcompose.R
-import br.com.joaovq.lunarappcompose.data.network.dto.Author
-import br.com.joaovq.lunarappcompose.data.network.dto.Socials
-import br.com.joaovq.lunarappcompose.domain.model.Article
+import br.com.joaovq.lunarappcompose.core.ui.utils.ext.shimmerEffect
+import br.com.joaovq.lunarappcompose.data.articles.network.dto.Author
+import br.com.joaovq.lunarappcompose.data.articles.network.dto.Socials
+import br.com.joaovq.lunarappcompose.domain.articles.model.Article
 import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
 import br.com.joaovq.lunarappcompose.ui.theme.Obsidian
 import coil3.compose.AsyncImagePainter
@@ -54,7 +54,7 @@ fun ArticleCard(
     article: Article
 ) {
     Card(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier,
         colors = CardDefaults.cardColors(
             containerColor = if (isSystemInDarkTheme()) Obsidian else Color.White,
             contentColor = if (isSystemInDarkTheme()) Color.White else Color.Black
@@ -82,11 +82,10 @@ fun ArticleCard(
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(100.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator()
-                        }
+                                .height(150.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .shimmerEffect(),
+                        )
                     }
 
                     is AsyncImagePainter.State.Empty -> Unit
@@ -104,6 +103,7 @@ fun ArticleCard(
                 }
                 Text(
                     text = article.title,
+                    textAlign = TextAlign.Justify,
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
                     )
@@ -140,7 +140,7 @@ fun ArticleCard(
                 }
                 Text(
                     text = article.summary,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     maxLines = 4,
                     textAlign = TextAlign.Justify,
                     overflow = TextOverflow.Ellipsis

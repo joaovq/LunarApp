@@ -6,9 +6,9 @@ import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDa
 import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSourceImpl
 import br.com.joaovq.lunarappcompose.data.network.service.SpaceFlightNewsApi
 import br.com.joaovq.lunarappcompose.data.network.utils.ClientConstants
-import br.com.joaovq.lunarappcompose.data.repository.ArticleRepository
+import br.com.joaovq.lunarappcompose.data.articles.repository.ArticleRepository
 import br.com.joaovq.lunarappcompose.di.annotations.IODispatcher
-import br.com.joaovq.lunarappcompose.domain.repository.ArticleRepositoryImpl
+import br.com.joaovq.lunarappcompose.domain.articles.repository.ArticleRepositoryImpl
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager

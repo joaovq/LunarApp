@@ -1,20 +1,22 @@
-package br.com.joaovq.lunarappcompose.domain.model
+package br.com.joaovq.lunarappcompose.data.articles.network.dto
 
-import br.com.joaovq.lunarappcompose.data.network.dto.Author
-import br.com.joaovq.lunarappcompose.data.network.dto.Event
-import br.com.joaovq.lunarappcompose.data.network.dto.Launch
+import com.google.gson.annotations.SerializedName
 
-data class Article(
+data class ArticleDto(
     val authors: List<Author>,
     val events: List<Event>,
     val featured: Boolean,
     val id: Int,
+    @SerializedName("image_url")
     val imageUrl: String,
     val launches: List<Launch>,
+    @SerializedName("news_site")
     val newsSite: String,
+    @SerializedName("published_at")
     val publishedAt: String,
     val summary: String,
     val title: String,
+    @SerializedName("updated_at")
     val updatedAt: String,
     val url: String
 )
