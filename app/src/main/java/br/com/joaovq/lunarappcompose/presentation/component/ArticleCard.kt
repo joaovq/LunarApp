@@ -36,9 +36,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import br.com.joaovq.lunarappcompose.R
-import br.com.joaovq.lunarappcompose.data.network.dto.ArticleDto
 import br.com.joaovq.lunarappcompose.data.network.dto.Author
 import br.com.joaovq.lunarappcompose.data.network.dto.Socials
+import br.com.joaovq.lunarappcompose.domain.model.Article
 import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
 import br.com.joaovq.lunarappcompose.ui.theme.Obsidian
 import coil3.compose.AsyncImagePainter
@@ -51,7 +51,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun ArticleCard(
     modifier: Modifier = Modifier,
-    article: ArticleDto
+    article: Article
 ) {
     Card(
         modifier = modifier.padding(16.dp),
@@ -167,7 +167,7 @@ fun String.toLocalDateTimeFormatted(): String? {
 private fun PreviewArticleCard() {
     LunarTheme(dynamicColor = false) {
         ArticleCard(
-            article = ArticleDto(
+            article = Article(
                 id = 1,
                 title = "Title 1",
                 url = "",

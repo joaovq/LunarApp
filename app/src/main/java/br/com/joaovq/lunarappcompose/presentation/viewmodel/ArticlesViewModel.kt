@@ -3,7 +3,7 @@ package br.com.joaovq.lunarappcompose.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSource
+import br.com.joaovq.lunarappcompose.data.repository.ArticleRepository
 import br.com.joaovq.lunarappcompose.di.annotations.IODispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -17,11 +17,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ArticlesViewModel @Inject constructor(
-    spaceFlightApiRemoteDataSource: SpaceFlightRemoteDataSource,
+    articleRepository: ArticleRepository,
     @IODispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
     private val log = Timber.tag(this::class.java.simpleName)
-    val articles = spaceFlightApiRemoteDataSource
+    val articles = articleRepository
         .getArticles()
         .cachedIn(viewModelScope)
         .onEach { log.d("articles fetched: $it") }
