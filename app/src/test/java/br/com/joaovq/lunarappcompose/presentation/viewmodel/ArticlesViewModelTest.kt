@@ -2,7 +2,9 @@ package br.com.joaovq.lunarappcompose.presentation.viewmodel
 
 import androidx.paging.PagingData
 import androidx.paging.testing.asSnapshot
-import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSource
+import br.com.joaovq.lunarappcompose.data.network.dto.ArticleDto
+import br.com.joaovq.lunarappcompose.data.repository.ArticleRepository
+import br.com.joaovq.lunarappcompose.domain.mapper.toArticle
 import br.com.joaovq.lunarappcompose.utils.Faker
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -23,7 +25,7 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalCoroutinesApi::class)
 class ArticlesViewModelTest {
     @RelaxedMockK
-    private lateinit var fakeDataSource: SpaceFlightRemoteDataSource
+    private lateinit var fakeDataSource: ArticleRepository
     private lateinit var viewModel: ArticlesViewModel
     private val testDispatcher = StandardTestDispatcher()
 
@@ -43,21 +45,17 @@ class ArticlesViewModelTest {
     @Test
     fun `given articles when getArticles then return articles`() = runTest {
         // GIVEN
-        val fakeArticles = Faker.articles()
+        val size = 50
+        val fakeArticles = Faker.articles(size).map(ArticleDto::toArticle)
         every { fakeDataSource.getArticles(any(), any(), any()) } returns flowOf(
-            PagingData.from(
-                fakeArticles
-            )
+            PagingData.from(fakeArticles)
         )
         val articles = viewModel.articles
         // WHEN
         val itemsSnapshot = articles.asSnapshot {
-            scrollTo(index = 50)
+            scrollTo(index = size)
         }
         // THEN
-        assertEquals(
-            expected = fakeArticles,
-            actual = itemsSnapshot
-        )
+        assertEquals(expected = fakeArticles, actual = itemsSnapshot)
     }
 }
