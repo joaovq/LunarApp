@@ -1,16 +1,14 @@
 package br.com.joaovq.lunarappcompose.presentation.articles.screen
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,11 +31,11 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemKey
 import br.com.joaovq.lunarappcompose.R
 import br.com.joaovq.lunarappcompose.domain.articles.model.Article
-import br.com.joaovq.lunarappcompose.presentation.articles.component.ArticleCard
 import br.com.joaovq.lunarappcompose.presentation.articles.component.ArticleCardShimmerItem
+import br.com.joaovq.lunarappcompose.presentation.articles.component.LazyArticlesList
+import br.com.joaovq.lunarappcompose.presentation.articles.component.ShimmerArticleList
 import br.com.joaovq.lunarappcompose.ui.theme.LunarColors
 import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
 import kotlinx.coroutines.flow.flowOf
@@ -70,89 +68,6 @@ fun ArticlesScreen(
                 }
             )
         },
-        bottomBar = {
-            NavigationBar(
-                containerColor = if (isSystemInDarkTheme()) {
-                    LunarColors.bottomNavigationBackgroundDark
-                } else {
-                    LunarColors.bottomNavigationBackgroundLight
-                }
-            ) {
-                NavigationBarItem(
-                    true,
-                    onClick = {},
-                    icon = {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_home_smile),
-                            contentDescription = "home icon"
-                        )
-                    },
-                    label = {
-                        Text("Home")
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        indicatorColor = Color.Transparent,
-                        selectedIconColor = MaterialTheme.colorScheme.primary,
-                        selectedTextColor = MaterialTheme.colorScheme.primary
-                    )
-                )
-                NavigationBarItem(
-                    false,
-                    onClick = {},
-                    icon = {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_search_tiny_stroke),
-                            contentDescription = "search icon"
-                        )
-                    },
-                    label = {
-                        Text("Search")
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        indicatorColor = Color.Transparent,
-                        selectedIconColor = MaterialTheme.colorScheme.primary,
-                        selectedTextColor = MaterialTheme.colorScheme.primary
-                    )
-                )
-                NavigationBarItem(
-                    false,
-                    onClick = {},
-                    icon = {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_bookmark),
-                            contentDescription = "bookmark icon"
-                        )
-                    },
-                    label = {
-                        Text("Bookmarks")
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        indicatorColor = Color.Transparent,
-                        selectedIconColor = MaterialTheme.colorScheme.primary,
-                        selectedTextColor = MaterialTheme.colorScheme.primary
-                    )
-                )
-                NavigationBarItem(
-                    false,
-                    onClick = {},
-                    icon = {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_profile),
-                            contentDescription = "bookmark icon"
-                        )
-                    },
-                    label = {
-                        Text("Profile")
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        indicatorColor = Color.Transparent,
-                        selectedIconColor = MaterialTheme.colorScheme.primary,
-                        selectedTextColor = MaterialTheme.colorScheme.primary
-                    )
-                )
-
-            }
-        }
     ) { innerPadding ->
         PullToRefreshBox(
             modifier = Modifier
@@ -162,53 +77,8 @@ fun ArticlesScreen(
             onRefresh = { articles.refresh() },
         ) {
             when (articles.loadState.refresh) {
-                is LoadState.Loading -> {
-                    LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(5) {
-                            ArticleCardShimmerItem(
-                                modifier = Modifier.padding(
-                                    horizontal = 16.dp,
-                                    vertical = 8.dp
-                                )
-                            )
-                        }
-                    }
-                }
-
-                else -> {
-                    LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(articles.itemCount, key = articles.itemKey()) { i ->
-                            val article = articles[i] ?: return@items
-                            ArticleCard(
-                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                                article = article
-                            )
-                        }
-                        item {
-                            when {
-                                articles.loadState.append.endOfPaginationReached -> {
-                                    Box(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Text(text = "No more articles to load")
-                                    }
-                                }
-
-                                articles.loadState.append is LoadState.Loading -> {
-                                    Box(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        CircularProgressIndicator()
-                                    }
-                                }
-
-                                articles.loadState.hasError -> Text(text = "Error to load articles")
-                            }
-                        }
-                    }
-                }
+                is LoadState.Loading -> ShimmerArticleList()
+                else -> LazyArticlesList(articles = articles)
             }
         }
     }

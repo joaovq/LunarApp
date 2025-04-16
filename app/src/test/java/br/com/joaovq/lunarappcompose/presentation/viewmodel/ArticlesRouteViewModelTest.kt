@@ -24,7 +24,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ArticlesViewModelTest {
+class ArticlesRouteViewModelTest {
     @RelaxedMockK
     private lateinit var fakeDataSource: ArticleRepository
     private lateinit var viewModel: ArticlesViewModel
