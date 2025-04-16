@@ -29,13 +29,14 @@ fun SearchScreen(
     modifier: Modifier = Modifier,
     articles: LazyPagingItems<Article>,
     query: String = "",
-    onQueryChanged: (String) -> Unit = {}
+    onQueryChanged: (String) -> Unit = {},
+    onClickArticleCard: (Int) -> Unit = {}
 ) {
     Scaffold(modifier = modifier) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(top = innerPadding.calculateTopPadding()),
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -57,7 +58,10 @@ fun SearchScreen(
             )
             when (articles.loadState.refresh) {
                 is LoadState.Loading -> ShimmerArticleList()
-                else -> LazyArticlesList(articles = articles)
+                else -> LazyArticlesList(
+                    articles = articles,
+                    onClickArticleCard = onClickArticleCard
+                )
             }
         }
     }

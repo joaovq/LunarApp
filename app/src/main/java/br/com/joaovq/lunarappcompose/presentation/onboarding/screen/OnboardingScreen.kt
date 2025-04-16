@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,7 +22,10 @@ import br.com.joaovq.lunarappcompose.presentation.search.screen.SearchScreen
 import br.com.joaovq.lunarappcompose.presentation.search.viewmodel.SearchViewModel
 
 @Composable
-fun OnboardingScreen(modifier: Modifier = Modifier) {
+fun OnboardingScreen(
+    modifier: Modifier = Modifier,
+    onNavigateToArticle: (Int) -> Unit = {}
+) {
     val navController = rememberNavController()
     Scaffold(
         modifier = modifier.imePadding(),
@@ -37,7 +39,7 @@ fun OnboardingScreen(modifier: Modifier = Modifier) {
             composable<ArticlesRoute> {
                 val articlesViewModel: ArticlesViewModel = hiltViewModel()
                 val articles = articlesViewModel.articles.collectAsLazyPagingItems()
-                ArticlesScreen(articles = articles)
+                ArticlesScreen(articles = articles, onClickArticleCard = onNavigateToArticle)
             }
             composable<SearchRoute> {
                 val searchViewModel: SearchViewModel = hiltViewModel()
@@ -46,7 +48,8 @@ fun OnboardingScreen(modifier: Modifier = Modifier) {
                 SearchScreen(
                     query = query.orEmpty(),
                     articles = articles,
-                    onQueryChanged = searchViewModel::onQueryChanged
+                    onQueryChanged = searchViewModel::onQueryChanged,
+                    onClickArticleCard = onNavigateToArticle
                 )
             }
         }

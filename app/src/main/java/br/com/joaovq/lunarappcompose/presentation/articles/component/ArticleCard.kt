@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import br.com.joaovq.lunarappcompose.R
 import br.com.joaovq.lunarappcompose.core.ui.utils.ext.shimmerEffect
+import br.com.joaovq.lunarappcompose.core.utils.ext.toLocalDateTimeFormatted
 import br.com.joaovq.lunarappcompose.data.articles.network.dto.Author
 import br.com.joaovq.lunarappcompose.data.articles.network.dto.Socials
 import br.com.joaovq.lunarappcompose.domain.articles.model.Article
@@ -46,19 +47,20 @@ import coil3.compose.LocalPlatformContext
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun ArticleCard(
     modifier: Modifier = Modifier,
-    article: Article
+    article: Article,
+    onClickArticleCard: (Int) -> Unit = {}
 ) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
             containerColor = if (isSystemInDarkTheme()) Obsidian else Color.White,
             contentColor = if (isSystemInDarkTheme()) Color.White else Color.Black
-        )
+        ),
+        onClick = { onClickArticleCard(article.id) }
     ) {
         Row(
             modifier = Modifier
@@ -147,17 +149,6 @@ fun ArticleCard(
                 )
             }
         }
-    }
-}
-
-fun String.toLocalDateTimeFormatted(): String? {
-    try {
-        val publishedAt = OffsetDateTime.parse(this)
-        val publishedAtFormatted = DateTimeFormatter.ofPattern("dd MMMM yyyy").format(publishedAt)
-        return publishedAtFormatted
-    } catch (e: Exception) {
-        e.printStackTrace()
-        return null
     }
 }
 

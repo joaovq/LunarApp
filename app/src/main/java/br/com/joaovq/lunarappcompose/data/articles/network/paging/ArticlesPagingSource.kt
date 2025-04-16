@@ -22,11 +22,18 @@ class ArticlesPagingSource(
                 query = query,
                 limit = params.loadSize,
                 offset = nextPageNumber
-            ).body()
+            )
+            val responseBody = if (response.isSuccessful) {
+                response.body()
+            } else {
+                null
+            }
             return LoadResult.Page(
-                data = response?.results.orEmpty(),
+                data = responseBody?.results.orEmpty(),
                 prevKey = null,
-                nextKey = nextPageNumber.plus(params.loadSize)
+                nextKey = nextPageNumber.plus(params.loadSize).takeIf {
+                    responseBody?.results?.isEmpty() == false
+                }
             )
         } catch (e: Exception) {
             return LoadResult.Error(e)

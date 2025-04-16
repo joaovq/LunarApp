@@ -24,21 +24,25 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun LazyArticlesList(
     modifier: Modifier = Modifier,
-    articles: LazyPagingItems<Article>
+    articles: LazyPagingItems<Article>,
+    onClickArticleCard: (Int) -> Unit
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(articles.itemCount, key = articles.itemKey()) { i ->
             val article = articles[i] ?: return@items
             ArticleCard(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                article = article
+                article = article,
+                onClickArticleCard = onClickArticleCard
             )
         }
         item {
             when {
                 articles.loadState.append.endOfPaginationReached -> {
                     Box(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(text = "No more articles to load")
@@ -54,7 +58,10 @@ fun LazyArticlesList(
                     }
                 }
 
-                articles.loadState.hasError -> Text(text = "Error to load articles")
+                articles.loadState.hasError -> Text(
+                    modifier = Modifier.padding(8.dp),
+                    text = "Error to load articles"
+                )
             }
         }
     }
@@ -65,7 +72,10 @@ fun LazyArticlesList(
 private fun PreviewLazyArticlesList() {
     LunarTheme(dynamicColor = false) {
         LazyArticlesList(
-            articles = flowOf(PagingData.from(listOf<Article>())).collectAsLazyPagingItems()
+            articles = flowOf(
+                PagingData.from(listOf<Article>())
+            ).collectAsLazyPagingItems(),
+            onClickArticleCard = {}
         )
     }
 }
