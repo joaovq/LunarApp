@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -40,6 +41,7 @@ import br.com.joaovq.lunarappcompose.core.utils.ext.toLocalDateTimeFormatted
 import br.com.joaovq.lunarappcompose.data.articles.network.dto.Author
 import br.com.joaovq.lunarappcompose.data.articles.network.dto.Socials
 import br.com.joaovq.lunarappcompose.domain.articles.model.Article
+import br.com.joaovq.lunarappcompose.ui.theme.LocalDimen
 import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
 import br.com.joaovq.lunarappcompose.ui.theme.Obsidian
 import coil3.compose.AsyncImagePainter
@@ -54,6 +56,7 @@ fun ArticleCard(
     article: Article,
     onClickArticleCard: (Int) -> Unit = {}
 ) {
+    val dimen = LocalDimen.current
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
@@ -65,10 +68,10 @@ fun ArticleCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(dimen.large)
         ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(dimen.medium)
             ) {
                 val imagePainter = rememberAsyncImagePainter(
                     model = ImageRequest.Builder(LocalPlatformContext.current)
@@ -85,7 +88,7 @@ fun ArticleCard(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(150.dp)
-                                .clip(RoundedCornerShape(10.dp))
+                                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_article_card)))
                                 .shimmerEffect(),
                         )
                     }
@@ -98,7 +101,7 @@ fun ArticleCard(
                             modifier = Modifier
                                 .heightIn(max = 150.dp)
                                 .fillMaxWidth()
-                                .clip(RoundedCornerShape(10.dp)),
+                                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_article_card))),
                             contentScale = ContentScale.Crop
                         )
                     }
