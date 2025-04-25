@@ -29,6 +29,5 @@ class SpaceFlightRemoteDataSourceImplTest {
         val result = spaceFlightApiRemoteDataSource.getArticleById(1)
         assertTrue(result.isSuccess)
         assertTrue(result.getOrNull() != null)
-
     }
 }

@@ -9,7 +9,7 @@ object Faker {
 
     fun article(id: Int = 1, title: String = "Title $id", summary: String = "Summary $id") =
         ArticleDto(
-            id = 1,
+            id = id,
             title = title,
             url = "",
             imageUrl = "",

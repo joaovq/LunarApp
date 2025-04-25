@@ -24,16 +24,16 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ArticlesRouteViewModelTest {
+class ArticlesViewModelTest {
     @RelaxedMockK
-    private lateinit var fakeDataSource: ArticleRepository
+    private lateinit var repository: ArticleRepository
     private lateinit var viewModel: ArticlesViewModel
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        viewModel = ArticlesViewModel(fakeDataSource, testDispatcher)
+        viewModel = ArticlesViewModel(repository, testDispatcher)
         Dispatchers.setMain(testDispatcher)
     }
 
@@ -48,7 +48,7 @@ class ArticlesRouteViewModelTest {
         // GIVEN
         val size = 50
         val fakeArticles = Faker.articles(size).map(ArticleDto::toArticle)
-        every { fakeDataSource.getArticles(any(), any(), any()) } returns flowOf(
+        every { repository.getArticles(any(), any(), any()) } returns flowOf(
             PagingData.from(fakeArticles)
         )
         val articles = viewModel.articles
