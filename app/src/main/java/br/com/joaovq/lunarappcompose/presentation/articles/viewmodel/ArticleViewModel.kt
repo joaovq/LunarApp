@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import br.com.joaovq.lunarappcompose.data.articles.repository.ArticleRepository
+import br.com.joaovq.lunarappcompose.domain.articles.repository.ArticleRepository
 import br.com.joaovq.lunarappcompose.di.annotations.IODispatcher
 import br.com.joaovq.lunarappcompose.domain.articles.model.Article
 import br.com.joaovq.lunarappcompose.presentation.articles.nav.ArticleRoute

@@ -1,21 +1,17 @@
 package br.com.joaovq.lunarappcompose.data.network.datasource
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticleDto
-import br.com.joaovq.lunarappcompose.data.articles.network.paging.ArticlesPagingSource
+import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticlesDtoResponse
 import br.com.joaovq.lunarappcompose.data.network.service.SpaceFlightNewsApi
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
 interface SpaceFlightRemoteDataSource {
-    fun getArticles(
+    suspend fun getArticles(
         limit: Int = 50,
         offset: Int = 0,
         query: String? = null
-    ): Flow<PagingData<ArticleDto>>
+    ): ArticlesDtoResponse?
 
     suspend fun getArticleById(id: Int): Result<ArticleDto?>
 }
@@ -23,14 +19,22 @@ interface SpaceFlightRemoteDataSource {
 class SpaceFlightRemoteDataSourceImpl @Inject constructor(
     private val service: SpaceFlightNewsApi
 ) : SpaceFlightRemoteDataSource {
-    override fun getArticles(
+    override suspend fun getArticles(
         limit: Int,
         offset: Int,
         query: String?
-    ): Flow<PagingData<ArticleDto>> {
-        return Pager(config = PagingConfig(limit)) {
-            ArticlesPagingSource(query, service)
-        }.flow
+    ): ArticlesDtoResponse? {
+        try {
+            val response = service.getArticles(limit, offset, query)
+            return if (response.isSuccessful) {
+                response.body()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
     }
 
     override suspend fun getArticleById(id: Int): Result<ArticleDto?> {

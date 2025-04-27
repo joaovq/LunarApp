@@ -1,14 +1,17 @@
 package br.com.joaovq.lunarappcompose.di
 
 import android.content.Context
+import androidx.room.Room
 import br.com.joaovq.lunarappcompose.BuildConfig
+import br.com.joaovq.lunarappcompose.domain.articles.repository.ArticleRepository
+import br.com.joaovq.lunarappcompose.data.local.LunarDatabase
 import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSource
 import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSourceImpl
 import br.com.joaovq.lunarappcompose.data.network.service.SpaceFlightNewsApi
 import br.com.joaovq.lunarappcompose.data.network.utils.ClientConstants
-import br.com.joaovq.lunarappcompose.data.articles.repository.ArticleRepository
 import br.com.joaovq.lunarappcompose.di.annotations.IODispatcher
-import br.com.joaovq.lunarappcompose.domain.articles.repository.ArticleRepositoryImpl
+import br.com.joaovq.lunarappcompose.data.articles.repository.ArticleRepositoryImpl
+import br.com.joaovq.lunarappcompose.data.local.migrations.LunarDatabaseMigrations
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager
@@ -36,6 +39,7 @@ abstract class AppModule {
     abstract fun bindsRemoteDatasource(
         spaceFlightApiRemoteDataSourceImpl: SpaceFlightRemoteDataSourceImpl
     ): SpaceFlightRemoteDataSource
+
     @Binds
     abstract fun bindsArticleRepository(
         articleRepository: ArticleRepositoryImpl
@@ -96,5 +100,13 @@ abstract class AppModule {
         @Singleton
         @IODispatcher
         fun providesCoroutineDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+        @Provides
+        @Singleton
+        fun providesLunarDatabase(@ApplicationContext context: Context): LunarDatabase =
+            Room
+                .databaseBuilder(context, LunarDatabase::class.java, LunarDatabase.DATABASE_NAME)
+                .addMigrations(LunarDatabaseMigrations.MIGRATION_1_2)
+                .build()
     }
 }

@@ -1,4 +1,4 @@
-package br.com.joaovq.lunarappcompose.data.articles.repository
+package br.com.joaovq.lunarappcompose.domain.articles.repository
 
 import androidx.paging.PagingData
 import br.com.joaovq.lunarappcompose.domain.articles.model.Article

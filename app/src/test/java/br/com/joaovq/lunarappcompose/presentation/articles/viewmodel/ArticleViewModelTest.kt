@@ -2,10 +2,9 @@ package br.com.joaovq.lunarappcompose.presentation.articles.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.internalToRoute
-import androidx.navigation.toRoute
 import app.cash.turbine.test
-import br.com.joaovq.lunarappcompose.data.articles.repository.ArticleRepository
-import br.com.joaovq.lunarappcompose.domain.articles.toArticle
+import br.com.joaovq.lunarappcompose.domain.articles.repository.ArticleRepository
+import br.com.joaovq.lunarappcompose.domain.articles.mapper.toArticle
 import br.com.joaovq.lunarappcompose.presentation.articles.nav.ArticleRoute
 import br.com.joaovq.lunarappcompose.utils.Faker
 import io.mockk.MockKAnnotations
