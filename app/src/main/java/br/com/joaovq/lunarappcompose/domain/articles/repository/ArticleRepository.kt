@@ -1,6 +1,7 @@
 package br.com.joaovq.lunarappcompose.domain.articles.repository
 
 import androidx.paging.PagingData
+import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmark
 import br.com.joaovq.lunarappcompose.domain.articles.model.Article
 import kotlinx.coroutines.flow.Flow
 
@@ -10,5 +11,9 @@ interface ArticleRepository {
         offset: Int = 0,
         query: String? = null
     ): Flow<PagingData<Article>>
+
     suspend fun getArticleById(id: Int): Result<Article?>
+    fun getBookmarkedArticles(): Flow<List<ArticleWithBookmark>>
+    suspend fun saveNewBookmark(id: Int): Result<Boolean>
+    suspend fun removeBookmarkById(articleId: Int): Result<Boolean>
 }

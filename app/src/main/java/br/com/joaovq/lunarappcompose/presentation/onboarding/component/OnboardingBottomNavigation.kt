@@ -64,21 +64,6 @@ fun OnboardingBottomNavigation(
                 )
             )
         }
-        // TODO add bookmark and profile screen
-        NavigationBarItem(
-            false, onClick = {}, icon = {
-                Icon(
-                    painter = painterResource(R.drawable.ic_bookmark),
-                    contentDescription = "bookmark icon"
-                )
-            }, label = {
-                Text("Bookmarks")
-            }, colors = NavigationBarItemDefaults.colors(
-                indicatorColor = Color.Transparent,
-                selectedIconColor = MaterialTheme.colorScheme.primary,
-                selectedTextColor = MaterialTheme.colorScheme.primary
-            )
-        )
         NavigationBarItem(
             false, onClick = {}, icon = {
                 Icon(

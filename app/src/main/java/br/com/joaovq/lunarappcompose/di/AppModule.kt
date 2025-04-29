@@ -3,15 +3,15 @@ package br.com.joaovq.lunarappcompose.di
 import android.content.Context
 import androidx.room.Room
 import br.com.joaovq.lunarappcompose.BuildConfig
-import br.com.joaovq.lunarappcompose.domain.articles.repository.ArticleRepository
+import br.com.joaovq.lunarappcompose.data.articles.repository.ArticleRepositoryImpl
 import br.com.joaovq.lunarappcompose.data.local.LunarDatabase
+import br.com.joaovq.lunarappcompose.data.local.migrations.LunarDatabaseMigrations
 import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSource
 import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSourceImpl
 import br.com.joaovq.lunarappcompose.data.network.service.SpaceFlightNewsApi
 import br.com.joaovq.lunarappcompose.data.network.utils.ClientConstants
 import br.com.joaovq.lunarappcompose.di.annotations.IODispatcher
-import br.com.joaovq.lunarappcompose.data.articles.repository.ArticleRepositoryImpl
-import br.com.joaovq.lunarappcompose.data.local.migrations.LunarDatabaseMigrations
+import br.com.joaovq.lunarappcompose.domain.articles.repository.ArticleRepository
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager
@@ -106,7 +106,10 @@ abstract class AppModule {
         fun providesLunarDatabase(@ApplicationContext context: Context): LunarDatabase =
             Room
                 .databaseBuilder(context, LunarDatabase::class.java, LunarDatabase.DATABASE_NAME)
-                .addMigrations(LunarDatabaseMigrations.MIGRATION_1_2)
+                .addMigrations(
+                    LunarDatabaseMigrations.MIGRATION_1_2,
+                    LunarDatabaseMigrations.MIGRATION_2_3
+                )
                 .build()
     }
 }

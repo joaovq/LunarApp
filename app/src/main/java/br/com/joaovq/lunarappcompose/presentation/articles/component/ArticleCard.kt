@@ -54,7 +54,8 @@ import java.time.OffsetDateTime
 fun ArticleCard(
     modifier: Modifier = Modifier,
     article: Article,
-    onClickArticleCard: (Int) -> Unit = {}
+    onClickArticleCard: (Int) -> Unit = {},
+    onBookmarkChanged: (Boolean, Int) -> Unit = { _, _ -> }
 ) {
     val dimen = LocalDimen.current
     Card(
@@ -133,13 +134,14 @@ fun ArticleCard(
                     Icon(
                         modifier = Modifier.pointerInput(Unit) {
                             detectTapGestures(
-                                onTap = {
-                                    // TODO add bookmark action
-                                    // TODO open dialog after save bookmark and permit user add note and rank with rating bar
+                                onPress = {
+                                   onBookmarkChanged(article.isBookmark, article.id)
                                 }
                             )
                         },
-                        painter = painterResource(R.drawable.ic_bookmark),
+                        painter = if (article.isBookmark) painterResource(R.drawable.ic_bookmark_filled) else painterResource(
+                            R.drawable.ic_bookmark
+                        ),
                         contentDescription = null
                     )
                 }
@@ -173,6 +175,7 @@ private fun PreviewArticleCard() {
                 featured = false,
                 launches = emptyList(),
                 events = emptyList(),
+                isBookmark = true,
                 authors = listOf(
                     Author(
                         name = "Author 1",

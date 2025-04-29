@@ -1,12 +1,12 @@
-package br.com.joaovq.lunarappcompose.data.articles.local
+package br.com.joaovq.lunarappcompose.data.articles.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import br.com.joaovq.lunarappcompose.data.articles.model.QUERY_COLUMN_NAME
-import br.com.joaovq.lunarappcompose.data.articles.model.REMOTE_KEYS_TABLE_NAME
-import br.com.joaovq.lunarappcompose.data.articles.model.RemoteKeys
+import br.com.joaovq.lunarappcompose.data.articles.local.model.QUERY_COLUMN_NAME
+import br.com.joaovq.lunarappcompose.data.articles.local.model.REMOTE_KEYS_TABLE_NAME
+import br.com.joaovq.lunarappcompose.data.articles.local.model.RemoteKeys
 
 @Dao
 interface RemoteKeyDao {

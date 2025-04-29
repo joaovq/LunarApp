@@ -15,6 +15,7 @@ object PreviewMockObjects {
         updatedAt = "",
         title = "Article test title",
         url = "",
+        isBookmark = false,
         launches = emptyList()
     )
 }

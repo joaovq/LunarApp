@@ -16,5 +16,6 @@ data class Article(
     val summary: String,
     val title: String,
     val updatedAt: String,
+    val isBookmark: Boolean,
     val url: String
 )

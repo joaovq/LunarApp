@@ -1,4 +1,4 @@
-package br.com.joaovq.lunarappcompose.data.articles.model
+package br.com.joaovq.lunarappcompose.data.articles.local.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

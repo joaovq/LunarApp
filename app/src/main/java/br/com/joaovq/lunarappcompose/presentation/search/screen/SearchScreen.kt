@@ -30,7 +30,8 @@ fun SearchScreen(
     articles: LazyPagingItems<Article>,
     query: String = "",
     onQueryChanged: (String) -> Unit = {},
-    onClickArticleCard: (Int) -> Unit = {}
+    onClickArticleCard: (Int) -> Unit = {},
+    onBookmarkChanged: (Boolean, Int) -> Unit = { _, _ -> }
 ) {
     Scaffold(modifier = modifier) { innerPadding ->
         Column(
@@ -60,7 +61,8 @@ fun SearchScreen(
                 is LoadState.Loading -> ShimmerArticleList()
                 else -> LazyArticlesList(
                     articles = articles,
-                    onClickArticleCard = onClickArticleCard
+                    onClickArticleCard = onClickArticleCard,
+                    onBookmarkChanged = onBookmarkChanged
                 )
             }
         }

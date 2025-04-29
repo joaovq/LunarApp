@@ -34,7 +34,8 @@ import kotlinx.coroutines.flow.flowOf
 fun ArticlesScreen(
     modifier: Modifier = Modifier,
     articles: LazyPagingItems<Article>,
-    onClickArticleCard: (Int) -> Unit = {}
+    onClickArticleCard: (Int) -> Unit = {},
+    onBookmarkChanged: (Boolean, Int) -> Unit = { _, _ -> }
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -70,7 +71,8 @@ fun ArticlesScreen(
                 is LoadState.Loading -> ShimmerArticleList()
                 else -> LazyArticlesList(
                     articles = articles,
-                    onClickArticleCard = onClickArticleCard
+                    onClickArticleCard = onClickArticleCard,
+                    onBookmarkChanged = onBookmarkChanged
                 )
             }
         }

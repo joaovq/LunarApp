@@ -48,6 +48,7 @@ fun LazyArticlesList(
     isReturnToTopEnable: Boolean = true,
     articles: LazyPagingItems<Article>,
     onClickArticleCard: (Int) -> Unit,
+    onBookmarkChanged: (Boolean, Int) -> Unit = { _, _ -> }
 ) {
     val dimen = LocalDimen.current
     val lazyListState = rememberLazyListState()
@@ -61,7 +62,8 @@ fun LazyArticlesList(
                 ArticleCard(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                     article = article,
-                    onClickArticleCard = onClickArticleCard
+                    onClickArticleCard = onClickArticleCard,
+                    onBookmarkChanged = onBookmarkChanged
                 )
             }
             item {
