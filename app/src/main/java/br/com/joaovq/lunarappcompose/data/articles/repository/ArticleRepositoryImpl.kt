@@ -5,7 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmark
+import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmarkView
 import br.com.joaovq.lunarappcompose.data.articles.network.paging.ArticlesRemoteMediator
 import br.com.joaovq.lunarappcompose.data.bookmark.model.ArticleBookmarkEntity
 import br.com.joaovq.lunarappcompose.data.local.LunarDatabase
@@ -35,14 +35,14 @@ class ArticleRepositoryImpl @Inject constructor(
             )
         ) {
             articleDao.pagingSource(query.orEmpty())
-        }.flow.map { data -> data.map(ArticleWithBookmark::toArticle) }
+        }.flow.map { data -> data.map(ArticleWithBookmarkView::toArticle) }
     }
 
     override suspend fun getArticleById(id: Int): Result<Article?> {
         return remoteDataSource.getArticleById(id).map { it?.toArticle() }
     }
 
-    override fun getBookmarkedArticles(): Flow<List<ArticleWithBookmark>> =
+    override fun getBookmarkedArticles(): Flow<List<ArticleWithBookmarkView>> =
         articleDao.getBookmarkedArticles()
 
     override suspend fun saveNewBookmark(id: Int): Result<Boolean> {

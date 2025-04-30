@@ -7,7 +7,7 @@ import br.com.joaovq.lunarappcompose.data.articles.local.dao.ArticleDao
 import br.com.joaovq.lunarappcompose.data.articles.local.dao.RemoteKeyDao
 import br.com.joaovq.lunarappcompose.data.articles.local.model.ArticleEntity
 import br.com.joaovq.lunarappcompose.data.articles.local.model.RemoteKeys
-import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmark
+import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmarkView
 import br.com.joaovq.lunarappcompose.data.bookmark.model.ArticleBookmarkEntity
 
 @Database(
@@ -16,7 +16,7 @@ import br.com.joaovq.lunarappcompose.data.bookmark.model.ArticleBookmarkEntity
         RemoteKeys::class,
         ArticleBookmarkEntity::class
     ],
-    views = [ArticleWithBookmark::class],
+    views = [ArticleWithBookmarkView::class],
     version = 3,
     exportSchema = true
 )

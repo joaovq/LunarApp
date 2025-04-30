@@ -6,9 +6,8 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import br.com.joaovq.lunarappcompose.data.articles.local.model.ArticleEntity
 import br.com.joaovq.lunarappcompose.data.articles.local.model.RemoteKeys
-import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmark
+import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmarkView
 import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticleDto
 import br.com.joaovq.lunarappcompose.data.local.LunarDatabase
 import br.com.joaovq.lunarappcompose.data.network.datasource.SpaceFlightRemoteDataSource
@@ -22,14 +21,14 @@ class ArticlesRemoteMediator(
     private val query: String?,
     private val database: LunarDatabase,
     private val remoteDataSource: SpaceFlightRemoteDataSource
-) : RemoteMediator<Int, ArticleWithBookmark>() {
+) : RemoteMediator<Int, ArticleWithBookmarkView>() {
     private val articleDao = database.articleDao()
     private val remoteKeyDao = database.remoteKeyDao()
     private val log = Timber.tag(this::class.java.simpleName)
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, ArticleWithBookmark>
+        state: PagingState<Int, ArticleWithBookmarkView>
     ): MediatorResult {
         return try {
             val loadKey = when (loadType) {

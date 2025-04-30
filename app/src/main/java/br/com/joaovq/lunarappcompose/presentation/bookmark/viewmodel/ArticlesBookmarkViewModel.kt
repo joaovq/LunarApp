@@ -2,7 +2,7 @@ package br.com.joaovq.lunarappcompose.presentation.bookmark.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmark
+import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmarkView
 import br.com.joaovq.lunarappcompose.domain.articles.mapper.toArticle
 import br.com.joaovq.lunarappcompose.domain.articles.repository.ArticleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ class ArticlesBookmarkViewModel @Inject constructor(
     articlesRepository: ArticleRepository
 ) : ViewModel() {
     val bookmarks = articlesRepository.getBookmarkedArticles()
-        .map { bookmarks -> bookmarks.map(ArticleWithBookmark::toArticle) }
+        .map { bookmarks -> bookmarks.map(ArticleWithBookmarkView::toArticle) }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(),

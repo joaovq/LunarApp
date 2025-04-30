@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import br.com.joaovq.lunarappcompose.data.articles.local.model.ARTICLES_TABLE_NAME
 import br.com.joaovq.lunarappcompose.data.articles.local.model.ArticleEntity
-import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmark
+import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmarkView
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -15,11 +15,11 @@ interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(articles: List<ArticleEntity>)
 
-    @Query("SELECT * FROM ArticleWithBookmark WHERE title LIKE '%' || :query || '%'")
-    fun pagingSource(query: String): PagingSource<Int, ArticleWithBookmark>
+    @Query("SELECT * FROM ArticleWithBookmarkView WHERE title LIKE '%' || :query || '%'")
+    fun pagingSource(query: String): PagingSource<Int, ArticleWithBookmarkView>
 
-    @Query("SELECT * FROM ArticleWithBookmark WHERE isBookmark = 1")
-    fun getBookmarkedArticles(): Flow<List<ArticleWithBookmark>>
+    @Query("SELECT * FROM ArticleWithBookmarkView WHERE isBookmark = 1")
+    fun getBookmarkedArticles(): Flow<List<ArticleWithBookmarkView>>
 
     @Query("DELETE FROM $ARTICLES_TABLE_NAME")
     suspend fun clearAll()

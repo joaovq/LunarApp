@@ -1,7 +1,7 @@
 package br.com.joaovq.lunarappcompose.domain.articles.mapper
 
 import br.com.joaovq.lunarappcompose.data.articles.local.model.ArticleEntity
-import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmark
+import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmarkView
 import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticleDto
 import br.com.joaovq.lunarappcompose.domain.articles.model.Article
 
@@ -37,7 +37,7 @@ fun ArticleDto.toEntity(): ArticleEntity {
     )
 }
 
-fun ArticleWithBookmark.toArticle(): Article {
+fun ArticleWithBookmarkView.toArticle(): Article {
     return Article(
         emptyList(),
         emptyList(),
