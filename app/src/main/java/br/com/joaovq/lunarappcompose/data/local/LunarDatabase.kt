@@ -2,13 +2,13 @@ package br.com.joaovq.lunarappcompose.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import br.com.joaovq.lunarappcompose.data.articles.local.dao.ArticleBookmarkDao
-import br.com.joaovq.lunarappcompose.data.articles.local.dao.ArticleDao
-import br.com.joaovq.lunarappcompose.data.articles.local.dao.RemoteKeyDao
-import br.com.joaovq.lunarappcompose.data.articles.local.model.ArticleEntity
-import br.com.joaovq.lunarappcompose.data.articles.local.model.RemoteKeys
-import br.com.joaovq.lunarappcompose.data.articles.local.view.ArticleWithBookmarkView
-import br.com.joaovq.lunarappcompose.data.bookmark.model.ArticleBookmarkEntity
+import br.com.joaovq.lunarappcompose.article.data.local.dao.ArticleBookmarkDao
+import br.com.joaovq.lunarappcompose.article.data.local.dao.ArticleDao
+import br.com.joaovq.lunarappcompose.article.data.local.dao.RemoteKeyDao
+import br.com.joaovq.lunarappcompose.article.data.local.model.ArticleEntity
+import br.com.joaovq.lunarappcompose.article.data.local.model.RemoteKeys
+import br.com.joaovq.lunarappcompose.article.data.local.view.ArticleWithBookmarkView
+import br.com.joaovq.lunarappcompose.bookmark.data.model.ArticleBookmarkEntity
 
 @Database(
     entities = [

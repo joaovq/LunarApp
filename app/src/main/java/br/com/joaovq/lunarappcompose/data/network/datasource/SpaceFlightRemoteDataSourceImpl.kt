@@ -1,7 +1,7 @@
 package br.com.joaovq.lunarappcompose.data.network.datasource
 
-import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticleDto
-import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticlesDtoResponse
+import br.com.joaovq.lunarappcompose.article.data.network.dto.ArticleDto
+import br.com.joaovq.lunarappcompose.article.data.network.dto.ArticlesDtoResponse
 import br.com.joaovq.lunarappcompose.data.network.service.SpaceFlightNewsApi
 import javax.inject.Inject
 

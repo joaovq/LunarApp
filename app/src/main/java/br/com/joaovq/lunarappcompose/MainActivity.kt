@@ -12,11 +12,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.com.joaovq.lunarappcompose.presentation.articles.nav.ArticleRoute
-import br.com.joaovq.lunarappcompose.presentation.articles.screen.ArticleScreen
-import br.com.joaovq.lunarappcompose.presentation.articles.viewmodel.ArticleViewModel
-import br.com.joaovq.lunarappcompose.presentation.onboarding.nav.OnboardingRoute
-import br.com.joaovq.lunarappcompose.presentation.onboarding.screen.OnboardingScreen
+import br.com.joaovq.lunarappcompose.article.presentation.article_list.nav.ArticleRoute
+import br.com.joaovq.lunarappcompose.article.presentation.article_list.screen.ArticleScreen
+import br.com.joaovq.lunarappcompose.article.presentation.article_list.viewmodel.ArticleViewModel
+import br.com.joaovq.lunarappcompose.onboarding.presentation.overview.nav.OnboardingRoute
+import br.com.joaovq.lunarappcompose.onboarding.presentation.overview.screen.OnboardingScreen
 import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
 import dagger.hilt.android.AndroidEntryPoint
 

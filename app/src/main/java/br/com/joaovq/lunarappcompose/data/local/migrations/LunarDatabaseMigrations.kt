@@ -2,13 +2,13 @@ package br.com.joaovq.lunarappcompose.data.local.migrations
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import br.com.joaovq.lunarappcompose.data.articles.local.model.NEXT_KEY_COLUMN_NAME
-import br.com.joaovq.lunarappcompose.data.articles.local.model.PREV_KEY_COLUMN_NAME
-import br.com.joaovq.lunarappcompose.data.articles.local.model.QUERY_COLUMN_NAME
-import br.com.joaovq.lunarappcompose.data.articles.local.model.REMOTE_KEYS_TABLE_NAME
-import br.com.joaovq.lunarappcompose.data.bookmark.model.ARTICLE_ID_COLUMN_NAME
-import br.com.joaovq.lunarappcompose.data.bookmark.model.BOOKMARK_TABLE_NAME
-import br.com.joaovq.lunarappcompose.data.bookmark.model.ID_COLUMN_NAME
+import br.com.joaovq.lunarappcompose.article.data.local.model.NEXT_KEY_COLUMN_NAME
+import br.com.joaovq.lunarappcompose.article.data.local.model.PREV_KEY_COLUMN_NAME
+import br.com.joaovq.lunarappcompose.article.data.local.model.QUERY_COLUMN_NAME
+import br.com.joaovq.lunarappcompose.article.data.local.model.REMOTE_KEYS_TABLE_NAME
+import br.com.joaovq.lunarappcompose.bookmark.data.model.ARTICLE_ID_COLUMN_NAME
+import br.com.joaovq.lunarappcompose.bookmark.data.model.BOOKMARK_TABLE_NAME
+import br.com.joaovq.lunarappcompose.bookmark.data.model.ID_COLUMN_NAME
 
 object LunarDatabaseMigrations {
     val MIGRATION_1_2 = object : Migration(1, 2) {
