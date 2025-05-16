@@ -12,12 +12,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.com.joaovq.article_presentation.article_list.screen.ArticleScreen
 import br.com.joaovq.lunarappcompose.article.presentation.article_list.nav.ArticleRoute
-import br.com.joaovq.lunarappcompose.article.presentation.article_list.screen.ArticleScreen
 import br.com.joaovq.lunarappcompose.article.presentation.article_list.viewmodel.ArticleViewModel
 import br.com.joaovq.lunarappcompose.onboarding.presentation.overview.nav.OnboardingRoute
 import br.com.joaovq.lunarappcompose.onboarding.presentation.overview.screen.OnboardingScreen
-import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
+import br.com.joaovq.core.ui.theme.LunarTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            LunarTheme(dynamicColor = false) {
+            br.com.joaovq.core.ui.theme.LunarTheme(dynamicColor = false) {
                 val navController = rememberNavController()
                 Surface {
                     NavHost(navController = navController, startDestination = OnboardingRoute) {

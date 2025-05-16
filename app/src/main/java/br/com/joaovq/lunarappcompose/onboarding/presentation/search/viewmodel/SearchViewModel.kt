@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import br.com.joaovq.lunarappcompose.article.domain.repository.ArticleRepository
-import br.com.joaovq.lunarappcompose.di.annotations.IODispatcher
+import br.com.joaovq.article_domain.repository.ArticleRepository
+import br.com.joaovq.data.di.annotations.IODispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,8 +27,8 @@ import kotlin.time.Duration.Companion.milliseconds
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val articleRepository: ArticleRepository,
-    @IODispatcher private val dispatcher: CoroutineDispatcher
+    private val articleRepository: br.com.joaovq.article_domain.repository.ArticleRepository,
+    @br.com.joaovq.data.di.annotations.IODispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
     private val log = Timber.tag(this::class.java.simpleName)
 

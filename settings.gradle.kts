@@ -21,4 +21,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "LunarAppCompose"
 include(":app")
- 
+include(":article:article_data")
+include(":data")
+include(":bookmark:bookmark_data")
+include(":article:article_domain")
+include(":article:article_presentation")
+include(":core")

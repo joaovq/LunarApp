@@ -1,6 +1,6 @@
 package br.com.joaovq.lunarappcompose.data.network.datasource
 
-import br.com.joaovq.lunarappcompose.data.network.service.SpaceFlightNewsApi
+import br.com.joaovq.data.network.service.SpaceFlightNewsApi
 import br.com.joaovq.lunarappcompose.utils.Faker
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -13,13 +13,14 @@ import kotlin.test.assertTrue
 
 class SpaceFlightRemoteDataSourceImplTest {
     @RelaxedMockK
-    lateinit var spaceFlightApi: SpaceFlightNewsApi
-    private lateinit var spaceFlightApiRemoteDataSource: SpaceFlightRemoteDataSource
+    lateinit var spaceFlightApi: br.com.joaovq.data.network.service.SpaceFlightNewsApi
+    private lateinit var spaceFlightApiRemoteDataSource: br.com.joaovq.data.network.datasource.SpaceFlightRemoteDataSource
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        spaceFlightApiRemoteDataSource = SpaceFlightRemoteDataSourceImpl(spaceFlightApi)
+        spaceFlightApiRemoteDataSource =
+            br.com.joaovq.data.network.datasource.SpaceFlightRemoteDataSourceImpl(spaceFlightApi)
     }
 
     @Test

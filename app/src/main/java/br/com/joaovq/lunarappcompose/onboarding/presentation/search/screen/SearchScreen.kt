@@ -19,7 +19,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.joaovq.lunarappcompose.R
-import br.com.joaovq.lunarappcompose.article.domain.model.Article
+import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.lunarappcompose.article.presentation.article_list.component.LazyArticlesList
 import br.com.joaovq.lunarappcompose.article.presentation.article_list.component.ShimmerArticleList
 import kotlinx.coroutines.flow.flowOf
@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    articles: LazyPagingItems<Article>,
+    articles: LazyPagingItems<br.com.joaovq.article_domain.model.Article>,
     query: String = "",
     onQueryChanged: (String) -> Unit = {},
     onClickArticleCard: (Int) -> Unit = {},
@@ -72,5 +72,5 @@ fun SearchScreen(
 @Preview
 @Composable
 private fun PreviewSearchScreen() {
-    SearchScreen(articles = flowOf(PagingData.from(listOf<Article>())).collectAsLazyPagingItems())
+    SearchScreen(articles = flowOf(PagingData.from(listOf<br.com.joaovq.article_domain.model.Article>())).collectAsLazyPagingItems())
 }

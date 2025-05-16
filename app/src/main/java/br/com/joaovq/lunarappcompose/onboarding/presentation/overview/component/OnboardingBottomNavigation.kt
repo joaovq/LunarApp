@@ -19,7 +19,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import br.com.joaovq.lunarappcompose.onboarding.presentation.overview.nav.bottomScreens
-import br.com.joaovq.lunarappcompose.ui.theme.LunarColors
+import br.com.joaovq.core.ui.theme.LunarColors
 
 @Composable
 fun OnboardingBottomNavigation(

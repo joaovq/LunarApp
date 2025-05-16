@@ -3,8 +3,8 @@ package br.com.joaovq.lunarappcompose.presentation.articles.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.internalToRoute
 import app.cash.turbine.test
-import br.com.joaovq.lunarappcompose.article.domain.repository.ArticleRepository
-import br.com.joaovq.lunarappcompose.article.domain.mapper.toArticle
+import br.com.joaovq.article_domain.repository.ArticleRepository
+import br.com.joaovq.article_domain.mapper.toArticle
 import br.com.joaovq.lunarappcompose.article.presentation.article_list.viewmodel.ArticleViewModel
 import br.com.joaovq.lunarappcompose.article.presentation.article_list.nav.ArticleRoute
 import br.com.joaovq.lunarappcompose.utils.Faker
@@ -32,7 +32,7 @@ import kotlin.time.Duration.Companion.seconds
 @OptIn(ExperimentalCoroutinesApi::class)
 class ArticleViewModelTest {
     @RelaxedMockK
-    private lateinit var repository: ArticleRepository
+    private lateinit var repository: br.com.joaovq.article_domain.repository.ArticleRepository
     private lateinit var viewModel: ArticleViewModel
     private val testDispatcher = StandardTestDispatcher()
 

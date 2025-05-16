@@ -3,8 +3,8 @@ package br.com.joaovq.lunarappcompose.presentation.viewmodel
 import androidx.paging.PagingData
 import androidx.paging.testing.asSnapshot
 import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticleDto
-import br.com.joaovq.lunarappcompose.article.domain.repository.ArticleRepository
-import br.com.joaovq.lunarappcompose.article.domain.mapper.toArticle
+import br.com.joaovq.article_domain.repository.ArticleRepository
+import br.com.joaovq.article_domain.mapper.toArticle
 import br.com.joaovq.lunarappcompose.article.presentation.article_list.viewmodel.ArticlesViewModel
 import br.com.joaovq.lunarappcompose.utils.Faker
 import io.mockk.MockKAnnotations
@@ -26,7 +26,7 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalCoroutinesApi::class)
 class ArticlesViewModelTest {
     @RelaxedMockK
-    private lateinit var repository: ArticleRepository
+    private lateinit var repository: br.com.joaovq.article_domain.repository.ArticleRepository
     private lateinit var viewModel: ArticlesViewModel
     private val testDispatcher = StandardTestDispatcher()
 

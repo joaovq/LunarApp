@@ -12,7 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.joaovq.lunarappcompose.article.domain.model.Article
+import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.lunarappcompose.article.presentation.article_list.component.ArticleCard
 
 @OptIn(ExperimentalMaterial3Api::class)
