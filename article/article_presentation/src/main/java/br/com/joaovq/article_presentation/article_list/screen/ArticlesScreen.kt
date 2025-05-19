@@ -23,10 +23,10 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.joaovq.article_domain.model.Article
-import br.com.joaovq.article_presentation.R
-import br.com.joaovq.lunarappcompose.article.presentation.article_list.component.LazyArticlesList
-import br.com.joaovq.lunarappcompose.article.presentation.article_list.component.ShimmerArticleList
-import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
+import br.com.joaovq.core.R as CoreRes
+import br.com.joaovq.article_presentation.article_list.component.LazyArticlesList
+import br.com.joaovq.article_presentation.article_list.component.ShimmerArticleList
+import br.com.joaovq.core.ui.theme.LunarTheme
 import kotlinx.coroutines.flow.flowOf
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,7 +53,7 @@ fun ArticlesScreen(
                 title = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = stringResource(R.string.app_name),
+                            text = stringResource(CoreRes.string.app_name),
                             style = MaterialTheme.typography.titleLarge
                         )
                     }

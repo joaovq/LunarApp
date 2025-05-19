@@ -23,12 +23,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
-import br.com.joaovq.lunarappcompose.article.presentation.article_list.nav.ArticlesRoute
-import br.com.joaovq.lunarappcompose.article.presentation.article_list.screen.ArticlesScreen
-import br.com.joaovq.lunarappcompose.article.presentation.article_list.viewmodel.ArticlesViewModel
-import br.com.joaovq.lunarappcompose.bookmark.presentation.nav.ArticlesBookmarkRoute
-import br.com.joaovq.lunarappcompose.bookmark.presentation.screen.ArticlesBookmarkedScreen
-import br.com.joaovq.lunarappcompose.bookmark.presentation.viewmodel.ArticlesBookmarkViewModel
+import br.com.joaovq.article_presentation.article_list.nav.ArticlesRoute
+import br.com.joaovq.article_presentation.article_list.screen.ArticlesScreen
+import br.com.joaovq.article_presentation.article_list.viewmodel.ArticlesViewModel
+import br.com.joaovq.bookmark_presentation.nav.ArticlesBookmarkRoute
+import br.com.joaovq.bookmark_presentation.screen.ArticlesBookmarkedScreen
+import br.com.joaovq.bookmark_presentation.viewmodel.ArticlesBookmarkViewModel
 import br.com.joaovq.lunarappcompose.onboarding.presentation.overview.component.OnboardingBottomNavigation
 import br.com.joaovq.lunarappcompose.onboarding.presentation.search.nav.SearchRoute
 import br.com.joaovq.lunarappcompose.onboarding.presentation.search.screen.SearchScreen
@@ -64,16 +64,16 @@ fun OnboardingScreen(
                         onBookmarkChanged = articlesViewModel::onBookmarkChanged,
                         onClickMenu = {
                             scope.launch {
-                               try {
-                                   showBottomSheet = true
-                                   sheetState.show()
-                               } catch (e: Exception) {
-                                   e.printStackTrace()
-                               }
+                                try {
+                                    showBottomSheet = true
+                                    sheetState.show()
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
                             }
                         }
                     )
-                    if(showBottomSheet) {
+                    if (showBottomSheet) {
                         ModalBottomSheet(
                             sheetState = sheetState,
                             onDismissRequest = {
@@ -84,7 +84,7 @@ fun OnboardingScreen(
                                         e.printStackTrace()
                                     }
                                 }.invokeOnCompletion {
-                                    if(!sheetState.isVisible) {
+                                    if (!sheetState.isVisible) {
                                         showBottomSheet = false
                                     }
                                 }

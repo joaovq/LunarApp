@@ -2,8 +2,10 @@ package br.com.joaovq.data.di
 
 import android.content.Context
 import androidx.room.Room
-import br.com.joaovq.article_data.repository.ArticleRepositoryImpl
+import br.com.joaovq.article_data.local.TransactionRunner
+import br.com.joaovq.data.BuildConfig
 import br.com.joaovq.data.local.LunarDatabase
+import br.com.joaovq.data.local.RoomTransactionRunner
 import br.com.joaovq.data.local.migrations.LunarDatabaseMigrations
 import br.com.joaovq.data.network.datasource.SpaceFlightRemoteDataSource
 import br.com.joaovq.data.network.datasource.SpaceFlightRemoteDataSourceImpl
@@ -86,10 +88,17 @@ abstract class DataModule {
             return retrofit.create(SpaceFlightNewsApi::class.java)
         }
 
-        /*@Provides
+        @Provides
         @Singleton
-        @IODispatcher
-        fun providesCoroutineDispatcher(): CoroutineDispatcher = Dispatchers.IO*/
+        fun providesArticleDao(database: LunarDatabase) = database.articleDao()
+
+        @Provides
+        @Singleton
+        fun providesBookmarkDao(database: LunarDatabase) = database.bookmarkDao()
+
+        @Provides
+        @Singleton
+        fun providesRemoteKeyDao(database: LunarDatabase) = database.remoteKeyDao()
 
         @Provides
         @Singleton
@@ -101,5 +110,11 @@ abstract class DataModule {
                     LunarDatabaseMigrations.MIGRATION_2_3
                 )
                 .build()
+
+        @Provides
+        @Singleton
+        fun providTransactionRunner(database: LunarDatabase): TransactionRunner =
+            RoomTransactionRunner(database)
+
     }
 }

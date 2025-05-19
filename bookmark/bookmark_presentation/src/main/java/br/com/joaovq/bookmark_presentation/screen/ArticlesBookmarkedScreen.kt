@@ -1,4 +1,4 @@
-package br.com.joaovq.lunarappcompose.bookmark.presentation.screen
+package br.com.joaovq.bookmark_presentation.screen
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.joaovq.article_domain.model.Article
-import br.com.joaovq.lunarappcompose.article.presentation.article_list.component.ArticleCard
+import br.com.joaovq.article_presentation.article_list.component.ArticleCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

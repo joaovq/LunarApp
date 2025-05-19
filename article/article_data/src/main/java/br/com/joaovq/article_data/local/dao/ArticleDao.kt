@@ -8,9 +8,6 @@ import androidx.room.Query
 import br.com.joaovq.article_data.local.model.ARTICLES_TABLE_NAME
 import br.com.joaovq.article_data.local.model.ArticleEntity
 import br.com.joaovq.article_data.local.view.ArticleWithBookmarkView
-import br.com.joaovq.lunarappcompose.article.data.local.model.ARTICLES_TABLE_NAME
-import br.com.joaovq.lunarappcompose.article.data.local.model.ArticleEntity
-import br.com.joaovq.lunarappcompose.article.data.local.view.ArticleWithBookmarkView
 import kotlinx.coroutines.flow.Flow
 
 @Dao

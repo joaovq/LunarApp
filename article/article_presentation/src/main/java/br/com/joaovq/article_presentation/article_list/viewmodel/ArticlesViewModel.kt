@@ -3,7 +3,7 @@ package br.com.joaovq.article_presentation.article_list.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import br.com.joaovq.data.di.annotations.IODispatcher
+import br.com.joaovq.core.di.annotations.IODispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

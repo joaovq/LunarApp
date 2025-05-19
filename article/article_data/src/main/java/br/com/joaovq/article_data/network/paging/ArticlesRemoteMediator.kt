@@ -5,13 +5,14 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import androidx.room.withTransaction
+import br.com.joaovq.article_data.local.TransactionRunner
+import br.com.joaovq.article_data.local.dao.ArticleDao
+import br.com.joaovq.article_data.local.dao.RemoteKeyDao
 import br.com.joaovq.article_data.local.model.RemoteKeys
 import br.com.joaovq.article_data.local.view.ArticleWithBookmarkView
 import br.com.joaovq.article_data.mapper.toEntity
+import br.com.joaovq.article_data.network.datasource.ArticleRemoteDataSource
 import br.com.joaovq.article_data.network.dto.ArticleDto
-import br.com.joaovq.data.local.LunarDatabase
-import br.com.joaovq.data.network.datasource.SpaceFlightRemoteDataSource
 import okio.IOException
 import retrofit2.HttpException
 import timber.log.Timber
@@ -19,11 +20,11 @@ import timber.log.Timber
 @OptIn(ExperimentalPagingApi::class)
 class ArticlesRemoteMediator(
     private val query: String?,
-    private val database: LunarDatabase,
-    private val remoteDataSource: SpaceFlightRemoteDataSource
+    private val articleDao: ArticleDao,
+    private val remoteKeyDao: RemoteKeyDao,
+    private val remoteDataSource: ArticleRemoteDataSource,
+    private val transactionRunner: TransactionRunner
 ) : RemoteMediator<Int, ArticleWithBookmarkView>() {
-    private val articleDao = database.articleDao()
-    private val remoteKeyDao = database.remoteKeyDao()
     private val log = Timber.tag(this::class.java.simpleName)
 
     override suspend fun load(
@@ -52,7 +53,7 @@ class ArticlesRemoteMediator(
             log.d("remote prevKey: $prevKey")
             log.d("remote nextKey: $nextKey")
 
-            database.withTransaction {
+            transactionRunner.runTransaction {
                 if (loadType == LoadType.REFRESH) {
                     remoteKeyDao.clearRemoteKeys()
                     articleDao.clearAll()

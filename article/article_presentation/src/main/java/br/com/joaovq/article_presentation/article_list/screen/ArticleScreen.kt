@@ -55,10 +55,10 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.com.joaovq.lunarappcompose.R
-import br.com.joaovq.lunarappcompose.core.utils.ext.toLocalDateTimeFormatted
 import br.com.joaovq.article_domain.model.Article
-import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
+import br.com.joaovq.article_presentation.R
+import br.com.joaovq.core.ui.theme.LunarTheme
+import br.com.joaovq.core.utils.ext.toLocalDateTimeFormatted
 import coil3.compose.rememberAsyncImagePainter
 import java.time.OffsetDateTime
 

@@ -5,25 +5,29 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import br.com.joaovq.article_data.local.TransactionRunner
+import br.com.joaovq.article_data.local.dao.ArticleBookmarkDao
+import br.com.joaovq.article_data.local.dao.ArticleDao
+import br.com.joaovq.article_data.local.dao.RemoteKeyDao
 import br.com.joaovq.article_data.local.view.ArticleWithBookmarkView
 import br.com.joaovq.article_data.mapper.toArticle
+import br.com.joaovq.article_data.network.datasource.ArticleRemoteDataSource
 import br.com.joaovq.article_data.network.paging.ArticlesRemoteMediator
 import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.article_domain.model.ArticleWithBookmark
 import br.com.joaovq.article_domain.repository.ArticleRepository
 import br.com.joaovq.bookmark_data.data.model.ArticleBookmarkEntity
-import br.com.joaovq.data.local.LunarDatabase
-import br.com.joaovq.data.network.datasource.SpaceFlightRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ArticleRepositoryImpl @Inject constructor(
-    private val remoteDataSource: SpaceFlightRemoteDataSource,
-    private val localDataSource: LunarDatabase
+    private val remoteDataSource: ArticleRemoteDataSource,
+    private val articleDao: ArticleDao,
+    private val bookmarkDao: ArticleBookmarkDao,
+    private val remoteKeyDao: RemoteKeyDao,
+    private val transactionRunner: TransactionRunner
 ) : ArticleRepository {
-    private val articleDao = localDataSource.articleDao()
-    private val articleBookmarkDao = localDataSource.bookmarkDao()
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getArticles(limit: Int, offset: Int, query: String?): Flow<PagingData<Article>> {
@@ -31,8 +35,10 @@ class ArticleRepositoryImpl @Inject constructor(
             config = PagingConfig(limit),
             remoteMediator = ArticlesRemoteMediator(
                 query = query,
-                database = localDataSource,
-                remoteDataSource = remoteDataSource
+                articleDao = articleDao,
+                remoteKeyDao = remoteKeyDao,
+                remoteDataSource = remoteDataSource,
+                transactionRunner = transactionRunner
             )
         ) {
             articleDao.pagingSource(query.orEmpty())
@@ -63,7 +69,7 @@ class ArticleRepositoryImpl @Inject constructor(
 
     override suspend fun saveNewBookmark(id: Int): Result<Boolean> {
         return try {
-            articleBookmarkDao.insert(ArticleBookmarkEntity(articleId = id))
+            bookmarkDao.insert(ArticleBookmarkEntity(articleId = id))
             Result.success(true)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -73,7 +79,7 @@ class ArticleRepositoryImpl @Inject constructor(
 
     override suspend fun removeBookmarkById(articleId: Int): Result<Boolean> {
         return try {
-            articleBookmarkDao.removeBookmarkById(articleId)
+            bookmarkDao.removeBookmarkById(articleId)
             Result.success(true)
         } catch (e: Exception) {
             e.printStackTrace()

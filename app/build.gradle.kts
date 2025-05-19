@@ -62,7 +62,12 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":data"))
+    implementation(project(":article:article_data"))
+    implementation(project(":article:article_domain"))
     implementation(project(":article:article_presentation"))
+    implementation(project(":bookmark:bookmark_data"))
+    implementation(project(":bookmark:bookmark_presentation"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

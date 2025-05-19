@@ -1,4 +1,4 @@
-package br.com.joaovq.lunarappcompose.article.presentation.article_list.component
+package br.com.joaovq.article_presentation.article_list.component
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize

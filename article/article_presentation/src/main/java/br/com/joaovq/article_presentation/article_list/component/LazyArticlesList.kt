@@ -1,4 +1,4 @@
-package br.com.joaovq.lunarappcompose.article.presentation.article_list.component
+package br.com.joaovq.article_presentation.article_list.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -34,11 +34,10 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import br.com.joaovq.lunarappcompose.core.utils.mocks.PreviewMockObjects
-import br.com.joaovq.article_domain.model.Article
-import br.com.joaovq.lunarappcompose.ui.theme.LocalDimen
-import br.com.joaovq.lunarappcompose.ui.theme.LunarColors
-import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
+import br.com.joaovq.article_presentation.article_list.mocks.PreviewMockObjects
+import br.com.joaovq.core.ui.theme.LocalDimen
+import br.com.joaovq.core.ui.theme.LunarColors
+import br.com.joaovq.core.ui.theme.LunarTheme
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 

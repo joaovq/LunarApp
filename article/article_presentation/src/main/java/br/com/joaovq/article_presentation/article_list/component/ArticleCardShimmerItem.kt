@@ -1,4 +1,4 @@
-package br.com.joaovq.lunarappcompose.article.presentation.article_list.component
+package br.com.joaovq.article_presentation.article_list.component
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -15,13 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
-import br.com.joaovq.article_presentation.R
-import br.com.joaovq.lunarappcompose.R
-import br.com.joaovq.lunarappcompose.core.ui.utils.ext.shimmerEffect
-import br.com.joaovq.lunarappcompose.ui.theme.LocalDimen
-import br.com.joaovq.lunarappcompose.ui.theme.Obsidian
+import br.com.joaovq.core.ui.theme.LocalDimen
+import br.com.joaovq.core.ui.theme.Obsidian
+import br.com.joaovq.core.ui.utils.ext.shimmerEffect
 
 @Composable
 fun ArticleCardShimmerItem(
@@ -45,28 +42,28 @@ fun ArticleCardShimmerItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp)
-                    .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_article_card)))
+                    .clip(RoundedCornerShape(10.dp))
                     .shimmerEffect(),
             )
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(30.dp)
-                    .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_article_card)))
+                    .clip(RoundedCornerShape(10.dp))
                     .shimmerEffect()
             )
             Box(
                 modifier = Modifier
                     .fillMaxWidth(.8f)
                     .height(30.dp)
-                    .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_article_card)))
+                    .clip(RoundedCornerShape(10.dp))
                     .shimmerEffect()
             )
             Box(
                 modifier = Modifier
                     .fillMaxWidth(.7f)
                     .height(40.dp)
-                    .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_article_card)))
+                    .clip(RoundedCornerShape(10.dp))
                     .shimmerEffect()
             )
         }

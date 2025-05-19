@@ -1,4 +1,4 @@
-package br.com.joaovq.lunarappcompose.bookmark.presentation.nav
+package br.com.joaovq.bookmark_presentation.nav
 
 import kotlinx.serialization.Serializable
 

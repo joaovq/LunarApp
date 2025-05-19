@@ -1,13 +1,11 @@
-package br.com.joaovq.lunarappcompose.article.presentation.article_list.viewmodel
+package br.com.joaovq.article_presentation.article_list.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import br.com.joaovq.article_domain.repository.ArticleRepository
-import br.com.joaovq.data.di.annotations.IODispatcher
-import br.com.joaovq.article_domain.model.Article
-import br.com.joaovq.lunarappcompose.article.presentation.article_list.nav.ArticleRoute
+import br.com.joaovq.article_presentation.article_list.nav.ArticleRoute
+import br.com.joaovq.core.di.annotations.IODispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +21,7 @@ import javax.inject.Inject
 class ArticleViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val articleRepository: br.com.joaovq.article_domain.repository.ArticleRepository,
-    @br.com.joaovq.data.di.annotations.IODispatcher private val dispatcher: CoroutineDispatcher
+    @IODispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
     private val articleRoute = savedStateHandle.toRoute<ArticleRoute>()
     private val _article = MutableStateFlow<br.com.joaovq.article_domain.model.Article?>(null)

@@ -1,4 +1,4 @@
-package br.com.joaovq.lunarappcompose.article.presentation.article_list.component
+package br.com.joaovq.article_presentation.article_list.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -26,7 +26,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -35,15 +34,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import br.com.joaovq.lunarappcompose.R
-import br.com.joaovq.lunarappcompose.article.data.network.dto.Author
-import br.com.joaovq.lunarappcompose.article.data.network.dto.Socials
 import br.com.joaovq.article_domain.model.Article
-import br.com.joaovq.lunarappcompose.core.ui.utils.ext.shimmerEffect
-import br.com.joaovq.lunarappcompose.core.utils.ext.toLocalDateTimeFormatted
-import br.com.joaovq.lunarappcompose.ui.theme.LocalDimen
-import br.com.joaovq.lunarappcompose.ui.theme.LunarTheme
-import br.com.joaovq.lunarappcompose.ui.theme.Obsidian
+import br.com.joaovq.article_domain.model.Author
+import br.com.joaovq.article_domain.model.Socials
+import br.com.joaovq.article_presentation.R
+import br.com.joaovq.core.ui.theme.LocalDimen
+import br.com.joaovq.core.ui.theme.LunarTheme
+import br.com.joaovq.core.ui.theme.Obsidian
+import br.com.joaovq.core.ui.utils.ext.shimmerEffect
+import br.com.joaovq.core.utils.ext.toLocalDateTimeFormatted
 import coil3.compose.AsyncImagePainter
 import coil3.compose.LocalPlatformContext
 import coil3.compose.rememberAsyncImagePainter
@@ -53,7 +52,7 @@ import java.time.OffsetDateTime
 @Composable
 fun ArticleCard(
     modifier: Modifier = Modifier,
-    article: br.com.joaovq.article_domain.model.Article,
+    article: Article,
     onClickArticleCard: (Int) -> Unit = {},
     onBookmarkChanged: (Boolean, Int) -> Unit = { _, _ -> }
 ) {
@@ -89,7 +88,7 @@ fun ArticleCard(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(150.dp)
-                                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_article_card)))
+                                .clip(RoundedCornerShape(10.dp))
                                 .shimmerEffect(),
                         )
                     }
@@ -102,7 +101,7 @@ fun ArticleCard(
                             modifier = Modifier
                                 .heightIn(max = 150.dp)
                                 .fillMaxWidth()
-                                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_article_card))),
+                                .clip(RoundedCornerShape(10.dp)),
                             contentScale = ContentScale.Crop
                         )
                     }
@@ -139,8 +138,8 @@ fun ArticleCard(
                                 }
                             )
                         },
-                        painter = if (article.isBookmark) painterResource(R.drawable.ic_bookmark_filled) else painterResource(
-                            R.drawable.ic_bookmark
+                        painter = if (article.isBookmark) painterResource(br.com.joaovq.core.R.drawable.ic_bookmark_filled) else painterResource(
+                            br.com.joaovq.core.R.drawable.ic_bookmark
                         ),
                         contentDescription = null
                     )
@@ -163,7 +162,7 @@ fun ArticleCard(
 private fun PreviewArticleCard() {
     LunarTheme(dynamicColor = false) {
         ArticleCard(
-            article = br.com.joaovq.article_domain.model.Article(
+            article = Article(
                 id = 1,
                 title = "Title 1",
                 url = "",

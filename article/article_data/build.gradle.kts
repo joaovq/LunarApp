@@ -37,7 +37,6 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":data"))
     implementation(project(":bookmark:bookmark_data"))
     implementation(project(":article:article_domain"))
 

@@ -3,8 +3,8 @@ package br.com.joaovq.lunarappcompose.onboarding.presentation.overview.nav
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import br.com.joaovq.article_presentation.article_list.nav.ArticlesRoute
+import br.com.joaovq.bookmark_presentation.nav.ArticlesBookmarkRoute
 import br.com.joaovq.lunarappcompose.R
-import br.com.joaovq.lunarappcompose.bookmark.presentation.nav.ArticlesBookmarkRoute
 import br.com.joaovq.lunarappcompose.onboarding.presentation.search.nav.SearchRoute
 import kotlinx.serialization.Serializable
 
