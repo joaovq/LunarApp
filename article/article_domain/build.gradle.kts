@@ -34,28 +34,21 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(projects.core)
     implementation(libs.androidx.paging.runtime)
-
     implementation(libs.hilt.android)
     implementation(libs.timber)
+    debugImplementation(libs.library)
+    releaseImplementation(libs.library.no.op)
 
     kapt(libs.androidx.hilt.compiler)
     kapt(libs.hilt.android.compiler)
 
     testImplementation(libs.turbine)
 
-
-    debugImplementation(libs.library)
-    releaseImplementation(libs.library.no.op)
-
-
     testImplementation(libs.androidx.paging.common)
     testImplementation(libs.androidx.paging.testing)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

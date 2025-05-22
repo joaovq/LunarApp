@@ -32,7 +32,7 @@ class ArticlesViewModel @Inject constructor(
 
     fun onBookmarkChanged(isBookmark: Boolean, id: Int) {
         viewModelScope.launch {
-            if (isBookmark) {
+            if (!isBookmark) {
                 articleRepository.removeBookmarkById(id)
             } else {
                 articleRepository.saveNewBookmark(id)

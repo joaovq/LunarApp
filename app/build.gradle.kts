@@ -5,13 +5,6 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     kotlin("plugin.serialization") version "2.0.21"
-    id("androidx.room")
-}
-
-room {
-    schemaDirectory("debug", "$projectDir/schemas/debug")
-    // Applies to variants that aren't matched by other configurations.
-    schemaDirectory("$projectDir/schemas")
 }
 
 android {
@@ -61,51 +54,30 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":data"))
-    implementation(project(":article:article_data"))
-    implementation(project(":article:article_domain"))
-    implementation(project(":article:article_presentation"))
-    implementation(project(":bookmark:bookmark_data"))
-    implementation(project(":bookmark:bookmark_presentation"))
+    implementation(projects.core)
+    implementation(projects.data)
+    implementation(projects.article.articleData)
+    implementation(projects.article.articleDomain)
+    implementation(projects.article.articlePresentation)
+    implementation(projects.bookmark.bookmarkData)
+    implementation(projects.bookmark.bookmarkPresentation)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.gson)
+    implementation(libs.bundles.compose)
     implementation(libs.timber)
 
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.okhttp)
+    implementation(libs.bundles.coil)
+    implementation(libs.bundles.paging3)
 
-    implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
-
     implementation(libs.hilt.android)
-    implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.paging.compose)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.paging)
     // Kotlin + coroutines
-    implementation(libs.androidx.work.runtime.ktx)
-
-    implementation(libs.androidx.hilt.work)
+    implementation(libs.bundles.workmanager)
     // When using Kotlin.
     kapt(libs.androidx.hilt.compiler)
-
     kapt(libs.hilt.android.compiler)
-    kapt(libs.androidx.room.compiler)
     // mockk
     testImplementation(libs.mockk)
     testImplementation(libs.mockk.android)
@@ -115,10 +87,8 @@ dependencies {
 
     testImplementation(libs.turbine)
 
-
     debugImplementation(libs.library)
     releaseImplementation(libs.library.no.op)
-
 
     testImplementation(libs.androidx.paging.common)
     testImplementation(libs.androidx.paging.testing)

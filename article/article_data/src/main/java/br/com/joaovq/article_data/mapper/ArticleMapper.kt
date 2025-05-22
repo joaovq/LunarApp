@@ -14,7 +14,7 @@ fun ArticleDto.toArticle(): Article {
         authors.map {
             Author(
                 it.name,
-                it.socials.let { socials ->
+                it.socials?.let { socials ->
                     Socials(
                         socials.bluesky,
                         socials.instagram,

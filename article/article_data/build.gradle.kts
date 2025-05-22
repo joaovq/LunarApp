@@ -36,9 +36,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":bookmark:bookmark_data"))
-    implementation(project(":article:article_domain"))
+    implementation(projects.core)
+    implementation(projects.bookmark.bookmarkData)
+    implementation(projects.article.articleDomain)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

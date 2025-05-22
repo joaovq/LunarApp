@@ -34,6 +34,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.article_presentation.article_list.mocks.PreviewMockObjects
 import br.com.joaovq.core.ui.theme.LocalDimen
 import br.com.joaovq.core.ui.theme.LunarColors
@@ -45,7 +46,7 @@ import kotlinx.coroutines.launch
 fun LazyArticlesList(
     modifier: Modifier = Modifier,
     isReturnToTopEnable: Boolean = true,
-    articles: LazyPagingItems<br.com.joaovq.article_domain.model.Article>,
+    articles: LazyPagingItems<Article>,
     onClickArticleCard: (Int) -> Unit,
     onBookmarkChanged: (Boolean, Int) -> Unit = { _, _ -> }
 ) {
@@ -58,7 +59,7 @@ fun LazyArticlesList(
             items(articles.itemCount, key = articles.itemKey()) { i ->
                 val article = articles[i] ?: return@items
                 ArticleCard(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    modifier = Modifier.padding(horizontal = dimen.large, vertical = dimen.medium),
                     article = article,
                     onClickArticleCard = onClickArticleCard,
                     onBookmarkChanged = onBookmarkChanged
@@ -70,7 +71,7 @@ fun LazyArticlesList(
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(8.dp),
+                                .padding(dimen.medium),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
@@ -91,7 +92,7 @@ fun LazyArticlesList(
 
                     articles.loadState.hasError -> {
                         Text(
-                            modifier = Modifier.padding(8.dp),
+                            modifier = Modifier.padding(dimen.medium),
                             text = "Error to load articles"
                         )
                     }

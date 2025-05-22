@@ -19,6 +19,9 @@ dependencyResolutionManagement {
     }
 }
 
+// Habilita type-safe project accessors
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "LunarAppCompose"
 include(":app")
 include(":article:article_data")

@@ -23,11 +23,11 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.joaovq.article_domain.model.Article
-import br.com.joaovq.core.R as CoreRes
 import br.com.joaovq.article_presentation.article_list.component.LazyArticlesList
 import br.com.joaovq.article_presentation.article_list.component.ShimmerArticleList
 import br.com.joaovq.core.ui.theme.LunarTheme
 import kotlinx.coroutines.flow.flowOf
+import br.com.joaovq.core.R as CoreRes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,7 +73,9 @@ fun ArticlesScreen(
                 else -> LazyArticlesList(
                     articles = articles,
                     onClickArticleCard = onClickArticleCard,
-                    onBookmarkChanged = onBookmarkChanged
+                    onBookmarkChanged = { isBookmarked, id ->
+                        onBookmarkChanged(isBookmarked, id)
+                    }
                 )
             }
         }

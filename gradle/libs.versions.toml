@@ -83,3 +83,44 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 
+[bundles]
+compose = [
+    "androidx-activity-compose",
+    "androidx-navigation-compose",
+    "androidx-core-ktx",
+    "androidx-lifecycle-runtime-ktx",
+    "androidx-ui",
+    "androidx-ui-graphics",
+    "androidx-ui-tooling-preview",
+    "androidx-material3",
+    "material",
+    "androidx-material-icons-extended",
+    "androidx-hilt-navigation-compose"
+]
+coil = [
+    "coil-compose",
+    "coil-network-okhttp"
+]
+
+paging3 = [
+    "androidx-paging-runtime",
+    "paging-compose",
+    "androidx-paging-common"
+]
+
+retrofit = [
+    "retrofit",
+    "retrofit-gson"
+]
+
+room = [
+    "androidx-room-paging",
+    "androidx-room-runtime",
+    "androidx-room-ktx"
+]
+
+workmanager = [
+    "androidx-hilt-work",
+    "androidx-work-runtime-ktx"
+]
+

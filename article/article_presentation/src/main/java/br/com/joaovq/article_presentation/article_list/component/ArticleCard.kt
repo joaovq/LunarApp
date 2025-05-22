@@ -19,7 +19,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -57,6 +59,7 @@ fun ArticleCard(
     onBookmarkChanged: (Boolean, Int) -> Unit = { _, _ -> }
 ) {
     val dimen = LocalDimen.current
+    val isBookmark by remember(article) { derivedStateOf { article.isBookmark } }
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
@@ -134,11 +137,11 @@ fun ArticleCard(
                         modifier = Modifier.pointerInput(Unit) {
                             detectTapGestures(
                                 onPress = {
-                                    onBookmarkChanged(article.isBookmark, article.id)
+                                    onBookmarkChanged(!isBookmark, article.id)
                                 }
                             )
                         },
-                        painter = if (article.isBookmark) painterResource(br.com.joaovq.core.R.drawable.ic_bookmark_filled) else painterResource(
+                        painter = if (isBookmark) painterResource(br.com.joaovq.core.R.drawable.ic_bookmark_filled) else painterResource(
                             br.com.joaovq.core.R.drawable.ic_bookmark
                         ),
                         contentDescription = null
