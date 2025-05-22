@@ -21,6 +21,7 @@ class LunarApplication : Application(), SingletonImageLoader.Factory, Configurat
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
     }
 
+
     override fun newImageLoader(context: PlatformContext): ImageLoader {
         return CoilImageLoader.getDefaultImageLoader(context)
     }

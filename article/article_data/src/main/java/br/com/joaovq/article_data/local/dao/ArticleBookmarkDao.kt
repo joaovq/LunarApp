@@ -14,7 +14,10 @@ interface ArticleBookmarkDao {
     suspend fun insert(bookmark: ArticleBookmarkEntity)
 
     @Query("SELECT * FROM $BOOKMARK_TABLE_NAME")
-    fun getBookmarks(): Flow<ArticleBookmarkEntity>
+    fun getBookmarksFlow(): Flow<List<ArticleBookmarkEntity>>
+
+    @Query("SELECT * FROM $BOOKMARK_TABLE_NAME")
+    suspend fun getBookmarks(): List<ArticleBookmarkEntity>
 
     @Query("DELETE FROM $BOOKMARK_TABLE_NAME")
     suspend fun clearAll()

@@ -64,13 +64,11 @@ dependencies {
     implementation(libs.retrofit.gson)
     implementation(libs.timber)
 
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+
+    // Kotlin + coroutines
+    implementation(libs.bundles.workmanager)
 
     debugImplementation(libs.library)
     releaseImplementation(libs.library.no.op)

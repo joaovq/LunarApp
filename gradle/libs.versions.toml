@@ -124,3 +124,9 @@ workmanager = [
     "androidx-work-runtime-ktx"
 ]
 
+mockk = [
+    "mockk",
+    "mockk-agent",
+    "mockk-android"
+]
+

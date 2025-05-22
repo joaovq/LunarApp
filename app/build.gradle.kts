@@ -79,16 +79,11 @@ dependencies {
     kapt(libs.androidx.hilt.compiler)
     kapt(libs.hilt.android.compiler)
     // mockk
-    testImplementation(libs.mockk)
-    testImplementation(libs.mockk.android)
-    testImplementation(libs.mockk.agent)
+    testImplementation(libs.bundles.mockk)
     androidTestImplementation(libs.mockk.android)
     androidTestImplementation(libs.mockk.agent)
 
     testImplementation(libs.turbine)
-
-    debugImplementation(libs.library)
-    releaseImplementation(libs.library.no.op)
 
     testImplementation(libs.androidx.paging.common)
     testImplementation(libs.androidx.paging.testing)
