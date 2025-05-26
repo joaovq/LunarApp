@@ -1,8 +1,9 @@
 package br.com.joaovq.lunarappcompose.presentation.articles.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.navigation.internalToRoute
+import androidx.navigation.toRoute
 import app.cash.turbine.test
+import br.com.joaovq.article_data.mapper.toArticle
 import br.com.joaovq.article_presentation.article_list.viewmodel.ArticleViewModel
 import br.com.joaovq.article_presentation.article_list.nav.ArticleRoute
 import br.com.joaovq.lunarappcompose.utils.Faker
@@ -39,7 +40,7 @@ class ArticleViewModelTest {
         MockKAnnotations.init(this)
         mockkStatic("androidx.navigation.SavedStateHandleKt")
         val savedStateHandle = mockk<SavedStateHandle>()
-        every { savedStateHandle.internalToRoute<Any>(any(), any()) } returns ArticleRoute(1)
+        every { savedStateHandle.toRoute<Any>(any(), any()) } returns ArticleRoute(1)
         viewModel = ArticleViewModel(savedStateHandle, repository, testDispatcher)
         Dispatchers.setMain(testDispatcher)
     }

@@ -5,6 +5,8 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     kotlin("plugin.serialization") version "2.0.21"
+    id("app.cash.paparazzi")
+    id("io.github.takahirom.roborazzi")
 }
 
 android {
@@ -75,6 +77,11 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     // Kotlin + coroutines
     implementation(libs.bundles.workmanager)
+    implementation(libs.bundles.retrofit)
+    testImplementation(libs.androidx.ui.test.junit4.android)
+    testImplementation(libs.paparazzi)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.robolectric)
     // When using Kotlin.
     kapt(libs.androidx.hilt.compiler)
     kapt(libs.hilt.android.compiler)
@@ -92,9 +99,9 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 

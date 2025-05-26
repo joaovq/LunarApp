@@ -1,6 +1,6 @@
 package br.com.joaovq.lunarappcompose.utils
 
-import br.com.joaovq.lunarappcompose.data.articles.network.dto.ArticleDto
+import br.com.joaovq.article_data.network.dto.ArticleDto
 
 object Faker {
     fun articles(size: Int = 50) = List(size) {
