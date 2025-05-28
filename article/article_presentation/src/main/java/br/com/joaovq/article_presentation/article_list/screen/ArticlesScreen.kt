@@ -52,7 +52,7 @@ fun ArticlesScreen(
                     IconButton(onClick = onClickMenu) {
                         Icon(
                             imageVector = Icons.Default.Menu,
-                            contentDescription = "Icon app"
+                            contentDescription = "Menu Icon app"
                         )
                     }
                 },

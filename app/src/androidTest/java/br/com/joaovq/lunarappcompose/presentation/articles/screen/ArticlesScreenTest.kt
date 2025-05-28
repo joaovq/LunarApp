@@ -1,6 +1,15 @@
 package br.com.joaovq.lunarappcompose.presentation.articles.screen
 
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasScrollAction
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onChild
+import androidx.compose.ui.test.onParent
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -15,7 +24,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class ArticlesScreenTest {
     @get:Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createComposeRule()
 
     @Test
     fun launchArticles() {
@@ -25,5 +34,9 @@ class ArticlesScreenTest {
                     .collectAsLazyPagingItems(),
             )
         }
+        composeTestRule.onNode(hasTestTag("ArticlesScreen"))
+            .onParent()
+            .assertIsDisplayed()
+            .assert(hasClickAction() or hasScrollAction())
     }
 }

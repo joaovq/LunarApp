@@ -5,7 +5,6 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     kotlin("plugin.serialization") version "2.0.21"
-    id("app.cash.paparazzi")
     id("io.github.takahirom.roborazzi")
 }
 
@@ -53,6 +52,16 @@ android {
         compose = true
         buildConfig = true
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+    packaging {
+        resources {
+            excludes += mutableSetOf("META-INF/LICENSE.md","META-INF/LICENSE-notice.md")
+        }
+    }
 }
 
 dependencies {
@@ -78,34 +87,21 @@ dependencies {
     // Kotlin + coroutines
     implementation(libs.bundles.workmanager)
     implementation(libs.bundles.retrofit)
-    testImplementation(libs.androidx.ui.test.junit4.android)
-    testImplementation(libs.paparazzi)
-    testImplementation(libs.roborazzi)
-    testImplementation(libs.robolectric)
     // When using Kotlin.
     kapt(libs.androidx.hilt.compiler)
     kapt(libs.hilt.android.compiler)
     // mockk
-    testImplementation(libs.bundles.mockk)
     androidTestImplementation(libs.mockk.android)
     androidTestImplementation(libs.mockk.agent)
 
-    testImplementation(libs.turbine)
-
-    testImplementation(libs.androidx.paging.common)
-    testImplementation(libs.androidx.paging.testing)
-
-    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.bundles.mockk)
+    testImplementation(libs.bundles.unitTest)
     testImplementation(kotlin("test"))
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
-    testImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    testImplementation(libs.androidx.room.testing)
 }
 
 kapt {

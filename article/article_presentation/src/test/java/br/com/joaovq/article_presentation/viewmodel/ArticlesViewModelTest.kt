@@ -1,9 +1,10 @@
-package br.com.joaovq.lunarappcompose.presentation.viewmodel
+package br.com.joaovq.article_presentation.viewmodel
 
 import androidx.paging.PagingData
 import androidx.paging.testing.asSnapshot
 import br.com.joaovq.article_data.mapper.toArticle
 import br.com.joaovq.article_data.network.dto.ArticleDto
+import br.com.joaovq.article_domain.repository.ArticleRepository
 import br.com.joaovq.article_presentation.article_list.viewmodel.ArticlesViewModel
 import br.com.joaovq.lunarappcompose.utils.Faker
 import io.mockk.MockKAnnotations
@@ -25,7 +26,7 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalCoroutinesApi::class)
 class ArticlesViewModelTest {
     @RelaxedMockK
-    private lateinit var repository: br.com.joaovq.article_domain.repository.ArticleRepository
+    private lateinit var repository: ArticleRepository
     private lateinit var viewModel: ArticlesViewModel
     private val testDispatcher = StandardTestDispatcher()
 
@@ -43,7 +44,7 @@ class ArticlesViewModelTest {
     }
 
     @Test
-    fun `given articles when getArticles then return articles`() = runTest {
+    fun `given articles when getArticles then return articles`() = runTest(testDispatcher) {
         // GIVEN
         val size = 50
         val fakeArticles = Faker.articles(size).map(ArticleDto::toArticle)

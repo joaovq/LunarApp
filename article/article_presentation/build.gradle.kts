@@ -55,10 +55,13 @@ dependencies {
     kapt(libs.androidx.hilt.compiler)
     kapt(libs.hilt.android.compiler)
 
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    testImplementation(libs.bundles.mockk)
+    testImplementation(libs.bundles.unitTest)
+    testImplementation(kotlin("test"))
 }
