@@ -2,11 +2,9 @@ package br.com.joaovq.article_presentation.viewmodel
 
 import androidx.paging.PagingData
 import androidx.paging.testing.asSnapshot
-import br.com.joaovq.article_data.mapper.toArticle
-import br.com.joaovq.article_data.network.dto.ArticleDto
 import br.com.joaovq.article_domain.repository.ArticleRepository
 import br.com.joaovq.article_presentation.article_list.viewmodel.ArticlesViewModel
-import br.com.joaovq.lunarappcompose.utils.Faker
+import br.com.joaovq.article_presentation.utils.Faker
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
@@ -47,7 +45,7 @@ class ArticlesViewModelTest {
     fun `given articles when getArticles then return articles`() = runTest(testDispatcher) {
         // GIVEN
         val size = 50
-        val fakeArticles = Faker.articles(size).map(ArticleDto::toArticle)
+        val fakeArticles = Faker.articles(size)
         every { repository.getArticles(any(), any(), any()) } returns flowOf(
             PagingData.from(fakeArticles)
         )
