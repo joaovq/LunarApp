@@ -1,5 +1,6 @@
 package br.com.joaovq.bookmark_presentation.screen
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -28,7 +29,11 @@ fun ArticlesBookmarkedScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text("my bookmarks")
-                }
+                },
+                windowInsets = WindowInsets(
+                    top = 0.dp,
+                    bottom = 0.dp
+                )
             )
         },
         modifier = modifier.fillMaxSize()

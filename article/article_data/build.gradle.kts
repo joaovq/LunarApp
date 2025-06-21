@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.core)
+    implementation(projects.core.common)
     implementation(projects.bookmark.bookmarkData)
     implementation(projects.article.articleDomain)
 

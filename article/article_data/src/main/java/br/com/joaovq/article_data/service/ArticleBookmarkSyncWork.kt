@@ -18,8 +18,9 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
 import br.com.joaovq.article_domain.repository.ArticleRepository
-import br.com.joaovq.core.di.annotations.IODispatcher
-import br.com.joaovq.core.utils.data.SyncResult
+import br.com.joaovq.common.di.annotations.LunarDispatcher
+import br.com.joaovq.common.di.annotations.MyDispatchers
+import br.com.joaovq.common.utils.data.SyncResult
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -34,7 +35,7 @@ class ArticleBookmarkSyncWork @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted params: WorkerParameters,
     private val articleRepository: ArticleRepository,
-    @IODispatcher private val ioDispatcher: CoroutineDispatcher
+    @LunarDispatcher(MyDispatchers.IO) private val ioDispatcher: CoroutineDispatcher
 ) : CoroutineWorker(appContext, params) {
 
     override suspend fun doWork(): Result = withContext(ioDispatcher) {

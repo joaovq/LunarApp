@@ -36,9 +36,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.article_presentation.article_list.mocks.PreviewMockObjects
-import br.com.joaovq.core.ui.theme.LocalDimen
-import br.com.joaovq.core.ui.theme.LunarColors
-import br.com.joaovq.core.ui.theme.LunarTheme
+import br.com.joaovq.ui.theme.LocalDimen
+import br.com.joaovq.ui.theme.LunarColors
+import br.com.joaovq.ui.theme.LunarTheme
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 

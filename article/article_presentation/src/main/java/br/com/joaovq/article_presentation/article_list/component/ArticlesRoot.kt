@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.joaovq.article_presentation.article_list.screen.ArticlesScreen
 import br.com.joaovq.article_presentation.article_list.viewmodel.ArticlesViewModel
+import br.com.joaovq.ui.state.MainState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,10 +24,14 @@ import kotlinx.coroutines.launch
 fun ArticlesRoot(
     modifier: Modifier = Modifier,
     articlesViewModel: ArticlesViewModel = hiltViewModel(),
-    onNavigateToArticle: (Int) -> Unit = {}
+    onNavigateToArticle: (Int) -> Unit = {},
+    mainState: MainState = MainState(),
+    onFilterClicked: (String) -> Unit = {},
+    onResultClicked: () -> Unit = {},
+    getInfo: () -> Unit = {},
 ) {
     val articles = articlesViewModel.articles.collectAsLazyPagingItems()
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
     Box(modifier = modifier.fillMaxSize()) {
@@ -37,7 +43,7 @@ fun ArticlesRoot(
                 scope.launch {
                     try {
                         showBottomSheet = true
-                        sheetState.show()
+                        sheetState.expand()
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -45,7 +51,11 @@ fun ArticlesRoot(
             }
         )
         if (showBottomSheet) {
+            LaunchedEffect(Unit) {
+                getInfo()
+            }
             SpaceArticleBottomSheet(
+                mainState = mainState,
                 sheetState = sheetState,
                 onDismissRequest = {
                     scope.launch {
@@ -57,6 +67,18 @@ fun ArticlesRoot(
                     }.invokeOnCompletion {
                         if (!sheetState.isVisible) {
                             showBottomSheet = false
+                        }
+                    }
+                },
+                onFilterClicked = onFilterClicked,
+                onSearchResultsClicked = {
+                    onResultClicked()
+                    scope.launch {
+                        try {
+                            sheetState.hide()
+                            showBottomSheet = false
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
                     }
                 }

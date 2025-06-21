@@ -8,7 +8,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.article_presentation.article_list.screen.ArticlesScreen
-import br.com.joaovq.core.ui.theme.LunarTheme
+import br.com.joaovq.ui.theme.LunarTheme
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.captureRoboImage
 import kotlinx.coroutines.flow.flow

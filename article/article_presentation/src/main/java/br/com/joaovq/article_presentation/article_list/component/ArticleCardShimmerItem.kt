@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import br.com.joaovq.core.ui.theme.LocalDimen
-import br.com.joaovq.core.ui.theme.Obsidian
-import br.com.joaovq.core.ui.utils.ext.shimmerEffect
+import br.com.joaovq.ui.theme.LocalDimen
+import br.com.joaovq.ui.theme.Obsidian
+import br.com.joaovq.ui.utils.ext.shimmerEffect
 
 @Composable
 fun ArticleCardShimmerItem(

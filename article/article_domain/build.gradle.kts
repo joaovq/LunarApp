@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.core)
+    implementation(projects.core.common)
     implementation(libs.androidx.paging.runtime)
     implementation(libs.hilt.android)
     implementation(libs.timber)

@@ -3,6 +3,7 @@ package br.com.joaovq.article_data.local.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import br.com.joaovq.article_data.network.dto.AuthorDto
 
 const val ARTICLES_TABLE_NAME = "articles_tb"
 const val ID_COLUMN_NAME = "id"
@@ -13,6 +14,7 @@ const val SUMMARY_COLUMN_NAME = "summary"
 const val TITLE_COLUMN_NAME = "title"
 const val UPDATED_AT_COLUMN_NAME = "updated_at"
 const val URL_COLUMN_NAME = "url"
+const val AUTHORS_COLUMN_NAME = "authors"
 
 @Entity(tableName = ARTICLES_TABLE_NAME)
 class ArticleEntity(
@@ -33,5 +35,7 @@ class ArticleEntity(
     @ColumnInfo(UPDATED_AT_COLUMN_NAME)
     val updatedAt: String,
     @ColumnInfo(URL_COLUMN_NAME)
-    val url: String
+    val url: String,
+    @ColumnInfo(AUTHORS_COLUMN_NAME)
+    val authors: List<AuthorDto> = emptyList()
 )

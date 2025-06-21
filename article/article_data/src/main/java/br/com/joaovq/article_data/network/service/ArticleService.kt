@@ -12,7 +12,8 @@ interface ArticleService {
     suspend fun getArticles(
         @Query("limit") limit: Int = 10,
         @Query("offset") offset: Int = 0,
-        @Query("search") query: String? = null
+        @Query("search") query: String? = null,
+        @Query("news_site") newsSites: String? = null
     ): Response<ArticlesDtoResponse>
 
     @GET("articles/{id}")

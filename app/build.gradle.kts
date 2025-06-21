@@ -65,8 +65,9 @@ android {
 }
 
 dependencies {
-    implementation(projects.core)
-    implementation(projects.data)
+    implementation(projects.core.common)
+    implementation(projects.core.ui)
+    implementation(projects.core.data)
     implementation(projects.article.articleData)
     implementation(projects.article.articleDomain)
     implementation(projects.article.articlePresentation)

@@ -1,10 +1,11 @@
 package br.com.joaovq.article_presentation.article_list.screen
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -21,6 +22,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
@@ -28,9 +30,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.article_presentation.article_list.component.LazyArticlesList
 import br.com.joaovq.article_presentation.article_list.component.ShimmerArticleList
-import br.com.joaovq.core.ui.theme.LunarTheme
+import br.com.joaovq.ui.theme.LunarTheme
 import kotlinx.coroutines.flow.flowOf
-import br.com.joaovq.core.R as CoreRes
+import br.com.joaovq.ui.R as CoreRes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,17 +44,23 @@ fun ArticlesScreen(
     onClickMenu: () -> Unit = {}
 ) {
     Scaffold(
-        modifier = modifier.fillMaxSize().semantics {
-            contentDescription = "ArticlesScreen"
-            testTag = "ArticlesScreen"
-        },
+        modifier = modifier
+            .fillMaxSize()
+            .semantics {
+                contentDescription = "ArticlesScreen"
+                testTag = "ArticlesScreen"
+            },
         topBar = {
             CenterAlignedTopAppBar(
-                navigationIcon = {
+                modifier = Modifier.semantics {
+                    contentDescription = "TopAppBar"
+                    testTag = "TopAppBar"
+                },
+                actions = {
                     IconButton(onClick = onClickMenu) {
                         Icon(
-                            imageVector = Icons.Default.Menu,
-                            contentDescription = "Menu Icon app"
+                            imageVector = Icons.Default.FilterAlt,
+                            contentDescription = "Filter Icon app"
                         )
                     }
                 },
@@ -63,7 +71,11 @@ fun ArticlesScreen(
                             style = MaterialTheme.typography.titleLarge
                         )
                     }
-                }
+                },
+                windowInsets = WindowInsets(
+                    top = 0.dp,
+                    bottom = 0.dp
+                )
             )
         },
     ) { innerPadding ->

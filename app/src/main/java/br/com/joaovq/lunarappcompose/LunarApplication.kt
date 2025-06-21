@@ -4,7 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import br.com.joaovq.core.ui.utils.image_loader.CoilImageLoader
+import br.com.joaovq.ui.utils.image_loader.CoilImageLoader
 import coil3.ImageLoader
 import coil3.PlatformContext
 import coil3.SingletonImageLoader

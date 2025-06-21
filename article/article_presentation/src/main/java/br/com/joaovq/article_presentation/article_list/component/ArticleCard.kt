@@ -19,9 +19,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,11 +41,12 @@ import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.article_domain.model.Author
 import br.com.joaovq.article_domain.model.Socials
 import br.com.joaovq.article_presentation.R
-import br.com.joaovq.core.ui.theme.LocalDimen
-import br.com.joaovq.core.ui.theme.LunarTheme
-import br.com.joaovq.core.ui.theme.Obsidian
-import br.com.joaovq.core.ui.utils.ext.shimmerEffect
-import br.com.joaovq.core.utils.ext.toLocalDateTimeFormatted
+import br.com.joaovq.ui.R as CoreUiRes
+import br.com.joaovq.common.utils.ext.toLocalDateTimeFormatted
+import br.com.joaovq.ui.theme.LocalDimen
+import br.com.joaovq.ui.theme.LunarTheme
+import br.com.joaovq.ui.theme.Obsidian
+import br.com.joaovq.ui.utils.ext.shimmerEffect
 import coil3.compose.AsyncImagePainter
 import coil3.compose.LocalPlatformContext
 import coil3.compose.rememberAsyncImagePainter
@@ -59,7 +61,7 @@ fun ArticleCard(
     onBookmarkChanged: (Boolean, Int) -> Unit = { _, _ -> }
 ) {
     val dimen = LocalDimen.current
-    val isBookmark by remember(article) { derivedStateOf { article.isBookmark } }
+    var isBookmark by remember(article) { mutableStateOf(article.isBookmark) }
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
@@ -138,11 +140,12 @@ fun ArticleCard(
                             detectTapGestures(
                                 onPress = {
                                     onBookmarkChanged(!isBookmark, article.id)
+                                    isBookmark = !isBookmark
                                 }
                             )
                         },
-                        painter = if (isBookmark) painterResource(br.com.joaovq.core.R.drawable.ic_bookmark_filled) else painterResource(
-                            br.com.joaovq.core.R.drawable.ic_bookmark
+                        painter = if (isBookmark) painterResource(CoreUiRes.drawable.ic_bookmark_filled) else painterResource(
+                            CoreUiRes.drawable.ic_bookmark
                         ),
                         contentDescription = null
                     )

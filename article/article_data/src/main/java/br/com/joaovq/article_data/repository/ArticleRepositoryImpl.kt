@@ -19,8 +19,9 @@ import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.article_domain.model.ArticleWithBookmark
 import br.com.joaovq.article_domain.repository.ArticleRepository
 import br.com.joaovq.bookmark_data.data.model.ArticleBookmarkEntity
-import br.com.joaovq.core.di.annotations.IODispatcher
-import br.com.joaovq.core.utils.data.SyncResult
+import br.com.joaovq.common.di.annotations.LunarDispatcher
+import br.com.joaovq.common.di.annotations.MyDispatchers
+import br.com.joaovq.common.utils.data.SyncResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -36,11 +37,16 @@ class ArticleRepositoryImpl @Inject constructor(
     private val bookmarkDao: ArticleBookmarkDao,
     private val remoteKeyDao: RemoteKeyDao,
     private val transactionRunner: TransactionRunner,
-    @IODispatcher private val ioDispatcher: CoroutineDispatcher
+    @LunarDispatcher(MyDispatchers.IO) private val ioDispatcher: CoroutineDispatcher
 ) : ArticleRepository {
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getArticles(limit: Int, offset: Int, query: String?): Flow<PagingData<Article>> {
+    override fun getArticles(
+        limit: Int,
+        offset: Int,
+        query: String?,
+        newsSites: List<String>
+    ): Flow<PagingData<Article>> {
         return Pager(
             config = PagingConfig(limit),
             remoteMediator = ArticlesRemoteMediator(
@@ -48,6 +54,7 @@ class ArticleRepositoryImpl @Inject constructor(
                 articleDao = articleDao,
                 remoteKeyDao = remoteKeyDao,
                 remoteDataSource = remoteDataSource,
+                newsSites = newsSites,
                 transactionRunner = transactionRunner
             )
         ) {
@@ -55,8 +62,8 @@ class ArticleRepositoryImpl @Inject constructor(
         }.flow.map { data -> data.map(ArticleWithBookmarkView::toArticle) }
     }
 
-    override suspend fun getArticleById(id: Int): Result<Article?> {
-        return remoteDataSource.getArticleById(id).map { it?.toArticle() }
+    override suspend fun getArticleById(id: Int): Result<Article?> = withContext(ioDispatcher) {
+        return@withContext remoteDataSource.getArticleById(id).map { it?.toArticle() }
     }
 
     override suspend fun syncBookmarkArticles(): SyncResult = withContext(ioDispatcher) {
@@ -101,8 +108,8 @@ class ArticleRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun saveNewBookmark(id: Int): Result<Boolean> {
-        return try {
+    override suspend fun saveNewBookmark(id: Int): Result<Boolean> = withContext(ioDispatcher) {
+        return@withContext try {
             bookmarkDao.insert(ArticleBookmarkEntity(articleId = id))
             Result.success(true)
         } catch (e: Exception) {
@@ -111,13 +118,14 @@ class ArticleRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun removeBookmarkById(articleId: Int): Result<Boolean> {
-        return try {
-            bookmarkDao.removeBookmarkById(articleId)
-            Result.success(true)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Result.failure(e)
+    override suspend fun removeBookmarkById(articleId: Int): Result<Boolean> =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                bookmarkDao.removeBookmarkById(articleId)
+                Result.success(true)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.failure(e)
+            }
         }
-    }
 }

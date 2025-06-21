@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,7 +25,6 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.PlayCircle
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ArrowBackIosNew
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -34,6 +34,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,28 +56,50 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.article_presentation.R
-import br.com.joaovq.core.ui.theme.LunarTheme
-import br.com.joaovq.core.utils.ext.toLocalDateTimeFormatted
+import br.com.joaovq.article_presentation.article_list.viewmodel.ArticleViewModel
+import br.com.joaovq.ui.theme.LunarTheme
+import br.com.joaovq.common.utils.ext.toLocalDateTimeFormatted
 import coil3.compose.rememberAsyncImagePainter
 import java.time.OffsetDateTime
 
+
+@Composable
+fun ArticleRoot(
+    modifier: Modifier = Modifier,
+    articleViewModel: ArticleViewModel = hiltViewModel<ArticleViewModel>(),
+    onNavigateUp: () -> Unit = {}
+) {
+
+    val article by articleViewModel.article.collectAsStateWithLifecycle()
+    val isLoading by articleViewModel.isLoading.collectAsStateWithLifecycle()
+    article?.let { articleFounded ->
+        ArticleScreen(
+            modifier = modifier,
+            onNavigateUp = onNavigateUp,
+            article = articleFounded,
+            isLoading = isLoading
+        )
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArticleScreen(
+private fun ArticleScreen(
     modifier: Modifier = Modifier,
-    article: br.com.joaovq.article_domain.model.Article,
+    article: Article,
     isLoading: Boolean = false,
     onNavigateUp: () -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(false) }
-    // Placeholder list of 100 strings for demonstration
     val menuItemData = List(4) { "Option ${it + 1}" }
     Scaffold(
         modifier = modifier,
         topBar = {
-            CenterAlignedTopAppBar(
+            TopAppBar(
                 navigationIcon = {
                     IconButton(onClick = onNavigateUp) {
                         Icon(
@@ -109,24 +132,25 @@ fun ArticleScreen(
                         }
                     }
                 },
-                title = {}
+                title = {},
+                windowInsets = WindowInsets(
+                    top = 0.dp,
+                    bottom = 0.dp
+                )
             )
         }
     ) { innerPadding ->
-
         if (isLoading) {
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
+                    .fillMaxSize().padding(top = innerPadding.calculateTopPadding())
             ) {
                 CircularProgressIndicator()
             }
         } else {
             Column(
                 modifier = Modifier
-                    .padding(innerPadding)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(rememberScrollState()).padding(innerPadding)
             ) {
                 Text(
                     modifier = Modifier.padding(end = 16.dp, start = 16.dp, top = 8.dp),

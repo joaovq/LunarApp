@@ -20,6 +20,7 @@ import timber.log.Timber
 @OptIn(ExperimentalPagingApi::class)
 class ArticlesRemoteMediator(
     private val query: String?,
+    private val newsSites: List<String>?,
     private val articleDao: ArticleDao,
     private val remoteKeyDao: RemoteKeyDao,
     private val remoteDataSource: ArticleRemoteDataSource,
@@ -45,7 +46,12 @@ class ArticlesRemoteMediator(
 
             val pageSize = state.config.pageSize
             val response =
-                remoteDataSource.getArticles(query = query, limit = pageSize, offset = loadKey ?: 0)
+                remoteDataSource.getArticles(
+                    query = query,
+                    limit = pageSize,
+                    offset = loadKey ?: 0,
+                    newsSites = newsSites
+                )
 
             val prevKey = loadKey?.minus(pageSize)
             val nextKey = (response?.next ?: "").toUri().getQueryParameter("offset")?.toInt()

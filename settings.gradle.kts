@@ -1,3 +1,4 @@
+include(":core:ui")
 
 pluginManagement {
     repositories {
@@ -26,9 +27,11 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "LunarAppCompose"
 include(":app")
 include(":article:article_data")
-include(":data")
 include(":bookmark:bookmark_data")
 include(":article:article_domain")
 include(":article:article_presentation")
-include(":core")
 include(":bookmark:bookmark_presentation")
+include(":core")
+include(":core:common")
+include(":core:ui")
+include(":core:data")

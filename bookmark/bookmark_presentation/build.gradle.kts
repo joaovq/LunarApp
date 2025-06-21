@@ -37,7 +37,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.core)
+    implementation(projects.core.common)
+    implementation(projects.core.ui)
     implementation(projects.article.articleDomain)
     implementation(projects.article.articlePresentation)
     implementation(libs.timber)
