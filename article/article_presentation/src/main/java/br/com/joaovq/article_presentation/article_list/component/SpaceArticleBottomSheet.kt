@@ -1,5 +1,6 @@
 package br.com.joaovq.article_presentation.article_list.component
 
+import android.content.res.Configuration
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -72,9 +73,11 @@ fun SpaceArticleBottomSheetContent(
     }
     val dimen = LocalDimen.current
     val textStyle = LocalTextStyle.current
-    Column(modifier = modifier
-        .fillMaxWidth()
-        .padding(dimen.large)) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(dimen.large)
+    ) {
         Text(
             modifier = Modifier.padding(bottom = dimen.small),
             text = "Filter for news site",
@@ -139,22 +142,19 @@ fun SpaceArticleBottomSheetContent(
 
 
 @Preview(name = "Space Article Bottom Sheet Content", showBackground = true)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL,
+    name = "Space Article Bottom Sheet Content Dark", backgroundColor = 0xFF1E1F22,
+)
 @Composable
 private fun PreviewSpaceArticleBottomSheet() {
     LunarTheme(dynamicColor = false) {
         SpaceArticleBottomSheetContent(
             mainState = MainState(
                 newsSites = listOf(
-                    "ABC News",
-                    "AmericaSpace",
-                    "Nasa",
-                    "CNBC",
-                    "ElonX",
-                    "BBC News"
-                ),
-                filteredSites = listOf(
-                    "ABC News",
-                    "AmericaSpace"
+                    "ABC News", "AmericaSpace", "Nasa", "CNBC", "ElonX", "BBC News"
+                ), filteredSites = listOf(
+                    "ABC News", "AmericaSpace"
                 )
             ),
         )

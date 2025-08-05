@@ -143,7 +143,8 @@ private fun ArticleScreen(
         if (isLoading) {
             Box(
                 modifier = Modifier
-                    .fillMaxSize().padding(top = innerPadding.calculateTopPadding())
+                    .fillMaxSize().padding(top = innerPadding.calculateTopPadding()),
+                contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
             }
