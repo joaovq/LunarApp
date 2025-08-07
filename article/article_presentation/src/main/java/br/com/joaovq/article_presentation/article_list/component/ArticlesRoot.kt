@@ -3,6 +3,7 @@ package br.com.joaovq.article_presentation.article_list.component
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,8 +27,8 @@ fun ArticlesRoot(
     articlesViewModel: ArticlesViewModel = hiltViewModel(),
     onNavigateToArticle: (Int) -> Unit = {},
     mainState: MainState = MainState(),
-    onFilterClicked: (String) -> Unit = {},
-    onResultClicked: () -> Unit = {},
+    onSearchResults: (List<String>) -> Unit = {},
+    onReset: () -> Unit = {},
     getInfo: () -> Unit = {},
 ) {
     val articles = articlesViewModel.articles.collectAsLazyPagingItems()
@@ -70,19 +71,32 @@ fun ArticlesRoot(
                         }
                     }
                 },
-                onFilterClicked = onFilterClicked,
-                onSearchResultsClicked = {
-                    onResultClicked()
+                onReset = {
+                    onReset()
                     scope.launch {
-                        try {
-                            sheetState.hide()
-                            showBottomSheet = false
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
+                        showBottomSheet = hideBottomSheet(sheetState)
+                    }
+                },
+                onSearchResults = {
+                    onSearchResults(it)
+                    scope.launch {
+                        showBottomSheet = hideBottomSheet(sheetState)
                     }
                 }
             )
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+private suspend fun hideBottomSheet(
+    sheetState: SheetState,
+): Boolean {
+    try {
+        sheetState.hide()
+        return false
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return true
 }

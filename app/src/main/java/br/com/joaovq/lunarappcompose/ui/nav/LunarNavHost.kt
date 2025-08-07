@@ -26,8 +26,8 @@ fun LunarNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     mainState: MainState = MainState(),
-    onFilterClicked: (String) -> Unit = {},
-    onResultClicked: () -> Unit = {},
+    onSearchResults: (List<String>) -> Unit = {},
+    onReset: () -> Unit = {},
     getInfo: () -> Unit = {},
 ) {
     NavHost(
@@ -42,9 +42,9 @@ fun LunarNavHost(
             ArticlesRoot(
                 mainState = mainState,
                 onNavigateToArticle = { navController.navigate(ArticleRoute(it)) },
-                onFilterClicked = onFilterClicked,
-                onResultClicked = onResultClicked,
-                getInfo = getInfo
+                onSearchResults = onSearchResults,
+                getInfo = getInfo,
+                onReset = onReset
             )
         }
         composable<SearchRoute> {

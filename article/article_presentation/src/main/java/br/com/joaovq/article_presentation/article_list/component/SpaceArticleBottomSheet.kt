@@ -1,14 +1,17 @@
 package br.com.joaovq.article_presentation.article_list.component
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowColumn
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
@@ -30,7 +33,10 @@ import androidx.compose.runtime.mutableStateSetOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
@@ -45,8 +51,8 @@ fun SpaceArticleBottomSheet(
     sheetState: SheetState,
     onDismissRequest: () -> Unit = {},
     mainState: MainState,
-    onFilterClicked: (String) -> Unit = {},
-    onSearchResultsClicked: () -> Unit = {}
+    onReset: () -> Unit = {},
+    onSearchResults: (List<String>) -> Unit = {}
 ) {
     ModalBottomSheet(
         modifier = modifier,
@@ -55,8 +61,8 @@ fun SpaceArticleBottomSheet(
     ) {
         SpaceArticleBottomSheetContent(
             mainState = mainState,
-            onFilterClicked = onFilterClicked,
-            onSearchResultsClicked = onSearchResultsClicked
+            onSearchResults = onSearchResults,
+            onReset = onReset
         )
     }
 }
@@ -65,8 +71,8 @@ fun SpaceArticleBottomSheet(
 fun SpaceArticleBottomSheetContent(
     modifier: Modifier = Modifier,
     mainState: MainState = MainState(),
-    onFilterClicked: (String) -> Unit = {},
-    onSearchResultsClicked: () -> Unit = {},
+    onReset: () -> Unit = {},
+    onSearchResults: (List<String>) -> Unit = {},
 ) {
     val filterList = remember(mainState.filteredSites) {
         mutableStateSetOf(*mainState.filteredSites.toTypedArray())
@@ -78,11 +84,37 @@ fun SpaceArticleBottomSheetContent(
             .fillMaxWidth()
             .padding(dimen.large)
     ) {
-        Text(
-            modifier = Modifier.padding(bottom = dimen.small),
-            text = "Filter for news site",
-            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.padding(bottom = dimen.small),
+                text = buildString {
+                    append("Filter for news site ")
+                    append("(${filterList.size})")
+                },
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
+            )
+            AnimatedVisibility(visible = filterList.isNotEmpty()) {
+                BasicText(
+                    text = buildAnnotatedString {
+                        withLink(
+                            LinkAnnotation.Clickable(
+                                "reset-all-text",
+                                linkInteractionListener = { _ ->
+                                    onReset()
+                                }
+                            )
+                        ) {
+                            append("Reset all")
+                        }
+                    },
+                    style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.primary)
+                )
+            }
+        }
         if (mainState.isLoading) {
             Box(
                 modifier = Modifier
@@ -96,6 +128,7 @@ fun SpaceArticleBottomSheetContent(
             FlowColumn(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(vertical = dimen.small)
                     .horizontalScroll(rememberScrollState()),
                 maxItemsInEachColumn = 3,
                 horizontalArrangement = Arrangement.spacedBy(dimen.medium)
@@ -110,13 +143,16 @@ fun SpaceArticleBottomSheetContent(
                         selected = isSelected,
                         label = { Text(text) },
                         onClick = {
-                            onFilterClicked(text)
+                            if (filterList.contains(text)) {
+                                filterList.remove(text)
+                            } else {
+                                filterList.add(text)
+                            }
                         },
                         leadingIcon = {
                             Icon(
                                 imageVector = if (isSelected) Icons.Default.Check else Icons.Default.Add,
                                 null,
-                                //tint = if (isSelected) MaterialTheme.colorScheme.onPrimary else LocalTextStyle.current.color
                             )
                         },
                         colors = FilterChipDefaults.elevatedFilterChipColors(
@@ -129,7 +165,9 @@ fun SpaceArticleBottomSheetContent(
                     )
                 }
             }
-            Button(modifier = Modifier.fillMaxWidth(), onClick = onSearchResultsClicked) {
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { onSearchResults(filterList.toList()) }) {
                 Text(
                     modifier = Modifier.padding(8.dp),
                     text = "Search Results".uppercase(),

@@ -30,8 +30,8 @@ fun LunarApp(
             LunarNavHost(
                 modifier = Modifier.padding(innerPadding),
                 navController = navController,
-                onFilterClicked = mainViewModel::onFilterClicked,
-                onResultClicked = mainViewModel::onResultClicked,
+                onSearchResults = mainViewModel::onResultClicked,
+                onReset = mainViewModel::onResetAll,
                 mainState = mainState,
                 getInfo = mainViewModel::getNewsSites
             )

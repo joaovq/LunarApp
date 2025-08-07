@@ -29,6 +29,7 @@ class MainViewModel @Inject constructor(
 
     fun getNewsSites() {
         viewModelScope.launch {
+            log.d("get news sites")
             _mainState.update {
                 it.copy(
                     isLoading = true
@@ -53,23 +54,25 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun onFilterClicked(filter: String) {
+    fun onResetAll() {
         viewModelScope.launch {
+            log.d("on reset all news filters")
             _mainState.updateAndGet {
-                it.copy(
-                    filteredSites = if (it.filteredSites.contains(filter)) {
-                        it.filteredSites.filter { site -> site != filter }
-                    } else {
-                        it.filteredSites.plus(filter)
-                    }
-                )
+                it.copy(filteredSites = emptyList())
             }
+            globalFilterStateHolder.setFilteredNewsSites(emptyList())
+            savedStateHandle["filtered_news_sites"] = emptyArray<String>()
         }
     }
 
-    fun onResultClicked() {
-        val filteredSites = _mainState.value.filteredSites
-        globalFilterStateHolder.setFilteredNewsSites(filteredSites)
-        savedStateHandle["filtered_news_sites"] = filteredSites.toTypedArray()
+    fun onResultClicked(filteredSites: List<String>) {
+        viewModelScope.launch {
+            log.d("on result clicked")
+            _mainState.updateAndGet {
+                it.copy(filteredSites = filteredSites)
+            }
+            globalFilterStateHolder.setFilteredNewsSites(filteredSites)
+            savedStateHandle["filtered_news_sites"] = filteredSites.toTypedArray()
+        }
     }
 }
