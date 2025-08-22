@@ -61,8 +61,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.article_presentation.R
 import br.com.joaovq.article_presentation.article_list.viewmodel.ArticleViewModel
-import br.com.joaovq.ui.theme.LunarTheme
 import br.com.joaovq.common.utils.ext.toLocalDateTimeFormatted
+import br.com.joaovq.ui.theme.LunarTheme
 import coil3.compose.rememberAsyncImagePainter
 import java.time.OffsetDateTime
 
@@ -76,21 +76,19 @@ fun ArticleRoot(
 
     val article by articleViewModel.article.collectAsStateWithLifecycle()
     val isLoading by articleViewModel.isLoading.collectAsStateWithLifecycle()
-    article?.let { articleFounded ->
-        ArticleScreen(
-            modifier = modifier,
-            onNavigateUp = onNavigateUp,
-            article = articleFounded,
-            isLoading = isLoading
-        )
-    }
+    ArticleScreen(
+        modifier = modifier,
+        onNavigateUp = onNavigateUp,
+        article = article,
+        isLoading = isLoading
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ArticleScreen(
     modifier: Modifier = Modifier,
-    article: Article,
+    article: Article?,
     isLoading: Boolean = false,
     onNavigateUp: () -> Unit = {},
 ) {
@@ -143,7 +141,8 @@ private fun ArticleScreen(
         if (isLoading) {
             Box(
                 modifier = Modifier
-                    .fillMaxSize().padding(top = innerPadding.calculateTopPadding()),
+                    .fillMaxSize()
+                    .padding(top = innerPadding.calculateTopPadding()),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
@@ -151,15 +150,16 @@ private fun ArticleScreen(
         } else {
             Column(
                 modifier = Modifier
-                    .verticalScroll(rememberScrollState()).padding(innerPadding)
+                    .verticalScroll(rememberScrollState())
+                    .padding(innerPadding)
             ) {
                 Text(
                     modifier = Modifier.padding(end = 16.dp, start = 16.dp, top = 8.dp),
-                    text = article.title.uppercase(),
+                    text = article?.title?.uppercase().orEmpty(),
                     style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
                 )
                 val asyncImagePainter = rememberAsyncImagePainter(
-                    model = article.imageUrl,
+                    model = article?.imageUrl,
                     error = painterResource(R.drawable.ic_launcher_background)
                 )
                 Row(
@@ -171,7 +171,7 @@ private fun ArticleScreen(
                 ) {
                     Text(
                         text = buildAnnotatedString {
-                            article.publishedAt.toLocalDateTimeFormatted()
+                            article?.publishedAt?.toLocalDateTimeFormatted()
                                 ?.let { publishedAtFormatted ->
                                     append(publishedAtFormatted)
                                 }
@@ -186,9 +186,11 @@ private fun ArticleScreen(
                         Text(
                             modifier = Modifier.wrapContentHeight(Alignment.CenterVertically),
                             text = buildAnnotatedString {
-                                withLink(LinkAnnotation.Url(article.url)) {
-                                    append(stringResource(R.string.open_in_browser))
-                                    appendInlineContent("open-in-new-icon")
+                                article?.url?.let {
+                                    withLink(LinkAnnotation.Url(it)) {
+                                        append(stringResource(R.string.open_in_browser))
+                                        appendInlineContent("open-in-new-icon")
+                                    }
                                 }
                             },
                             maxLines = 1,
@@ -224,7 +226,7 @@ private fun ArticleScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    text = article.summary,
+                    text = article?.summary.orEmpty(),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

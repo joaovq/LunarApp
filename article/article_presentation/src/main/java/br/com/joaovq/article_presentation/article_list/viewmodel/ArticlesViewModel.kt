@@ -31,6 +31,7 @@ class ArticlesViewModel @Inject constructor(
     private val log = Timber.tag(this::class.java.simpleName)
     @OptIn(ExperimentalCoroutinesApi::class)
     val articles = globalFilterStateHolder.filteredNewsSites.flatMapLatest { newsSites ->
+        log.d("global state newsSites: $newsSites")
         articleRepository
             .getArticles(newsSites = newsSites.toList())
             .cachedIn(viewModelScope)

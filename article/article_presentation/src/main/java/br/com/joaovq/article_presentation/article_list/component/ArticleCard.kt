@@ -41,7 +41,6 @@ import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.article_domain.model.Author
 import br.com.joaovq.article_domain.model.Socials
 import br.com.joaovq.article_presentation.R
-import br.com.joaovq.ui.R as CoreUiRes
 import br.com.joaovq.common.utils.ext.toLocalDateTimeFormatted
 import br.com.joaovq.ui.theme.LocalDimen
 import br.com.joaovq.ui.theme.LunarTheme
@@ -52,6 +51,7 @@ import coil3.compose.LocalPlatformContext
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import java.time.OffsetDateTime
+import br.com.joaovq.ui.R as CoreUiRes
 
 @Composable
 fun ArticleCard(
@@ -97,8 +97,6 @@ fun ArticleCard(
                                 .shimmerEffect(),
                         )
                     }
-
-                    is AsyncImagePainter.State.Empty -> Unit
                     else -> {
                         Image(
                             painter = imagePainter,

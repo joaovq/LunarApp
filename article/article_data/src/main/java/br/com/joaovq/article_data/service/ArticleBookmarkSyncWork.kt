@@ -29,6 +29,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import java.util.concurrent.TimeUnit
+import br.com.joaovq.common.R as CommonRes
 
 @HiltWorker
 class ArticleBookmarkSyncWork @AssistedInject constructor(
@@ -75,12 +76,10 @@ class ArticleBookmarkSyncWork @AssistedInject constructor(
         )
         val notificationManager = context.getSystemService(NotificationManager::class.java)
         notificationManager.createNotificationChannel(notificationChannel)
-        val intent = WorkManager.getInstance(applicationContext)
-            .createCancelPendingIntent(id)
-        // Add the cancel action to the notification which can
-        // be used to cancel the worker
+        val intent = WorkManager.getInstance(applicationContext).createCancelPendingIntent(id)
         val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setContentTitle("Sync Bookmark")
+            .setSmallIcon(CommonRes.drawable.ic_moon)
             .setContentInfo("Sync bookmark in progress")
             .setOngoing(true)
             .setProgress(0, 0, true)

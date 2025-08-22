@@ -13,7 +13,8 @@ interface ArticleService {
         @Query("limit") limit: Int = 10,
         @Query("offset") offset: Int = 0,
         @Query("search") query: String? = null,
-        @Query("news_site") newsSites: String? = null
+        @Query("news_site") newsSites: String? = null,
+        @Query("ordering") ordering: List<String>? = listOf("-published_at", "-updated_at"),
     ): Response<ArticlesDtoResponse>
 
     @GET("articles/{id}")

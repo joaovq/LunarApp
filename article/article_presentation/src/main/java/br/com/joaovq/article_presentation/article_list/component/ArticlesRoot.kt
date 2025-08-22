@@ -1,5 +1,7 @@
 package br.com.joaovq.article_presentation.article_list.component
 
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,13 +26,14 @@ import kotlinx.coroutines.launch
 @Composable
 fun ArticlesRoot(
     modifier: Modifier = Modifier,
-    articlesViewModel: ArticlesViewModel = hiltViewModel(),
     onNavigateToArticle: (Int) -> Unit = {},
     mainState: MainState = MainState(),
     onSearchResults: (List<String>) -> Unit = {},
     onReset: () -> Unit = {},
     getInfo: () -> Unit = {},
 ) {
+    val articlesViewModel: ArticlesViewModel =
+        hiltViewModel(LocalActivity.current as ComponentActivity)
     val articles = articlesViewModel.articles.collectAsLazyPagingItems()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()

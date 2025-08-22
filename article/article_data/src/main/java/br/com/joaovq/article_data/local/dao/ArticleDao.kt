@@ -15,7 +15,7 @@ interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(articles: List<ArticleEntity>)
 
-    @Query("SELECT * FROM ArticleWithBookmarkView WHERE title LIKE '%' || :query || '%'")
+    @Query("SELECT * FROM ArticleWithBookmarkView WHERE title LIKE '%' || :query || '%' ORDER BY publishedAt DESC")
     fun pagingSource(query: String): PagingSource<Int, ArticleWithBookmarkView>
 
     @Query("SELECT * FROM ArticleWithBookmarkView WHERE isBookmark = 1")
