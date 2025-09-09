@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.joaovq.article_domain.model.Article
-import br.com.joaovq.article_presentation.article_list.component.ArticleCard
+import br.com.joaovq.article_presentation.article_list.component.article_list.ArticleCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

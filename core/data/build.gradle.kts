@@ -68,7 +68,12 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
 
     // Kotlin + coroutines
+    testImplementation(projects.core.testing)
     implementation(libs.bundles.workmanager)
+    testImplementation(libs.bundles.mockk)
+
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(kotlin("test"))
 
     debugImplementation(libs.library)
     releaseImplementation(libs.library.no.op)

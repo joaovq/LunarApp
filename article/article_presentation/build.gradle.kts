@@ -5,6 +5,7 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     kotlin("plugin.serialization") version "2.0.21"
+    id("io.github.takahirom.roborazzi")
 }
 
 android {
@@ -34,6 +35,11 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -47,12 +53,8 @@ dependencies {
 
     implementation(libs.bundles.coil)
     implementation(libs.bundles.paging3)
-
     implementation(libs.kotlinx.serialization.json)
-
     implementation(libs.hilt.android)
-
-
     kapt(libs.androidx.hilt.compiler)
     kapt(libs.hilt.android.compiler)
 

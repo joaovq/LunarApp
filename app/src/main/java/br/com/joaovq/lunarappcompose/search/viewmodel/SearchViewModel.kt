@@ -15,7 +15,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onEmpty
@@ -32,20 +35,18 @@ class SearchViewModel @Inject constructor(
     @LunarDispatcher(MyDispatchers.IO) private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
     private val log = Timber.tag(this::class.java.simpleName)
-
-    private val _query = MutableStateFlow<String?>(null)
+    private val _query = MutableStateFlow<String?>(savedStateHandle["query"])
     val query = _query.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     val articles = query.debounce(500.milliseconds).flatMapLatest { newQuery ->
-        articleRepository
-            .getArticles(query = newQuery)
-            .cachedIn(viewModelScope)
-            .onEach { log.d("articles fetched: $it") }
-            .catch { log.d("error occurred: ${it.message}") }
-            .onEmpty { log.d("articles list is empty") }
-            .flowOn(dispatcher)
-    }
+            articleRepository
+                .getArticles(query = newQuery)
+                .onEach { log.d("articles fetched: $it") }
+                .catch { log.d("error occurred: ${it.message}") }
+                .onEmpty { log.d("articles list is empty") }
+                .flowOn(dispatcher)
+    }.cachedIn(viewModelScope)
 
     fun onQueryChanged(query: String) {
         viewModelScope.launch {

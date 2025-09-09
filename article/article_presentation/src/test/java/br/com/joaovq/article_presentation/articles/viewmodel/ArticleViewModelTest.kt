@@ -3,11 +3,10 @@ package br.com.joaovq.article_presentation.articles.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
 import app.cash.turbine.test
-import br.com.joaovq.article_data.mapper.toArticle
 import br.com.joaovq.article_domain.repository.ArticleRepository
 import br.com.joaovq.article_presentation.article_list.nav.ArticleRoute
 import br.com.joaovq.article_presentation.article_list.viewmodel.ArticleViewModel
-import br.com.joaovq.lunarappcompose.utils.Faker
+import br.com.joaovq.article_presentation.utils.Faker
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -57,7 +56,7 @@ class ArticleViewModelTest {
         // GIVEN
         coEvery {
             repository.getArticleById(any())
-        } returns Result.success(Faker.articles()[0].toArticle())
+        } returns Result.success(Faker.articles()[0])
         //WHEN
         viewModel.article.test(10.seconds) {
             // THEN

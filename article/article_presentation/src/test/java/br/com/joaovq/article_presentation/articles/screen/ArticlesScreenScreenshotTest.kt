@@ -34,7 +34,7 @@ class ArticlesScreenScreenshotTest {
 
     @Test
     fun `capture initial state in articles screen`() {
-        articlesScreen.onNode(hasContentDescription( "Menu Icon app")).assertExists().captureRoboImage()
+        articlesScreen.onNode(hasContentDescription( "TopAppBar")).assertExists().captureRoboImage()
     }
 
     private val articlesScreen by lazy {

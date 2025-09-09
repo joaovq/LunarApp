@@ -6,35 +6,15 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.InlineTextContent
-import androidx.compose.foundation.text.appendInlineContent
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.OpenInNew
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.outlined.PlayCircle
-import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material.icons.rounded.ArrowBackIosNew
+import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,26 +22,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.LinkAnnotation
-import androidx.compose.ui.text.Placeholder
-import androidx.compose.ui.text.PlaceholderVerticalAlign
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.article_presentation.R
+import br.com.joaovq.article_presentation.article_list.component.article.ArticleBottomSheetContent
+import br.com.joaovq.article_presentation.article_list.component.article.ArticleTopAppBarActions
+import br.com.joaovq.article_presentation.article_list.component.article.ArticleTopAppBarContainer
 import br.com.joaovq.article_presentation.article_list.viewmodel.ArticleViewModel
-import br.com.joaovq.common.utils.ext.toLocalDateTimeFormatted
 import br.com.joaovq.ui.theme.LunarTheme
 import coil3.compose.rememberAsyncImagePainter
 import java.time.OffsetDateTime
@@ -73,7 +51,6 @@ fun ArticleRoot(
     articleViewModel: ArticleViewModel = hiltViewModel<ArticleViewModel>(),
     onNavigateUp: () -> Unit = {}
 ) {
-
     val article by articleViewModel.article.collectAsStateWithLifecycle()
     val isLoading by articleViewModel.isLoading.collectAsStateWithLifecycle()
     ArticleScreen(
@@ -93,153 +70,81 @@ private fun ArticleScreen(
     onNavigateUp: () -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(false) }
-    val menuItemData = List(4) { "Option ${it + 1}" }
-    Scaffold(
+    val menuItemData = List(1) { "Option ${it + 1}" }
+    val windowInfo = LocalWindowInfo.current
+    val sheetScaffoldState = rememberBottomSheetScaffoldState()
+    BottomSheetScaffold(
         modifier = modifier,
-        topBar = {
-            TopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBackIosNew,
-                            contentDescription = null
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = {}) {
-                        Icon(imageVector = Icons.Outlined.PlayCircle, contentDescription = null)
-                    }
-                    IconButton(onClick = {}) {
-                        Icon(imageVector = Icons.Outlined.Share, contentDescription = null)
-                    }
-                    Box(modifier = Modifier) {
-                        IconButton(onClick = { expanded = !expanded }) {
-                            Icon(imageVector = Icons.Filled.MoreVert, contentDescription = null)
-                        }
-                        DropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            menuItemData.forEach { option ->
-                                DropdownMenuItem(
-                                    text = { Text(option) },
-                                    onClick = {}
-                                )
-                            }
-                        }
-                    }
-                },
-                title = {},
-                windowInsets = WindowInsets(
-                    top = 0.dp,
-                    bottom = 0.dp
-                )
-            )
-        }
+        sheetPeekHeight = windowInfo.containerSize.height.dp * 0.25f,
+        sheetContent = {
+            if (isLoading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                ArticleBottomSheetContent(article = article)
+            }
+        },
+        scaffoldState = sheetScaffoldState
     ) { innerPadding ->
-        if (isLoading) {
-            Box(
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    bottom = innerPadding
+                        .calculateBottomPadding()
+                        .minus(16.dp)
+                )
+        ) {
+            val asyncImagePainter = rememberAsyncImagePainter(
+                model = article?.imageUrl,
+                error = painterResource(R.drawable.ic_launcher_background),
+            )
+            Image(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = innerPadding.calculateTopPadding()),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
+                    .blur(radiusX = 2.dp, radiusY = 2.dp),
+                painter = asyncImagePainter,
+                contentDescription = "",
+                contentScale = ContentScale.FillBounds
+            )
             Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .padding(innerPadding)
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    modifier = Modifier.padding(end = 16.dp, start = 16.dp, top = 8.dp),
-                    text = article?.title?.uppercase().orEmpty(),
-                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
-                )
-                val asyncImagePainter = rememberAsyncImagePainter(
-                    model = article?.imageUrl,
-                    error = painterResource(R.drawable.ic_launcher_background)
-                )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = buildAnnotatedString {
-                            article?.publishedAt?.toLocalDateTimeFormatted()
-                                ?.let { publishedAtFormatted ->
-                                    append(publishedAtFormatted)
-                                }
-                        },
-                        maxLines = 1,
-                        style = MaterialTheme.typography.bodySmall.copy(color = Color.Gray)
-                    )
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    ) {
-                        Text(
-                            modifier = Modifier.wrapContentHeight(Alignment.CenterVertically),
-                            text = buildAnnotatedString {
-                                article?.url?.let {
-                                    withLink(LinkAnnotation.Url(it)) {
-                                        append(stringResource(R.string.open_in_browser))
-                                        appendInlineContent("open-in-new-icon")
-                                    }
-                                }
-                            },
-                            maxLines = 1,
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.bodySmall.copy(color = Color.Gray),
-                            inlineContent = mapOf(
-                                "open-in-new-icon" to InlineTextContent(
-                                    placeholder = Placeholder(
-                                        width = 20.sp,
-                                        height = 20.sp,
-                                        placeholderVerticalAlign = PlaceholderVerticalAlign.Center
-                                    ),
-                                    children = {
-                                        Icon(
-                                            imageVector = Icons.AutoMirrored.Default.OpenInNew,
-                                            contentDescription = null
-                                        )
-                                    }
-                                )
-                            )
+                ArticleTopAppBarContainer(
+                    onNavigateUp = onNavigateUp,
+                    actions = {
+                        ArticleTopAppBarActions(
+                            expanded = expanded,
+                            menuItemData = menuItemData,
+                            onClickMoreVert = { expanded = !expanded },
+                            onDismissRequest = { expanded = false }
                         )
                     }
-                }
-                Image(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(min = 220.dp, max = 250.dp)
-                        .padding(vertical = 8.dp),
-                    painter = asyncImagePainter,
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop
                 )
-                Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    text = article?.summary.orEmpty(),
-                    style = MaterialTheme.typography.bodyMedium
+                    modifier = Modifier.padding(16.dp),
+                    text = article?.title?.uppercase().orEmpty(),
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
                 )
             }
         }
     }
 }
 
-@Preview
-@Composable
-private fun PreviewArticleScreen() {
-    LunarTheme {
-        ArticleScreen(
-            article = Article(
+class ArticlePreviewParameterProvider : PreviewParameterProvider<Article> {
+    override val values: Sequence<Article>
+        get() = sequenceOf(
+            Article(
                 emptyList(),
                 emptyList(),
                 featured = false,
@@ -255,5 +160,16 @@ private fun PreviewArticleScreen() {
                 ""
             )
         )
+
+}
+
+
+@Preview(showSystemUi = true, name = "Article screen preview light theme")
+@Composable
+private fun PreviewArticleScreen(
+    @PreviewParameter(ArticlePreviewParameterProvider::class) article: Article
+) {
+    LunarTheme {
+        ArticleScreen(article = article)
     }
 }

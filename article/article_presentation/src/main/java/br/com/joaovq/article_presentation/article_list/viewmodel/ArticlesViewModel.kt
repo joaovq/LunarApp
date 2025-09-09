@@ -24,22 +24,23 @@ import javax.inject.Inject
 @HiltViewModel
 class ArticlesViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val globalFilterStateHolder: GlobalFilterStateHolder,
+    globalFilterStateHolder: GlobalFilterStateHolder,
     private val articleRepository: ArticleRepository,
     @LunarDispatcher(MyDispatchers.IO) dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
     private val log = Timber.tag(this::class.java.simpleName)
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val articles = globalFilterStateHolder.filteredNewsSites.flatMapLatest { newsSites ->
         log.d("global state newsSites: $newsSites")
+        savedStateHandle["filtered_news_sites"] = newsSites.toTypedArray()
         articleRepository
-            .getArticles(newsSites = newsSites.toList())
-            .cachedIn(viewModelScope)
+            .getArticles(newsSites = newsSites)
             .onEach { log.d("articles fetched: $it") }
             .catch { log.d("error occurred: ${it.message}") }
             .onEmpty { log.d("articles list is empty") }
             .flowOn(dispatcher)
-    }
+    }.cachedIn(viewModelScope)
 
     fun onBookmarkChanged(isBookmark: Boolean, id: Int) {
         viewModelScope.launch {

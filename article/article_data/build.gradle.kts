@@ -69,10 +69,7 @@ dependencies {
     testImplementation(libs.mockk.agent)
     androidTestImplementation(libs.mockk.android)
     androidTestImplementation(libs.mockk.agent)
-
     testImplementation(libs.turbine)
-
-
     debugImplementation(libs.library)
     releaseImplementation(libs.library.no.op)
 
@@ -80,6 +77,7 @@ dependencies {
     testImplementation(libs.androidx.paging.common)
     testImplementation(libs.androidx.paging.testing)
 
+    testImplementation(projects.core.testing)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(kotlin("test"))
     testImplementation(libs.junit)

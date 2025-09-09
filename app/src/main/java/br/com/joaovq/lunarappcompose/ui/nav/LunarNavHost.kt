@@ -9,7 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.paging.compose.collectAsLazyPagingItems
-import br.com.joaovq.article_presentation.article_list.component.ArticlesRoot
+import br.com.joaovq.article_presentation.article_list.component.article.ArticlesRoot
 import br.com.joaovq.article_presentation.article_list.nav.ArticleRoute
 import br.com.joaovq.article_presentation.article_list.nav.ArticlesRoute
 import br.com.joaovq.article_presentation.article_list.screen.ArticleRoot
@@ -31,7 +31,7 @@ fun LunarNavHost(
     getInfo: () -> Unit = {},
 ) {
     NavHost(
-        modifier = modifier,
+        modifier = Modifier,
         navController = navController,
         startDestination = ArticlesRoute
     ) {
@@ -40,6 +40,7 @@ fun LunarNavHost(
         }
         composable<ArticlesRoute> {
             ArticlesRoot(
+                modifier,
                 mainState = mainState,
                 onNavigateToArticle = { navController.navigate(ArticleRoute(it)) },
                 onSearchResults = onSearchResults,
@@ -52,6 +53,7 @@ fun LunarNavHost(
             val articles = searchViewModel.articles.collectAsLazyPagingItems()
             val query by searchViewModel.query.collectAsStateWithLifecycle()
             SearchScreen(
+                modifier,
                 query = query.orEmpty(),
                 articles = articles,
                 onQueryChanged = searchViewModel::onQueryChanged,
@@ -62,6 +64,7 @@ fun LunarNavHost(
             val viewModel: ArticlesBookmarkViewModel = hiltViewModel()
             val articles by viewModel.bookmarks.collectAsStateWithLifecycle()
             ArticlesBookmarkedScreen(
+                modifier,
                 articles = articles,
                 onClickArticleCard = { navController.navigate(ArticleRoute(it)) }
             )

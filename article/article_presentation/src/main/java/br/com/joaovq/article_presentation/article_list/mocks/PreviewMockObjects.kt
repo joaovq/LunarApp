@@ -10,7 +10,7 @@ object PreviewMockObjects {
         id = 0,
         imageUrl = "",
         newsSite = "Space News",
-        publishedAt = "",
+        publishedAt = "2025-09-20 18:23:00",
         summary = "summary test",
         updatedAt = "",
         title = "Article test title",

@@ -12,9 +12,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import br.com.joaovq.article_data.service.ArticleBookmarkSyncWork
-import br.com.joaovq.ui.theme.LunarTheme
 import br.com.joaovq.data.service.SyncWork
 import br.com.joaovq.lunarappcompose.ui.LunarApp
+import br.com.joaovq.ui.theme.LunarTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

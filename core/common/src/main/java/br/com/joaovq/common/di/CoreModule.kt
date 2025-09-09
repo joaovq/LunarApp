@@ -22,6 +22,6 @@ object CoreModule {
 
     @Provides
     @Singleton
-    fun providesGlobalStateHolder() = GlobalFilterStateHolder()
+    fun providesGlobalStateHolder() = GlobalFilterStateHolder
 
 }

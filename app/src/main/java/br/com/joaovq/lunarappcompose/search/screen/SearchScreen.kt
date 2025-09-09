@@ -19,8 +19,8 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.joaovq.article_domain.model.Article
-import br.com.joaovq.article_presentation.article_list.component.LazyArticlesList
-import br.com.joaovq.article_presentation.article_list.component.ShimmerArticleList
+import br.com.joaovq.article_presentation.article_list.component.article_list.LazyArticlesList
+import br.com.joaovq.article_presentation.article_list.component.article_list.ShimmerArticleList
 import br.com.joaovq.lunarappcompose.R
 import kotlinx.coroutines.flow.flowOf
 
