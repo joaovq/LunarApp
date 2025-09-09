@@ -45,7 +45,8 @@ class ArticleRepositoryImpl @Inject constructor(
         limit: Int,
         offset: Int,
         query: String?,
-        newsSites: List<String>
+        newsSites: List<String>,
+        isFeatured: Boolean?
     ): Flow<PagingData<Article>> {
         return Pager(
             config = PagingConfig(limit),
@@ -55,10 +56,11 @@ class ArticleRepositoryImpl @Inject constructor(
                 remoteKeyDao = remoteKeyDao,
                 remoteDataSource = remoteDataSource,
                 newsSites = newsSites,
+                isFeatured = isFeatured,
                 transactionRunner = transactionRunner
             )
         ) {
-            articleDao.pagingSource(query.orEmpty())
+            articleDao.pagingSource(query = query.orEmpty(), isFeatured = isFeatured)
         }.flow.map { data -> data.map(ArticleWithBookmarkView::toArticle) }
     }
 

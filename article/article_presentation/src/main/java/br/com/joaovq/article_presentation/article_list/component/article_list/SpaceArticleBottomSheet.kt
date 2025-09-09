@@ -1,8 +1,9 @@
-package br.com.joaovq.article_presentation.article_list.component
+package br.com.joaovq.article_presentation.article_list.component.article_list
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,15 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedFilterChip
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -33,6 +28,7 @@ import androidx.compose.runtime.mutableStateSetOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -43,6 +39,7 @@ import androidx.compose.ui.util.fastForEach
 import br.com.joaovq.ui.state.MainState
 import br.com.joaovq.ui.theme.LocalDimen
 import br.com.joaovq.ui.theme.LunarTheme
+import br.com.joaovq.ui.theme.Obsidian
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,12 +49,13 @@ fun SpaceArticleBottomSheet(
     onDismissRequest: () -> Unit = {},
     mainState: MainState,
     onReset: () -> Unit = {},
-    onSearchResults: (List<String>) -> Unit = {}
+    onSearchResults: (List<String>) -> Unit = {},
 ) {
     ModalBottomSheet(
         modifier = modifier,
         sheetState = sheetState,
         onDismissRequest = onDismissRequest,
+        containerColor = if (isSystemInDarkTheme()) Obsidian else Color.White
     ) {
         SpaceArticleBottomSheetContent(
             mainState = mainState,
@@ -133,37 +131,23 @@ fun SpaceArticleBottomSheetContent(
                 maxItemsInEachColumn = 3,
                 horizontalArrangement = Arrangement.spacedBy(dimen.medium)
             ) {
-                mainState.newsSites.fastForEach { text ->
+                mainState.filteredSites.fastForEach { text ->
                     val isSelected by remember(filterList) {
                         derivedStateOf {
                             filterList.contains(text)
                         }
                     }
-                    ElevatedFilterChip(
-                        selected = isSelected,
-                        label = { Text(text) },
-                        onClick = {
-                            if (filterList.contains(text)) {
-                                filterList.remove(text)
-                            } else {
-                                filterList.add(text)
-                            }
-                        },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = if (isSelected) Icons.Default.Check else Icons.Default.Add,
-                                null,
-                            )
-                        },
-                        colors = FilterChipDefaults.elevatedFilterChipColors(
-                            selectedLeadingIconColor = MaterialTheme.colorScheme.onPrimary,
-                            iconColor = textStyle.color,
-                            disabledLeadingIconColor = textStyle.color,
-                            selectedContainerColor = MaterialTheme.colorScheme.primary,
-                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                        ),
-                    )
+                    NewsSiteFilterChip(isSelected, text, filterList, textStyle)
                 }
+                mainState.newsSites.filter { !mainState.filteredSites.contains(it) }
+                    .fastForEach { text ->
+                        val isSelected by remember(filterList) {
+                            derivedStateOf {
+                                filterList.contains(text)
+                            }
+                        }
+                        NewsSiteFilterChip(isSelected, text, filterList, textStyle)
+                    }
             }
             Button(
                 modifier = Modifier.fillMaxWidth(),

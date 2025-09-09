@@ -1,7 +1,6 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package br.com.joaovq.article_presentation.article_list.screen
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +13,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,34 +20,43 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.palette.graphics.Palette
 import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.article_presentation.R
 import br.com.joaovq.article_presentation.article_list.component.article.ArticleBottomSheetContent
+import br.com.joaovq.article_presentation.article_list.component.article.ArticlePreviewParameterProvider
 import br.com.joaovq.article_presentation.article_list.component.article.ArticleTopAppBarActions
 import br.com.joaovq.article_presentation.article_list.component.article.ArticleTopAppBarContainer
 import br.com.joaovq.article_presentation.article_list.viewmodel.ArticleViewModel
+import br.com.joaovq.ui.theme.LocalDimen
 import br.com.joaovq.ui.theme.LunarTheme
+import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
-import java.time.OffsetDateTime
+import coil3.request.ImageRequest
+import coil3.request.allowHardware
+import coil3.toBitmap
 
 
 @Composable
 fun ArticleRoot(
     modifier: Modifier = Modifier,
     articleViewModel: ArticleViewModel = hiltViewModel<ArticleViewModel>(),
-    onNavigateUp: () -> Unit = {}
+    onNavigateUp: () -> Unit = {},
 ) {
     val article by articleViewModel.article.collectAsStateWithLifecycle()
     val isLoading by articleViewModel.isLoading.collectAsStateWithLifecycle()
@@ -69,19 +76,21 @@ private fun ArticleScreen(
     isLoading: Boolean = false,
     onNavigateUp: () -> Unit = {},
 ) {
+    val dimen = LocalDimen.current
     var expanded by remember { mutableStateOf(false) }
-    val menuItemData = List(1) { "Option ${it + 1}" }
+    var topBarContrastColor by remember { mutableStateOf(Color.White) }
+    val context = LocalContext.current
     val windowInfo = LocalWindowInfo.current
-    val sheetScaffoldState = rememberBottomSheetScaffoldState()
     BottomSheetScaffold(
         modifier = modifier,
+        sheetShape = RectangleShape,
         sheetPeekHeight = windowInfo.containerSize.height.dp * 0.25f,
         sheetContent = {
             if (isLoading) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(dimen.medium),
                     contentAlignment = Alignment.Center
                 ) {
                     CircularProgressIndicator()
@@ -90,25 +99,27 @@ private fun ArticleScreen(
                 ArticleBottomSheetContent(article = article)
             }
         },
-        scaffoldState = sheetScaffoldState
+        sheetDragHandle = null,
     ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    bottom = innerPadding
-                        .calculateBottomPadding()
-                        .minus(16.dp)
+                    bottom = innerPadding.calculateBottomPadding().minus(dimen.medium)
                 )
         ) {
             val asyncImagePainter = rememberAsyncImagePainter(
-                model = article?.imageUrl,
+                model = ImageRequest.Builder(context)
+                    .data(article?.imageUrl)
+                    .allowHardware(false).build(),
                 error = painterResource(R.drawable.ic_launcher_background),
+                contentScale = ContentScale.Crop,
+                onSuccess = { state ->
+                    topBarContrastColor = getContrastColor(state = state)
+                }
             )
             Image(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .blur(radiusX = 2.dp, radiusY = 2.dp),
+                modifier = Modifier.fillMaxSize(),
                 painter = asyncImagePainter,
                 contentDescription = "",
                 contentScale = ContentScale.FillBounds
@@ -120,54 +131,66 @@ private fun ArticleScreen(
                 ArticleTopAppBarContainer(
                     onNavigateUp = onNavigateUp,
                     actions = {
+                        val uriHandler = LocalUriHandler.current
                         ArticleTopAppBarActions(
                             expanded = expanded,
-                            menuItemData = menuItemData,
+                            menuItemData = listOf(),
+                            onClickShareIcon = {
+                                article?.url?.let { sharedUri ->
+                                    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                                        putExtra(Intent.EXTRA_TEXT, sharedUri)
+                                        type = "text/*"
+                                    }
+                                    context.startActivity(
+                                        Intent.createChooser(
+                                            shareIntent,
+                                            "Share url article"
+                                        )
+                                    )
+                                }
+                            },
+                            onClickInternetIcon = {
+                                article?.url?.let { uriHandler.openUri(it) }
+                            },
                             onClickMoreVert = { expanded = !expanded },
                             onDismissRequest = { expanded = false }
                         )
                     }
                 )
                 Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = article?.title?.uppercase().orEmpty(),
-                    style = MaterialTheme.typography.headlineSmall.copy(
+                    modifier = Modifier
+                        .padding(horizontal = dimen.large, vertical = 20.dp),
+                    text = article?.title.orEmpty(),
+                    style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
+                        color = topBarContrastColor
+                    ),
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
     }
 }
 
-class ArticlePreviewParameterProvider : PreviewParameterProvider<Article> {
-    override val values: Sequence<Article>
-        get() = sequenceOf(
-            Article(
-                emptyList(),
-                emptyList(),
-                featured = false,
-                1,
-                "",
-                emptyList(),
-                "",
-                OffsetDateTime.now().toString(),
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                "Solar Panels Now Capable of Generating Power from Moonlight",
-                "",
-                isBookmark = false,
-                ""
-            )
-        )
-
+private fun getContrastColor(state: AsyncImagePainter.State.Success): Color {
+    val bitmap = state.result.image.toBitmap()
+    val palette = Palette.from(bitmap)
+        .clearFilters().generate()
+    val dominant = palette.getDominantColor(0xFFFFFF)
+    val luminance = Color(dominant).luminance()
+    return if (luminance > 0.5f) {
+        Color.DarkGray
+    } else {
+        Color.White
+    }
 }
 
 
 @Preview(showSystemUi = true, name = "Article screen preview light theme")
 @Composable
 private fun PreviewArticleScreen(
-    @PreviewParameter(ArticlePreviewParameterProvider::class) article: Article
+    @PreviewParameter(ArticlePreviewParameterProvider::class) article: Article,
 ) {
     LunarTheme {
         ArticleScreen(article = article)

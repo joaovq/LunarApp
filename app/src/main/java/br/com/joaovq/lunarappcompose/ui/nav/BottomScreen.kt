@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import br.com.joaovq.article_presentation.article_list.nav.ArticlesRoute
 import br.com.joaovq.bookmark_presentation.nav.ArticlesBookmarkRoute
+import br.com.joaovq.lunarappcompose.featured.presentation.nav.FeaturedRoute
 import br.com.joaovq.lunarappcompose.R
 import br.com.joaovq.lunarappcompose.search.nav.SearchRoute
 import kotlinx.serialization.Serializable
@@ -17,5 +18,6 @@ data class BottomScreen(
 val bottomScreens = listOf(
     BottomScreen(R.string.home, R.drawable.ic_home_smile, ArticlesRoute),
     BottomScreen(R.string.search, R.drawable.ic_search_tiny_stroke, SearchRoute),
+    BottomScreen(R.string.featured, R.drawable.ic_star, FeaturedRoute),
     BottomScreen(R.string.bookmarks, R.drawable.ic_bookmark, ArticlesBookmarkRoute),
 )

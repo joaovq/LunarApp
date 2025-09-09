@@ -50,7 +50,7 @@ fun LazyArticlesList(
     articles: LazyPagingItems<Article>,
     lazyListState: LazyListState = rememberLazyListState(),
     onClickArticleCard: (Int) -> Unit,
-    onBookmarkChanged: (Boolean, Int) -> Unit = { _, _ -> },
+    onBookmarkChanged: ((Boolean, Int) -> Unit)? = null,
 ) {
     val dimen = LocalDimen.current
     val scope = rememberCoroutineScope()

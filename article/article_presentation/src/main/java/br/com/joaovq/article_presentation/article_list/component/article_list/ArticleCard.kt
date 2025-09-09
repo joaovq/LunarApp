@@ -58,7 +58,7 @@ fun ArticleCard(
     modifier: Modifier = Modifier,
     article: Article,
     onClickArticleCard: (Int) -> Unit = {},
-    onBookmarkChanged: (Boolean, Int) -> Unit = { _, _ -> }
+    onBookmarkChanged: ((Boolean, Int) -> Unit)? = null
 ) {
     val dimen = LocalDimen.current
     var isBookmark by remember(article) { mutableStateOf(article.isBookmark) }
@@ -135,20 +135,22 @@ fun ArticleCard(
                             maxLines = 4,
                             style = MaterialTheme.typography.bodySmall.copy(color = Color.Gray)
                         )
-                        Icon(
-                            modifier = Modifier.pointerInput(Unit) {
-                                detectTapGestures(
-                                    onPress = {
-                                        onBookmarkChanged(!isBookmark, article.id)
-                                        isBookmark = !isBookmark
-                                    }
-                                )
-                            },
-                            painter = if (isBookmark) painterResource(CoreUiRes.drawable.ic_bookmark_filled) else painterResource(
-                                CoreUiRes.drawable.ic_bookmark
-                            ),
-                            contentDescription = null
-                        )
+                        onBookmarkChanged?.let {
+                            Icon(
+                                modifier = Modifier.pointerInput(Unit) {
+                                    detectTapGestures(
+                                        onPress = {
+                                            onBookmarkChanged.invoke(!isBookmark, article.id)
+                                            isBookmark = !isBookmark
+                                        }
+                                    )
+                                },
+                                painter = if (isBookmark) painterResource(CoreUiRes.drawable.ic_bookmark_filled) else painterResource(
+                                    CoreUiRes.drawable.ic_bookmark
+                                ),
+                                contentDescription = null
+                            )
+                        }
                     }
                     Text(
                         text = article.summary,

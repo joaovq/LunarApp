@@ -11,7 +11,8 @@ interface ArticleRepository {
         limit: Int = 50,
         offset: Int = 0,
         query: String? = null,
-        newsSites: List<String> = emptyList()
+        newsSites: List<String> = emptyList(),
+        isFeatured: Boolean? = null,
     ): Flow<PagingData<Article>>
 
     suspend fun getArticleById(id: Int): Result<Article?>

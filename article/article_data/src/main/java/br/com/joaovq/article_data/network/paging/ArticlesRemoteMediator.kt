@@ -24,6 +24,7 @@ class ArticlesRemoteMediator(
     private val articleDao: ArticleDao,
     private val remoteKeyDao: RemoteKeyDao,
     private val remoteDataSource: ArticleRemoteDataSource,
+    private val isFeatured: Boolean?,
     private val transactionRunner: TransactionRunner
 ) : RemoteMediator<Int, ArticleWithBookmarkView>() {
     private val log = Timber.tag(this::class.java.simpleName)
@@ -45,13 +46,13 @@ class ArticlesRemoteMediator(
             }
 
             val pageSize = state.config.pageSize
-            val response =
-                remoteDataSource.getArticles(
-                    query = query,
-                    limit = pageSize,
-                    offset = loadKey ?: 0,
-                    newsSites = newsSites
-                )
+            val response = remoteDataSource.getArticles(
+                query = query,
+                limit = pageSize,
+                offset = loadKey ?: 0,
+                newsSites = newsSites,
+                isFeatured = isFeatured
+            )
 
             val prevKey = loadKey?.minus(pageSize)
             val nextKey = (response?.next ?: "").toUri().getQueryParameter("offset")?.toInt()

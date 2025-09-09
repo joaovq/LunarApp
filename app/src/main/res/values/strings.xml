@@ -3,4 +3,6 @@
     <string name="search">Search</string>
     <string name="open_in_browser">Open in browser</string>
     <string name="bookmarks">Bookmarks</string>
+    <string name="featured">Featured</string>
+    <string name="featured_articles_title">featured articles</string>
 </resources>

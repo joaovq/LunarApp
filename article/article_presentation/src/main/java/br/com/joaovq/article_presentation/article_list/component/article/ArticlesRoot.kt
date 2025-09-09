@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
+import br.com.joaovq.article_presentation.article_list.component.article_list.SpaceArticleBottomSheet
 import br.com.joaovq.article_presentation.article_list.screen.ArticlesScreen
 import br.com.joaovq.article_presentation.article_list.viewmodel.ArticlesViewModel
 import br.com.joaovq.ui.state.MainState
@@ -58,7 +59,7 @@ fun ArticlesRoot(
             LaunchedEffect(Unit) {
                 getInfo()
             }
-            _root_ide_package_.br.com.joaovq.article_presentation.article_list.component.SpaceArticleBottomSheet(
+            SpaceArticleBottomSheet(
                 mainState = mainState,
                 sheetState = sheetState,
                 onDismissRequest = {

@@ -67,4 +67,5 @@ dependencies {
     testImplementation(libs.bundles.mockk)
     testImplementation(libs.bundles.unitTest)
     testImplementation(kotlin("test"))
+    implementation(libs.androidx.palette.ktx)
 }

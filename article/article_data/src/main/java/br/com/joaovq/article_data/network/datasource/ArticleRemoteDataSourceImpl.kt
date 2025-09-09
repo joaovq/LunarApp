@@ -11,7 +11,8 @@ interface ArticleRemoteDataSource {
         limit: Int = 50,
         offset: Int = 0,
         query: String? = null,
-        newsSites: List<String>? = null
+        newsSites: List<String>? = null,
+        isFeatured: Boolean? = null
     ): ArticlesDtoResponse?
 
     suspend fun getArticleById(id: Int): Result<ArticleDto?>
@@ -24,14 +25,16 @@ class ArticleRemoteDataSourceImpl @Inject constructor(
         limit: Int,
         offset: Int,
         query: String?,
-        newsSites: List<String>?
+        newsSites: List<String>?,
+        isFeatured: Boolean?
     ): ArticlesDtoResponse? {
         try {
             val response = service.getArticles(
                 limit,
                 offset,
                 query,
-                newsSites?.joinToString(separator = ",", transform = { it })
+                newsSites = newsSites?.joinToString(separator = ",", transform = { it }),
+                isFeatured = isFeatured
             )
             return if (response.isSuccessful) {
                 response.body()

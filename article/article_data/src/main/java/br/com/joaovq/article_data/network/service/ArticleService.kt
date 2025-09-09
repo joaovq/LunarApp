@@ -15,6 +15,7 @@ interface ArticleService {
         @Query("search") query: String? = null,
         @Query("news_site") newsSites: String? = null,
         @Query("ordering") ordering: List<String>? = listOf("-published_at", "-updated_at"),
+        @Query("is_featured") isFeatured: Boolean? = null,
     ): Response<ArticlesDtoResponse>
 
     @GET("articles/{id}")

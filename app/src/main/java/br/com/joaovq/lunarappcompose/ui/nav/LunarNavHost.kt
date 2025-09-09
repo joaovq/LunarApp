@@ -16,6 +16,9 @@ import br.com.joaovq.article_presentation.article_list.screen.ArticleRoot
 import br.com.joaovq.bookmark_presentation.nav.ArticlesBookmarkRoute
 import br.com.joaovq.bookmark_presentation.screen.ArticlesBookmarkedScreen
 import br.com.joaovq.bookmark_presentation.viewmodel.ArticlesBookmarkViewModel
+import br.com.joaovq.lunarappcompose.featured.presentation.nav.FeaturedRoute
+import br.com.joaovq.lunarappcompose.featured.presentation.screen.FeaturedArticlesScreen
+import br.com.joaovq.lunarappcompose.featured.presentation.viewmodel.FeaturedArticlesViewModel
 import br.com.joaovq.lunarappcompose.search.nav.SearchRoute
 import br.com.joaovq.lunarappcompose.search.screen.SearchScreen
 import br.com.joaovq.lunarappcompose.search.viewmodel.SearchViewModel
@@ -46,6 +49,15 @@ fun LunarNavHost(
                 onSearchResults = onSearchResults,
                 getInfo = getInfo,
                 onReset = onReset
+            )
+        }
+        composable<FeaturedRoute> {
+            val viewModel: FeaturedArticlesViewModel = hiltViewModel()
+            val articles = viewModel.articles.collectAsLazyPagingItems()
+            FeaturedArticlesScreen(
+                modifier = modifier,
+                articles = articles,
+                onClickArticleCard = { navController.navigate(ArticleRoute(it)) }
             )
         }
         composable<SearchRoute> {

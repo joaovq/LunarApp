@@ -15,8 +15,19 @@ interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(articles: List<ArticleEntity>)
 
-    @Query("SELECT * FROM ArticleWithBookmarkView WHERE title LIKE '%' || :query || '%' ORDER BY publishedAt DESC")
-    fun pagingSource(query: String): PagingSource<Int, ArticleWithBookmarkView>
+    @Query(
+        """
+    SELECT * 
+    FROM ArticleWithBookmarkView
+    WHERE title LIKE '%' || :query || '%'
+      AND (:isFeatured IS NULL OR featured = :isFeatured)
+    ORDER BY publishedAt DESC
+"""
+    )
+    fun pagingSource(
+        query: String,
+        isFeatured: Boolean? = null
+    ): PagingSource<Int, ArticleWithBookmarkView>
 
     @Query("SELECT * FROM ArticleWithBookmarkView WHERE isBookmark = 1")
     fun getBookmarkedArticles(): Flow<List<ArticleWithBookmarkView>>
@@ -26,5 +37,4 @@ interface ArticleDao {
 
     @Query("DELETE FROM $ARTICLES_TABLE_NAME WHERE title LIKE '%' || :query || '%'")
     suspend fun deleteByQuery(query: String)
-
 }
