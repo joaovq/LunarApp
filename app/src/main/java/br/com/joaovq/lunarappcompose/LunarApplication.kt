@@ -4,7 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import br.com.joaovq.lunarappcompose.core.ui.utils.image_loader.CoilImageLoader
+import br.com.joaovq.ui.utils.image_loader.CoilImageLoader
 import coil3.ImageLoader
 import coil3.PlatformContext
 import coil3.SingletonImageLoader
@@ -20,6 +20,7 @@ class LunarApplication : Application(), SingletonImageLoader.Factory, Configurat
         super.onCreate()
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
     }
+
 
     override fun newImageLoader(context: PlatformContext): ImageLoader {
         return CoilImageLoader.getDefaultImageLoader(context)

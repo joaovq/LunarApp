@@ -5,7 +5,7 @@ coreSplashscreen = "1.0.1"
 hiltAndroid = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.0.21"
-coreKtx = "1.15.0"
+coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -13,18 +13,25 @@ kotlinxCoroutinesTest = "1.10.2"
 kotlinxSerializationJson = "1.8.0"
 library = "4.1.0"
 libraryNoOp = "4.1.0"
-lifecycleRuntimeKtx = "2.8.7"
+lifecycleRuntimeKtx = "2.9.0"
 activityCompose = "1.10.1"
-composeBom = "2025.04.01"
+composeBom = "2025.05.01"
+lottieCompose = "6.6.7"
 mockkVersion = "1.14.0"
-navigationCompose = "2.8.9"
+navigationCompose = "2.9.0"
 pagingCompose = "3.3.6"
 pagingRuntime = "3.3.6"
+paletteKtx = "1.0.0"
 retrofit = "2.9.0"
+robolectric = "4.14"
+roborazzi = "1.43.1"
 room = "2.7.1"
 timber = "5.0.1"
 turbine = "1.2.0"
 workRuntimeKtx = "2.10.1"
+appcompat = "1.7.0"
+material = "1.12.0"
+uiTestJunit4Android = "1.8.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -36,6 +43,7 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "pagingRuntime" }
 androidx-paging-testing = { module = "androidx.paging:paging-testing", version.ref = "pagingRuntime" }
 androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntime" }
+androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "paletteKtx" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
@@ -64,17 +72,84 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 library = { module = "com.github.chuckerteam.chucker:library", version.ref = "library" }
 library-no-op = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "libraryNoOp" }
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
 mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockkVersion" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockkVersion" }
 paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+
+[bundles]
+compose = [
+    "androidx-activity-compose",
+    "androidx-navigation-compose",
+    "androidx-core-ktx",
+    "androidx-lifecycle-runtime-ktx",
+    "androidx-ui",
+    "androidx-ui-graphics",
+    "androidx-ui-tooling-preview",
+    "androidx-material3",
+    "material",
+    "androidx-material-icons-extended",
+    "androidx-hilt-navigation-compose"
+]
+coil = [
+    "coil-compose",
+    "coil-network-okhttp"
+]
+
+paging3 = [
+    "androidx-paging-runtime",
+    "paging-compose",
+    "androidx-paging-common"
+]
+
+retrofit = [
+    "retrofit",
+    "retrofit-gson"
+]
+
+room = [
+    "androidx-room-paging",
+    "androidx-room-runtime",
+    "androidx-room-ktx"
+]
+
+workmanager = [
+    "androidx-hilt-work",
+    "androidx-work-runtime-ktx"
+]
+
+mockk = [
+    "mockk",
+    "mockk-agent",
+    "mockk-android"
+]
+
+unitTest = [
+    "kotlinx-coroutines-test",
+    "junit",
+    "androidx-paging-common",
+    "androidx-paging-testing",
+    "turbine",
+    "androidx-ui-test-junit4",
+    "androidx-ui-test-junit4-android",
+    "robolectric",
+    "roborazzi",
+    "androidx-room-testing"
+]
 

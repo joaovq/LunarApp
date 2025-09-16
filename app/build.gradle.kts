@@ -5,13 +5,7 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     kotlin("plugin.serialization") version "2.0.21"
-    id("androidx.room")
-}
-
-room {
-    schemaDirectory("debug", "$projectDir/schemas/debug")
-    // Applies to variants that aren't matched by other configurations.
-    schemaDirectory("$projectDir/schemas")
+    id("io.github.takahirom.roborazzi")
 }
 
 android {
@@ -58,74 +52,58 @@ android {
         compose = true
         buildConfig = true
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+    packaging {
+        resources {
+            excludes += mutableSetOf("META-INF/LICENSE.md","META-INF/LICENSE-notice.md")
+        }
+    }
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
+    implementation(projects.core.common)
+    implementation(projects.core.ui)
+    implementation(projects.core.data)
+    implementation(projects.article.articleData)
+    implementation(projects.article.articleDomain)
+    implementation(projects.article.articlePresentation)
+    implementation(projects.bookmark.bookmarkData)
+    implementation(projects.bookmark.bookmarkPresentation)
+
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.gson)
+    implementation(libs.bundles.compose)
     implementation(libs.timber)
 
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.okhttp)
+    implementation(libs.bundles.coil)
+    implementation(libs.bundles.paging3)
 
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.lottie.compose)
     implementation(libs.kotlinx.serialization.json)
-
     implementation(libs.hilt.android)
-    implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.paging.compose)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.paging)
     // Kotlin + coroutines
-    implementation(libs.androidx.work.runtime.ktx)
-
-    implementation(libs.androidx.hilt.work)
+    implementation(libs.bundles.workmanager)
+    implementation(libs.bundles.retrofit)
     // When using Kotlin.
     kapt(libs.androidx.hilt.compiler)
-
     kapt(libs.hilt.android.compiler)
-    kapt(libs.androidx.room.compiler)
     // mockk
-    testImplementation(libs.mockk)
-    testImplementation(libs.mockk.android)
-    testImplementation(libs.mockk.agent)
     androidTestImplementation(libs.mockk.android)
     androidTestImplementation(libs.mockk.agent)
 
-    testImplementation(libs.turbine)
-
-
-    debugImplementation(libs.library)
-    releaseImplementation(libs.library.no.op)
-
-
-    testImplementation(libs.androidx.paging.common)
-    testImplementation(libs.androidx.paging.testing)
-
-    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.bundles.mockk)
+    testImplementation(libs.bundles.unitTest)
     testImplementation(kotlin("test"))
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    testImplementation(libs.androidx.room.testing)
 }
 
 kapt {

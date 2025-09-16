@@ -11,6 +11,18 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/article" />
+            <option value="$PROJECT_DIR$/article/article_data" />
+            <option value="$PROJECT_DIR$/article/article_domain" />
+            <option value="$PROJECT_DIR$/article/article_presentation" />
+            <option value="$PROJECT_DIR$/bookmark" />
+            <option value="$PROJECT_DIR$/bookmark/bookmark_data" />
+            <option value="$PROJECT_DIR$/bookmark/bookmark_presentation" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/common" />
+            <option value="$PROJECT_DIR$/core/data" />
+            <option value="$PROJECT_DIR$/core/testing" />
+            <option value="$PROJECT_DIR$/core/ui" />
           </set>
         </option>
       </GradleProjectSettings>
