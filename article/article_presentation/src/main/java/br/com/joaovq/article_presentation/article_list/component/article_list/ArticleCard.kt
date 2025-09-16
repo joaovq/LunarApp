@@ -79,8 +79,6 @@ fun ArticleCard(
                         .data(article.imageUrl)
                         .build(),
                     error = painterResource(R.drawable.ic_launcher_background),
-                    onLoading = { _ ->
-                    }
                 )
                 val imagePainterState by imagePainter.state.collectAsState()
                 when (imagePainterState) {
@@ -125,10 +123,12 @@ fun ArticleCard(
                     ) {
                         Text(
                             text = buildAnnotatedString {
-                                append(article.authors.joinToString { it.name })
+                                article.authors.takeIf { it.isNotEmpty() }?.let {
+                                    append(it.joinToString { author -> author.name })
+                                    append(" - ")
+                                }
                                 article.publishedAt.toLocalDateTimeFormatted()
                                     ?.let { publishedAtFormatted ->
-                                        append(" - ")
                                         append(publishedAtFormatted)
                                     }
                             },

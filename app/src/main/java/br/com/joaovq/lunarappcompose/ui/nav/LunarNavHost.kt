@@ -36,7 +36,7 @@ fun LunarNavHost(
     NavHost(
         modifier = Modifier,
         navController = navController,
-        startDestination = ArticlesRoute
+        startDestination = ArticlesRoute,
     ) {
         composable<ArticleRoute> {
             ArticleRoot(onNavigateUp = navController::navigateUp)

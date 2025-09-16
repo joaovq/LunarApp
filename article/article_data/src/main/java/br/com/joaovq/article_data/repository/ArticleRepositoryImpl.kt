@@ -14,6 +14,7 @@ import br.com.joaovq.article_data.mapper.toArticle
 import br.com.joaovq.article_data.mapper.toEntity
 import br.com.joaovq.article_data.network.datasource.ArticleRemoteDataSource
 import br.com.joaovq.article_data.network.dto.ArticleDto
+import br.com.joaovq.article_data.network.paging.ArticlesPagingSource
 import br.com.joaovq.article_data.network.paging.ArticlesRemoteMediator
 import br.com.joaovq.article_domain.model.Article
 import br.com.joaovq.article_domain.model.ArticleWithBookmark
@@ -62,6 +63,22 @@ class ArticleRepositoryImpl @Inject constructor(
         ) {
             articleDao.pagingSource(query = query.orEmpty(), isFeatured = isFeatured)
         }.flow.map { data -> data.map(ArticleWithBookmarkView::toArticle) }
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun searchByQuery(
+        limit: Int,
+        offset: Int,
+        query: String?,
+    ): Flow<PagingData<Article>> {
+        return Pager(
+            config = PagingConfig(limit),
+        ) {
+            ArticlesPagingSource(
+                query = query.orEmpty(),
+                remoteDataSource = remoteDataSource,
+            )
+        }.flow.map { data -> data.map(ArticleDto::toArticle) }
     }
 
     override suspend fun getArticleById(id: Int): Result<Article?> = withContext(ioDispatcher) {

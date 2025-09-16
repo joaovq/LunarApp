@@ -15,6 +15,12 @@ interface ArticleRepository {
         isFeatured: Boolean? = null,
     ): Flow<PagingData<Article>>
 
+    fun searchByQuery(
+        limit: Int = 50,
+        offset: Int = 0,
+        query: String? = null,
+    ): Flow<PagingData<Article>>
+
     suspend fun getArticleById(id: Int): Result<Article?>
     suspend fun syncBookmarkArticles(): SyncResult
     fun getBookmarkedArticles(): Flow<List<ArticleWithBookmark>>

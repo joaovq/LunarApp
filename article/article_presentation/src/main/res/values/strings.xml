@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="open_in_browser">Open in browser</string>
+    <string name="authors_title_article">Authors</string>
+    <string name="summary_title_article">Summary</string>
+    <string name="site_title_article">Site</string>
 </resources>

@@ -15,10 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onEmpty
@@ -40,12 +37,12 @@ class SearchViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     val articles = query.debounce(500.milliseconds).flatMapLatest { newQuery ->
-            articleRepository
-                .getArticles(query = newQuery)
-                .onEach { log.d("articles fetched: $it") }
-                .catch { log.d("error occurred: ${it.message}") }
-                .onEmpty { log.d("articles list is empty") }
-                .flowOn(dispatcher)
+        articleRepository
+            .searchByQuery(query = newQuery)
+            .onEach { log.d("articles fetched: $it") }
+            .catch { log.d("error occurred: ${it.message}") }
+            .onEmpty { log.d("articles list is empty") }
+            .flowOn(dispatcher)
     }.cachedIn(viewModelScope)
 
     fun onQueryChanged(query: String) {

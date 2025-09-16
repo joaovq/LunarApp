@@ -57,8 +57,8 @@ class ArticlesRemoteMediator(
             val prevKey = loadKey?.minus(pageSize)
             val nextKey = (response?.next ?: "").toUri().getQueryParameter("offset")?.toInt()
 
-            log.d("remote prevKey: $prevKey")
-            log.d("remote nextKey: $nextKey")
+            log.d("articles remote prevKey: $prevKey")
+            log.d("articles remote nextKey: $nextKey")
 
             transactionRunner.runTransaction {
                 if (loadType == LoadType.REFRESH) {

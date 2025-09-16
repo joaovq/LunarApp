@@ -81,6 +81,7 @@ dependencies {
     implementation(libs.bundles.coil)
     implementation(libs.bundles.paging3)
 
+    implementation(libs.lottie.compose)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.hilt.android)
 
