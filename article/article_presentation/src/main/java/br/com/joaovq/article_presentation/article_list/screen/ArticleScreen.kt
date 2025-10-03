@@ -25,6 +25,7 @@ import br.com.joaovq.article_presentation.article_list.component.article.Article
 import br.com.joaovq.article_presentation.article_list.component.article.ArticlePreviewParameterProvider
 import br.com.joaovq.article_presentation.article_list.component.article.ArticleTopAppBar
 import br.com.joaovq.article_presentation.article_list.component.article.ArticleTopAppBarActions
+import br.com.joaovq.article_presentation.article_list.util.model.MenuItemData
 import br.com.joaovq.article_presentation.article_list.viewmodel.ArticleViewModel
 import br.com.joaovq.ui.theme.LocalDimen
 import br.com.joaovq.ui.theme.LunarTheme
@@ -67,7 +68,12 @@ private fun ArticleScreen(
                     val uriHandler = LocalUriHandler.current
                     ArticleTopAppBarActions(
                         expanded = expanded,
-                        menuItemData = listOf(),
+                        menuItemData = listOf(
+                            MenuItemData(
+                                "Capture article photo screen",
+                                onClick = {}
+                            )
+                        ),
                         onClickShareIcon = {
                             article?.url?.let { sharedUri ->
                                 val shareIntent = Intent(Intent.ACTION_SEND).apply {

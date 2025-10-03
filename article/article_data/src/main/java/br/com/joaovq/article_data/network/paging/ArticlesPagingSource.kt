@@ -6,7 +6,8 @@ import br.com.joaovq.article_data.network.datasource.ArticleRemoteDataSource
 import br.com.joaovq.article_data.network.dto.ArticleDto
 
 class ArticlesPagingSource(
-    private val query: String?,
+    private val query: String? = null,
+    private val isFeatured: Boolean? = null,
     private val remoteDataSource: ArticleRemoteDataSource,
 ) : PagingSource<Int, ArticleDto>() {
     override fun getRefreshKey(state: PagingState<Int, ArticleDto>): Int? {
@@ -21,6 +22,7 @@ class ArticlesPagingSource(
             val page = params.key ?: 0
             val pageSize = params.loadSize
             val response = remoteDataSource.getArticles(
+                isFeatured = isFeatured,
                 query = query,
                 limit = pageSize,
                 offset = page,

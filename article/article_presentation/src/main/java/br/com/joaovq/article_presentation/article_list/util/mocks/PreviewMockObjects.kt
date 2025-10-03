@@ -1,4 +1,4 @@
-package br.com.joaovq.article_presentation.article_list.mocks
+package br.com.joaovq.article_presentation.article_list.util.mocks
 
 import br.com.joaovq.article_domain.model.Article
 

@@ -57,7 +57,7 @@ fun LunarNavHost(
             FeaturedArticlesScreen(
                 modifier = modifier,
                 articles = articles,
-                onClickArticleCard = { navController.navigate(ArticleRoute(it)) }
+                onClickArticleCard = { navController.navigate(ArticleRoute(it)) },
             )
         }
         composable<SearchRoute> {
@@ -74,10 +74,10 @@ fun LunarNavHost(
         }
         composable<ArticlesBookmarkRoute> {
             val viewModel: ArticlesBookmarkViewModel = hiltViewModel()
-            val articles by viewModel.bookmarks.collectAsStateWithLifecycle()
+            val state by viewModel.state.collectAsStateWithLifecycle()
             ArticlesBookmarkedScreen(
                 modifier,
-                articles = articles,
+                state = state,
                 onClickArticleCard = { navController.navigate(ArticleRoute(it)) }
             )
         }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import br.com.joaovq.article_domain.repository.ArticleRepository
+import br.com.joaovq.article_domain.usecase.UpdateBookmarkArticleUseCase
 import br.com.joaovq.common.di.annotations.LunarDispatcher
 import br.com.joaovq.common.di.annotations.MyDispatchers
 import br.com.joaovq.common.state.GlobalFilterStateHolder
@@ -26,6 +27,7 @@ class ArticlesViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     globalFilterStateHolder: GlobalFilterStateHolder,
     private val articleRepository: ArticleRepository,
+    private val updateBookmarkArticleUseCase: UpdateBookmarkArticleUseCase,
     @LunarDispatcher(MyDispatchers.IO) dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
     private val log = Timber.tag(this::class.java.simpleName)
@@ -44,11 +46,7 @@ class ArticlesViewModel @Inject constructor(
 
     fun onBookmarkChanged(isBookmark: Boolean, id: Int) {
         viewModelScope.launch {
-            if (!isBookmark) {
-                articleRepository.removeBookmarkById(id)
-            } else {
-                articleRepository.saveNewBookmark(id)
-            }
+            updateBookmarkArticleUseCase.invoke(id, isBookmark)
         }
     }
 }

@@ -43,6 +43,7 @@ fun FeaturedArticlesScreen(
     modifier: Modifier = Modifier,
     articles: LazyPagingItems<Article>,
     onClickArticleCard: (Int) -> Unit = {},
+    onBookmarkChanged: ((Boolean, Int) -> Unit)? = null
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         Scaffold(
@@ -77,7 +78,8 @@ fun FeaturedArticlesScreen(
                     else -> LazyArticlesList(
                         modifier = Modifier,
                         articles = articles,
-                        onClickArticleCard = onClickArticleCard
+                        onClickArticleCard = onClickArticleCard,
+                        onBookmarkChanged = onBookmarkChanged
                     )
                 }
             }

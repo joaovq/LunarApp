@@ -17,12 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import br.com.joaovq.article_presentation.R
+import br.com.joaovq.article_presentation.article_list.util.model.MenuItemData
 import br.com.joaovq.ui.theme.Obsidian
 
 @Composable
 fun ArticleTopAppBarActions(
     expanded: Boolean,
-    menuItemData: List<String>,
+    menuItemData: List<MenuItemData>,
     onClickShareIcon: () -> Unit = {},
     onClickInternetIcon: () -> Unit = {},
     onClickMoreVert: () -> Unit = {},
@@ -75,8 +76,11 @@ fun ArticleTopAppBarActions(
         ) {
             menuItemData.forEach { option ->
                 DropdownMenuItem(
-                    text = { Text(option) },
-                    onClick = {}
+                    text = { Text(option.title) },
+                    trailingIcon = option.icon?.let {
+                        { Icon(imageVector = it, contentDescription = null) }
+                    },
+                    onClick = option.onClick
                 )
             }
         }

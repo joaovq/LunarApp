@@ -36,7 +36,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import br.com.joaovq.article_domain.model.Article
-import br.com.joaovq.article_presentation.article_list.mocks.PreviewMockObjects
+import br.com.joaovq.article_presentation.article_list.util.mocks.PreviewMockObjects
 import br.com.joaovq.ui.theme.LocalDimen
 import br.com.joaovq.ui.theme.LunarColors
 import br.com.joaovq.ui.theme.LunarTheme

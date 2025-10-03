@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import br.com.joaovq.article_domain.repository.ArticleRepository
+import br.com.joaovq.article_domain.usecase.UpdateBookmarkArticleUseCase
 import br.com.joaovq.common.di.annotations.LunarDispatcher
 import br.com.joaovq.common.di.annotations.MyDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,25 +21,15 @@ import javax.inject.Inject
 @HiltViewModel
 class FeaturedArticlesViewModel @Inject constructor(
     private val articleRepository: ArticleRepository,
+    private val updateBookmarkArticleUseCase: UpdateBookmarkArticleUseCase,
     @LunarDispatcher(MyDispatchers.IO) dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
     private val log = Timber.tag(this::class.java.simpleName)
-
     val articles = articleRepository
-        .getArticles(isFeatured = true)
+        .getFeaturedArticles()
         .onEach { log.d("articles fetched: $it") }
         .catch { log.d("error occurred: ${it.message}") }
         .onEmpty { log.d("articles list is empty") }
         .flowOn(dispatcher)
         .cachedIn(viewModelScope)
-
-    fun onBookmarkChanged(isBookmark: Boolean, id: Int) {
-        viewModelScope.launch {
-            if (!isBookmark) {
-                articleRepository.removeBookmarkById(id)
-            } else {
-                articleRepository.saveNewBookmark(id)
-            }
-        }
-    }
 }

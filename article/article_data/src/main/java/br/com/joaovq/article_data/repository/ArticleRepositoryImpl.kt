@@ -81,6 +81,20 @@ class ArticleRepositoryImpl @Inject constructor(
         }.flow.map { data -> data.map(ArticleDto::toArticle) }
     }
 
+    override fun getFeaturedArticles(
+        limit: Int,
+        offset: Int,
+    ): Flow<PagingData<Article>> {
+        return Pager(
+            config = PagingConfig(limit),
+        ) {
+            ArticlesPagingSource(
+                isFeatured = true,
+                remoteDataSource = remoteDataSource,
+            )
+        }.flow.map { data -> data.map(ArticleDto::toArticle) }
+    }
+
     override suspend fun getArticleById(id: Int): Result<Article?> = withContext(ioDispatcher) {
         return@withContext remoteDataSource.getArticleById(id).map { it?.toArticle() }
     }
